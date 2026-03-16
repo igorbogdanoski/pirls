@@ -436,28 +436,57 @@ export default function App() {
 
   if (activeStory === 'home') {
     return (
-      <div className="min-h-screen bg-slate-50 p-8 flex flex-col items-center font-sans">
-        <div className="mb-12 text-center">
-          <h1 className="text-7xl font-black text-indigo-900 mb-2 italic underline decoration-yellow-400 decoration-8 underline-offset-8">digitalPIRLS</h1>
-          <p className="text-xl text-slate-500 mt-4 font-medium uppercase tracking-[0.2em]">Интерактивна проверка на знаењето</p>
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center font-sans relative overflow-hidden">
+        {/* Анимирана позадина */}
+        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+          <div className="absolute top-10 left-10 w-64 h-64 bg-indigo-300 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-yellow-200 rounded-full blur-3xl animate-pulse delay-700"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-200 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl w-full">
-          {[
-            { id: 'chest', icon: '🗝️', title: 'Тајната на ковчегот', color: 'bg-amber-50/30 border-amber-100' },
-            { id: 'kaja', icon: '💡', title: 'Највредниот пронајдок', color: 'bg-yellow-50/30 border-yellow-100' },
-            { id: 'baba', icon: '🌻', title: 'Цвеќиња на покривот', color: 'bg-pink-50/30 border-pink-100' },
-            { id: 'octopus', icon: '🐙', title: 'Прекрасниот октопод', color: 'bg-indigo-50/30 border-indigo-100' },
-            { id: 'watchmaker', icon: '🕰️', title: 'Тајната на часовничарот', color: 'bg-orange-50/30 border-orange-100' },
-            { id: 'kite', icon: '🪁', title: 'Змејот на трпението', color: 'bg-sky-50/30 border-sky-100' },
-            { id: 'lynx', icon: '🐾', title: 'Балканскиот рис', color: 'bg-emerald-50/30 border-emerald-100' },
-            { id: 'shovel', icon: '⛏️', title: 'Чичкото со лопатата', color: 'bg-orange-50/10 border-orange-100' }
-          ].map(s => (
-            <button key={s.id} onClick={() => setActiveStory(s.id)} className={`p-8 rounded-[3rem] shadow-xl border-4 ${s.color} hover:-translate-y-2 transition-all group relative overflow-hidden text-center`}>
-              <div className="text-7xl mb-4 group-hover:scale-125 transition-transform">{s.icon}</div>
-              <h2 className="text-2xl font-black text-slate-800">{s.title}</h2>
-            </button>
-          ))}
+
+        <div className="relative z-10 w-full max-w-7xl px-8 py-16 flex flex-col items-center">
+          <div className="mb-16 text-center">
+            <h1 className="text-8xl font-black text-indigo-950 mb-4 tracking-tighter italic">
+              digital<span className="text-indigo-600 underline decoration-yellow-400 decoration-8 underline-offset-8">PIRLS</span>
+            </h1>
+            <div className="flex items-center gap-4 justify-center">
+              <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
+              <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Интерактивна платформа</p>
+              <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+            {[
+              { id: 'chest', icon: '🗝️', title: 'Тајната на ковчегот', color: 'from-amber-50 to-amber-100 border-amber-200' },
+              { id: 'kaja', icon: '💡', title: 'Највредниот пронајдок', color: 'from-yellow-50 to-yellow-100 border-yellow-200' },
+              { id: 'baba', icon: '🌻', title: 'Цвеќиња на покривот', color: 'from-pink-50 to-pink-100 border-pink-200' },
+              { id: 'octopus', icon: '🐙', title: 'Прекрасниот октопод', color: 'from-indigo-50 to-indigo-100 border-indigo-200' },
+              { id: 'watchmaker', icon: '🕰️', title: 'Тајната на часовничарот', color: 'from-orange-50 to-orange-100 border-orange-200' },
+              { id: 'kite', icon: '🪁', title: 'Змејот на трпението', color: 'from-sky-50 to-sky-100 border-sky-200' },
+              { id: 'lynx', icon: '🐾', title: 'Балканскиот рис', color: 'from-emerald-50 to-emerald-100 border-emerald-200' },
+              { id: 'shovel', icon: '⛏️', title: 'Чичкото со лопатата', color: 'from-slate-50 to-slate-100 border-slate-200' }
+            ].map(s => (
+              <button 
+                key={s.id} 
+                onClick={() => setActiveStory(s.id)} 
+                className={`p-10 rounded-[3.5rem] shadow-xl border-4 bg-gradient-to-b ${s.color} hover:-translate-y-3 hover:shadow-2xl transition-all group relative overflow-hidden text-center`}
+              >
+                <div className="text-8xl mb-6 group-hover:scale-110 transition-transform duration-500 drop-shadow-md">{s.icon}</div>
+                <h2 className="text-2xl font-black text-slate-800 leading-tight">{s.title}</h2>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">Започни 🚀</span>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <footer className="mt-24 py-8 border-t border-slate-200 w-full text-center">
+            <p className="text-slate-400 font-medium">
+              Идеја и реализација: <span className="text-indigo-900 font-black text-lg ml-1">Игор Богданоски</span>
+            </p>
+            <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">digitalPIRLS 2026 • Образовна алатка за ученици</p>
+          </footer>
         </div>
       </div>
     );
