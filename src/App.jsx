@@ -125,11 +125,11 @@ const storyContent = {
       { type: 'img', src: imgs.shovel.main, alt: "Чичкото седи на скалите, а Билјана му подава чаша вода." },
       { type: 'p', content: "Чичкото почна да копа. Работеше бавно. Ќе превртеше неколку лопати земја, па ќе застанеше да се одмори. Честопати и ќе офнеше, а потоа ќе се исправеше и со рацете ќе се фатеше за половината. Годините и староста си го правеа своето. – Ех, кога би имал внучка како тебе! – ѝ рече на Билјана која постојано се врткаше околу него." },
       { type: 'p', content: "Билјана не се делеше од него. Одеше по него и ги собираше камчињата во една мала кофа. Во текот на тие три дена додека работеше кај нас, тие станаа големи пријатели. Заедно ручаа, тој ѝ раскажуваше приказни кога се одмораше, а таа внимателно го слушаше." },
-      { type: 'img', src: imgs.shovel.happy, alt: "Билјана му помага во собирање на камчињата." },
       { type: 'p', content: "Третиот ден, кога работата беше завршена, чичкото се подготвуваше да си оди. Најпосле со својата сува, груба рака ја погали Билјана по косичката и рече: – Кога би имал внучка како тебе, многу убаво би ми било... – Јас ќе ти бидам внучка – рече Билјана, гледајќи го со насолзени очи чичкото со лопатата." },
-      { type: 'p', content: "Тој се наведна, со двете раце ѝ ја фати главата на Билјана и нежно, од длабината на срцето, ја бакна в чело. Потоа си ја стави лопатата на рамо и колку што можеше побрзо си замина. Не се ни сврте. Стоевме така, гледајќи го како си оди и молчевме. Зад него ни остана некаква празнина што можеше да се исполни само со молчење. – Тато – скоро шепкум рече Билјана. – Ќе дојде ли пак некогаш? – Мислам дека ќе дојде – ѝ реков." },
       { type: 'img', src: imgs.shovel.comfort, alt: "Чичкото нежно ја бакнува Билјана в чело." },
-      { type: 'p', content: "И навистина дојде. Беше сончево неделно попладне кога чичкото влезе во нашиот двор. Но, овој пат беше без лопата. Имаше облечено нова, чиста кошула и нова капа. Штом го виде, Билјана стрчна кон него и му се закачи за раката. Тој ја галеше по косичката со другата рака, а очите му искреа од радост. Тој ден чичкото не дојде да копа, туку дојде да ја види Билјана и да ѝ раскажува нови приказни." }
+      { type: 'p', content: "Тој се наведна, со двете раце ѝ ја фати главата на Билјана и нежно, од длабината на срцето, ја бакна в чело. Потоа си ја стави лопатата на рамо и колку што можеше побрзо си замина. Не се ни сврте. Стоевме така, гледајќи го како си оди и молчевме. Зад него ни остана некаква празнина што можеше да се исполни само со молчење. – Тато – скоро шепкум рече Билјана. – Ќе дојде ли пак некогаш? – Мислам дека ќе дојде – ѝ реков." },
+      { type: 'p', content: "И навистина дојде. Беше сончево неделно попладне кога чичкото влезе во нашиот двор. Но, овој пат беше без лопата. Имаше облечено нова, чиста кошула и нова капа. Штом го виде, Билјана стрчна кон него и му се закачи за раката. Тој ја галеше по косичката со другата рака, а очите му искреа од радост. Тој ден чичкото не дојде да копа, туку дојде да ја види Билјана и да ѝ раскажува нови приказни." },
+      { type: 'img', src: imgs.shovel.happy, alt: "Билјана среќно го пречекува чичкото во недела." }
     ],
     questions: [
       { id: 1, type: 'mcq', q: "Зошто чичкото дојде во дворот на раскажувачот?", options: ["А) За да се одмори на скалите.", "Б) За да прекопа еден дел од дворот.", "В) За да ѝ раскажува приказни на Билјана.", "Г) За да побара чаша вода."], correct: "Б) За да прекопа еден дел од дворот." },
@@ -159,14 +159,14 @@ const storyContent = {
       { type: 'p', content: "Најпрепознатливиот знак на рисот се неговите уши. На врвот од секое уво, тој има црни прамени од остри влакна кои личат на мали четкички. Научниците веруваат дека овие прамени му помагаат на рисот да слуша многу подобро од другите животни. Исто така, тој има кратка опашка, долга само околу 20 сантиметри, чиј врв е секогаш црн." },
       { type: 'h2', content: "Одличен ловец во ноќта" },
       { type: 'p', content: "Балканскиот рис спие и се одмара преку ден, најчесто скриен во некоја пештера или густа грмушка. Кога ќе падне ноќта, тој излегува во лов. Рисот има неверојатен вид. Неговите очи можат да забележат плен во целосна темнина на оддалеченост од дури 75 метри! Тој лови така што тивко се прикрадува до својот плен користејќи ги меките шепи со кои не прави никаков звук додека гази по сувите лисја. Најчесто се храни со срни, зајаци и диви кози. Рисот е многу трпелив – може да лежи неподвижно со часови чекајќи го вистинскиот момент за скок." },
-      { type: 'img', src: imgs.lynx.camera, alt: "Биолози поставуваат скриена камера на дрво во шумата." },
       { type: 'h2', content: "Грижа за малите" },
       { type: 'p', content: "Рисовите сакаат да живеат сами. Тие имаат своја голема територија која строго ја чуваат. Мажјаците и женките се среќаваат само накратко во текот на зимата. Во доцна пролет, мајката рис раѓа две до три мали младенчиња. Кога ќе се родат, тие се слепи, беспомошни и имаат меко крзненце. Мајката се грижи за нив целосно сама. Таа ги крие во безбедно дувло меѓу карпите и им носи храна." },
       { type: 'p', content: "Младенчињата остануваат со својата мајка околу десет месеци. Во тој период, таа ги учи на сите тајни за преживување во планината: како тивко да чекорат, како да се кријат и како сами да ловат. Штом ќе научат да ловат, младите рисови ја напуштаат мајката за да најдат своја сопствена територија." },
       { type: 'img', src: imgs.lynx.cave, alt: "Мајка рис се грижи за своите две младенчиња во карпесто дувло." },
       { type: 'h2', content: "Да го заштитиме нашето богатство!" },
       { type: 'p', content: "Денес, балканскиот рис е во голема опасност. Научниците проценуваат дека во природата се останати помалку од 50 возрасни единки. Главните причини за нивното исчезнување се нелегалното ловење (криволовството), како и сечењето на шумите со што се уништува нивниот природен дом." },
-      { type: 'p', content: "За да го спасат ова прекрасно животно, биолозите поставуваат скриени камери низ шумите. Овие камери се активираат на движење и прават фотографии од рисовите без да ги вознемируваат. Така научниците можат да ги бројат и да научат повеќе за нивните навики. Балканскиот рис е наше природно богатство и симбол на дивата природа во Македонија. Ние мораме да направиме сè за да го заштитиме пред да биде предоцна." }
+      { type: 'p', content: "За да го спасат ова прекрасно животно, биолозите поставуваат скриени камери низ шумите. Овие камери се активираат на движење и прават фотографии од рисовите без да ги вознемируваат. Така научниците можат да ги бројат и да научат повеќе за нивните навики. Балканскиот рис е наше природно богатство и симбол на дивата природа во Македонија. Ние мораме да направиме сè за да го заштитиме перед да биде предоцна." },
+      { type: 'img', src: imgs.lynx.camera, alt: "Биолози поставуваат скриена камера на дрво во шумата." }
     ],
     questions: [
       { id: 1, type: 'mcq', q: "Каде најмногу живее балканскиот рис во Македонија според текстот?", options: ["А) Во зоолошките градини", "Б) На планината Бистра и во паркот Маврово", "В) Покрај езерата и големите реки", "Г) Во близина на селата и градовите"], correct: "Б) На планината Бистра и во паркот Маврово" },
@@ -358,6 +358,8 @@ export default function App() {
   const [activeStory, setActiveStory] = useState('home');
   const [progress, setProgress] = useState(0);
   const [highlightMode, setHighlightMode] = useState(false);
+  const [markColor, setMarkColor] = useState('bg-yellow-300');
+  const [fontSize, setFontSize] = useState(1.5); // rem
   const [avatarMsg, setAvatarMsg] = useState("");
   const [step, setStep] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
@@ -391,10 +393,21 @@ export default function App() {
     const range = sel.getRangeAt(0);
     if (textRef.current?.contains(range.commonAncestorContainer)) {
       const mark = document.createElement('mark');
-      mark.className = 'bg-yellow-300 rounded px-1 cursor-pointer';
+      mark.className = `${markColor} rounded px-1 cursor-pointer transition-all hover:scale-105`;
+      mark.onclick = (e) => {
+        const text = e.target.innerText;
+        e.target.replaceWith(document.createTextNode(text));
+        setAvatarMsg("Маркерот е отстранет.");
+      };
       try { range.surroundContents(mark); setAvatarMsg("Одлично маркирано!"); } catch(e) {}
       sel.removeAllRanges();
     }
+  };
+
+  const clearHighlights = () => {
+    const marks = textRef.current?.querySelectorAll('mark');
+    marks?.forEach(m => m.replaceWith(document.createTextNode(m.innerText)));
+    setAvatarMsg("Сите маркери се исчистени.");
   };
 
   const handleMCQ = (opt, correct) => {
@@ -471,18 +484,44 @@ export default function App() {
         {/* LEFT: TEXT */}
         <div className="w-3/5 p-12 overflow-y-auto bg-slate-50/30 border-r-4 border-slate-100" onMouseUp={handleHighlight}>
           <div className="max-w-3xl mx-auto">
-            <div className="flex items-center justify-between mb-10 pb-6 border-b-4 border-indigo-50">
-              <h1 className="text-5xl font-black text-slate-900">{currentStory?.title || "digitalPIRLS"}</h1>
-              <button onClick={() => setHighlightMode(!highlightMode)} className={`px-6 py-2 rounded-full font-black text-xs transition-all ${highlightMode ? 'bg-yellow-400 text-yellow-950 scale-110 shadow-xl' : 'bg-slate-200 text-slate-500'}`}>
-                🖍️ {highlightMode ? 'Маркер: ВКЛУЧЕН' : 'Вклучи Маркер'}
-              </button>
+            <div className="flex flex-col gap-6 mb-10 pb-6 border-b-4 border-indigo-50">
+              <div className="flex items-center justify-between">
+                <h1 className="text-5xl font-black text-slate-900">{currentStory?.title || "digitalPIRLS"}</h1>
+                <div className="flex gap-2">
+                  <button onClick={() => setFontSize(Math.min(2.5, fontSize + 0.1))} className="p-3 bg-white border-2 border-slate-200 rounded-xl hover:bg-slate-50 font-bold" title="Зголеми текст">A+</button>
+                  <button onClick={() => setFontSize(Math.max(1, fontSize - 0.1))} className="p-3 bg-white border-2 border-slate-200 rounded-xl hover:bg-slate-50 font-bold" title="Намали текст">A-</button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between bg-white p-4 rounded-3xl border-2 border-slate-100 shadow-sm">
+                <div className="flex items-center gap-4">
+                  <button onClick={() => setHighlightMode(!highlightMode)} className={`px-6 py-2 rounded-full font-black text-xs transition-all flex items-center gap-2 ${highlightMode ? 'bg-indigo-600 text-white shadow-lg scale-105' : 'bg-slate-100 text-slate-400 hover:bg-slate-200'}`}>
+                    🖍️ {highlightMode ? 'МАРКЕР: ВКЛУЧЕН' : 'ВКЛУЧИ МАРКЕР'}
+                  </button>
+                  {highlightMode && (
+                    <div className="flex gap-2 animate-in fade-in slide-in-from-left-2">
+                      {['bg-yellow-300', 'bg-green-300', 'bg-blue-300'].map(color => (
+                        <button 
+                          key={color} 
+                          onClick={() => setMarkColor(color)}
+                          className={`w-8 h-8 rounded-full border-2 transition-all ${color} ${markColor === color ? 'border-indigo-600 scale-125' : 'border-transparent hover:scale-110'}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button onClick={clearHighlights} className="text-xs font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest">
+                  Избриши сè 🗑️
+                </button>
+              </div>
             </div>
 
-            <div ref={textRef} className="prose prose-2xl max-w-none text-slate-700 space-y-10">
+            <div ref={textRef} className="prose prose-2xl max-w-none text-slate-700 space-y-10" style={{ fontSize: `${fontSize}rem`, lineHeight: '1.6' }}>
               {currentStory?.text.map((item, idx) => {
                 if (item.type === 'p') return <p key={idx}>{item.content}</p>;
+                if (item.type === 'h2') return <h2 key={idx} className="text-4xl font-black text-indigo-900 mt-16 mb-8">{item.content}</h2>;
                 if (item.type === 'img') return <img key={idx} src={item.src} className="w-full rounded-[3rem] shadow-2xl my-6 border-[12px] border-white" alt={item.alt} />;
-                if (item.type === 'blockquote') return <blockquote key={idx} className="border-l-8 border-indigo-500 pl-8 text-3xl font-black text-indigo-900 italic my-12">{item.content}</blockquote>;
+                if (item.type === 'blockquote') return <blockquote key={idx} className="border-l-8 border-indigo-500 pl-8 font-black text-indigo-900 italic my-12">{item.content}</blockquote>;
                 return null;
               })}
               {!currentStory && <p className="text-2xl italic text-slate-400">Наскоро: Целосниот текст за оваа приказна е во подготовка...</p>}
