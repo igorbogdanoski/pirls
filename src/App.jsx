@@ -56,16 +56,16 @@ const imgs = {
     release: 'Gemini_Generated_Image_s0veo8s0veo8s0ve.png'
   },
   eagle: {
-    find: 'Gemini_Generated_Image_6rliq26rliq26rli.png',
-    yard: 'Gemini_Generated_Image_3eunt73eunt73eun.png',
-    dawn: 'Gemini_Generated_Image_3nal113nal113nal.png',
-    flight: 'Gemini_Generated_Image_s0veo8s0veo8s0ve.png'
+    find: 'Gemini_Generated_Image_x2nnwgx2nnwgx2nn.png',
+    yard: 'Gemini_Generated_Image_u4kacou4kacou4ka.png',
+    dawn: 'Gemini_Generated_Image_ixkjpdixkjpdixkj.png',
+    flight: 'Gemini_Generated_Image_ac4r2pac4r2pac4r.png'
   },
   pita: {
-    kitchen: 'Gemini_Generated_Image_ixkjpdixkjpdixkj.png',
-    bike: 'Gemini_Generated_Image_u4kacou4kacou4ka.png',
-    dinner: 'Gemini_Generated_Image_ac4r2pac4r2pac4r.png',
-    friends: 'Gemini_Generated_Image_x2nnwgx2nnwgx2nn.png'
+    kitchen: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png',
+    bike: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png',
+    dinner: 'Gemini_Generated_Image_mycd13mycd13mycd.png',
+    friends: 'Gemini_Generated_Image_bn489hbn489hbn48.png'
   },
   hiking: {
     trail: 'Gemini_Generated_Image_rogwzirogwzirogw.png',
@@ -82,10 +82,10 @@ const imgs = {
     seed: 'Gemini_Generated_Image_einjoqeinjoqeinj.png',
     empty: 'Gemini_Generated_Image_b3y8c8b3y8c8b3y8.png',
     palace: 'Gemini_Generated_Image_o1o795o1o795o1o7.png',
-    emperor: 'Gemini_Generated_Image_7154p27154p27154.png'
+    emperor: 'Gemini_Generated_Image_1s3ljj1s3ljj1s3l.png'
   },
   lakestar: {
-    finding: 'Gemini_Generated_Image_13jeqi13jeqi13je.png',
+    finding: 'Gemini_Generated_Image_cjndpgcjndpgcjnd.png',
     working: 'Gemini_Generated_Image_su41m5su41m5su41.png',
     pier: 'Gemini_Generated_Image_vjdvnvjdvnvjdvnv.png',
     rescue: 'Gemini_Generated_Image_ynhufmynhufmynhu.png'
@@ -597,8 +597,8 @@ const storyContent = {
     title: "НОЌИТЕ НА МОРСКИТЕ ПАПАГАЛЧИЊА",
     text: [
       { type: 'p', content: "Хана живее на островот Хејмаеј. Секој ден пребарува по небото. Додека гледа од високо, од еден стрмен гребен надвиснат над морето, го здогледува својот прв морски папагал за таа сезона. Си шепнува за себе - „Лунди“, што на исландски значи морски папагал." },
-      { type: 'p', content: "Набргу небото е ишарано со нив како со точки - морски папагали, насекаде има морски папагали. Од својот зимски престој на море тие се враќаат на островот на Хана и на блиските ненаселени острови за да снесат јајца и да ги израснат своите папагалчиња. Овие „кловнови на морето“ секоја година се враќаат во истите гнезда. Тоа е единствен пат кога доаѓаат на брегот." },
       { type: 'img', src: imgs.puffins.cliffs, alt: "Хана на гребенот ги гледа морските папагали" },
+      { type: 'p', content: "Набргу небото е ишарано со нив како со точки - морски папагали, насекаде има морски папагали. Од својот зимски престој на море тие се враќаат на островот на Хана и на блиските ненаселени острови за да снесат јајца и да ги израснат своите папагалчиња. Овие „кловнови на морето“ секоја година се враќаат во истите гнезда. Тоа е единствен пат кога доаѓаат на брегот." },
       { type: 'p', content: "Секоја година, црно-бели птици со портокалови клунови го посетуваат исландскиот остров Хејмаеј. Овие птици ги викаат морски папагали. Познати се и како „кловнови на морето“ поради нивните светли клунови и невешти движења. Морските папагали се чудни летачи при полетување и слетување бидејќи имаат крупни тела и куси крилја." },
       { type: 'img', src: imgs.puffins.closeup, alt: "Две морски папагалчиња со големи портокалови клунови" },
       { type: 'p', content: "Хана и нејзините другарчиња се искачуваат на стрмните гребени за да ги набљудуваат птиците. Гледаат како паровите птици се потчукнуваат една со друга со клуновите. Секој пар што го набљудуваат наскоро ќе се грижи за јајце сместено длабоко во стрмниот гребен. Кога од птичјите јајца ќе се изведат малите пиленца, родителите им носат риба во гнездото за да ги нахранат. Секое пиленце ќе израсне во младо морско папагалче." },
