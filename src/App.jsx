@@ -185,31 +185,49 @@ const Timer = ({ active }) => {
 
 const TextWithGlossary = ({ content, glossary, onTermClick }) => {
   if (!content) return null;
-  const terms = Object.keys(glossary);
+  const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
   if (terms.length === 0) return content;
   
-  const regex = new RegExp(`(${terms.join('|')})`, 'gi');
-  const parts = content.split(regex);
+  // Broad range for all Cyrillic and Latin characters to handle mixed content/typos
+  const wordRegex = /[a-zA-Z\u0400-\u04FF\u0500-\u052F]+/g;
   
-  return (
-    <>
-      {parts.map((part, i) => {
-        const lowerPart = part.toLowerCase();
-        if (glossary[lowerPart]) {
-          return (
-            <span 
-              key={i} 
-              onClick={() => onTermClick(lowerPart, glossary[lowerPart])}
-              className="cursor-help border-b-2 border-dashed border-indigo-400 text-indigo-700 font-bold hover:bg-indigo-50 transition-colors px-1 rounded-md"
-            >
-              {part}
-            </span>
-          );
-        }
-        return part;
-      })}
-    </>
-  );
+  const elements = [];
+  let lastIndex = 0;
+  const matches = [...content.matchAll(wordRegex)];
+  
+  matches.forEach((match, i) => {
+    if (match.index > lastIndex) {
+      elements.push(content.substring(lastIndex, match.index));
+    }
+    
+    const word = match[0];
+    const wordLower = word.toLowerCase();
+    
+    // Check if the word contains any glossary term
+    const matchedTermKey = terms.find(term => wordLower.includes(term.toLowerCase()));
+    
+    if (matchedTermKey) {
+      elements.push(
+        <span 
+          key={`match-${i}`} 
+          onClick={() => onTermClick(matchedTermKey, glossary[matchedTermKey])}
+          className="cursor-help border-b-2 border-dashed border-indigo-400 text-indigo-700 font-bold hover:bg-indigo-50 transition-colors px-1 rounded-md inline"
+        >
+          {word}
+        </span>
+      );
+    } else {
+      elements.push(word);
+    }
+    
+    lastIndex = match.index + word.length;
+  });
+  
+  if (lastIndex < content.length) {
+    elements.push(content.substring(lastIndex));
+  }
+  
+  return <>{elements}</>;
 };
 
 const storyContent = {
@@ -499,11 +517,11 @@ const storyContent = {
       { type: 'p', content: "Тогаш таа списка. Роберт, мачката, туку што беше скокнала низ прозорецот! „Не грижи се.“ – ѝ реков брзо. „Таа само скокна на балконот. Погледни!“" },
       { type: 'p', content: "Баба Гун јурна покрај мене на балконот. Но, кога стигна таму, заборави за Роберт. Балконот беше огромен и можеше да ги гледа планините што се протегаа далеку напред, па дури и дел од морето. Баба Гун клекна, така што не можеше да види ниту еден од врвовите на покривите – освен планините и небото. Но, и покрај сè Баба Гун реши да остане." },
       { type: 'p', content: "Следниот ден кога ја посетив да ѝ помогнам да се распакува, таа сè уште изгледаше многу несреќна. „Дали си нерасположена бидејќи твоите животни се толку далеку?“ - ја прашав. „Повеќе би рекла дека ми недостигаат,“ - воздивна таа. „Па, тогаш зошто не одиш таму и да си ги донесеш?“ - ја прашав." },
-      { type: 'p', content: "Баба Гун ми намигна и го искриви лицето. Следниот ден, кога отидов да ја посетам дома, таму немаше никој. Баба Гун се беше качила на автобус и тргнала за в село." },
+      { type: 'p', content: "Баба Гун ми намигна и го искриви лицето. Следниот ден, кога отидов да ја посетам дома, таа не беше таму. Баба Гун се беше качила на автобус и тргнала за в село." },
       { type: 'p', content: "Ноќта се разбудив слушајќи чуден звук на кокодакање што доаѓаше нагоре по скалите. Што би можело да биде тоа? Се разбира! Кокошките! Веројатно премногу се исплашиле за да влезат во лифтот!" },
       { type: 'p', content: "Следното утро ѝ помогнав на Баба Гун да ги нахрани кокошките. „Се чувствувам како да сум повторно дома,“ - рече таа. „Кокошкиве кокодакаат околу мене, и ако замижам, можам лесно да си замислам дека планиниве што ги гледам се оние што се близу до мојата фарма. Сè што ми недостига е мирисот на земјата и тревата.“" },
-      { type: 'img', src: imgs.baba.idea, alt: "Баба Гун има нова идеја" },
       { type: 'p', content: "Одеднаш таа широко ги отвори очите и се исправи. Јасно беше дека Баба Гун наумила нешто ново. „Па, сега,“ - рече таа. „Зар не мислиш дека би било поубаво да имам и малку трева на покривот? Мислам дека утре треба да одиме в село!?“" },
+      { type: 'img', src: 'Gemini_Generated_Image_hx2q1vhx2q1vhx2q.png', alt: "Очите на Баба Гун светнаа од нова идеја" },
       { type: 'p', content: "И токму тоа го направивме. Кога стигнавме дома, Баба Гун ги качи деловите со тревни површини на покривот. Ги намести внимателно и ги прицврсти за да не можат да паднат." },
       { type: 'p', content: "Баба Гун сега е многу посреќна. Таа, тука во градот, си направи дел од селската природа. Сега си ја сака својата градина на покривот исто толку колку што си ја сакаше и својата стара фарма. А повторно има и цвеќиња што растат на покривот." },
       { type: 'img', src: imgs.baba.roof, alt: "Цвеќиња и трева на покривот" },
@@ -528,7 +546,7 @@ const storyContent = {
   octopus: {
     title: "ПРЕКРАСНИОТ ОКТОПОД",
     text: [
-      { type: 'p', content: "Oктоподите се морски животни кои имаат заоблени тела, испакнати очи и осум долги пипала. Нивните пипала се многу силни и наредени со моќни чашки за вшмукување. Живеат насекаде во океаните, но особено им се допаѓаат топлите тропски води. Тие честопати остануваат на дното на океанот, каде можат да ја најдат својата омилена храна. Сакаат да јадат големи ракови, мали ракчиња и мали риби. Тие го фаќаат својот плен со своите вшмукувачки чашки и потоа ја ставаат храната во устите." },
+      { type: 'p', content: "Октоподите се морски животни кои имаат заоблени тела, испакнати очи и осум долги пипала. Нивните пипала се многу силни и наредени со моќни чашки за вшмукување. Живеат насекаде во океаните, но особено им се допаѓаат топлите тропски води. Тие честопати остануваат на дното на океанот, каде можат да ја најдат својата омилена храна. Сакаат да јадат големи ракови, мали ракчиња и мали риби. Тие го фаќаат својот плен со своите вшмукувачки чашки и потоа ја ставаат храната во устите." },
       { type: 'p', content: "Октоподите често живеат сами во дувла изградени од карпи. Октоподите понекогаш прават дури и камени „врати“ за нивните дувла што можат да се затвораат за да бидат безбедни." },
       { type: 'img', src: imgs.octopus.swimming, alt: "Октопод плива на дното на океанот." },
       { type: 'h2', content: "Избегнување опасност" },
@@ -536,7 +554,7 @@ const storyContent = {
       { type: 'p', content: "Октоподите можат да се кријат со лизгање низ пукнатини во карпите или коралите. Немаат ‘рбет. Всушност, тие воопшто немаат никакви коски и целите се меки. Без коски октоподите можат да течат како вода и да го сместат целото тело во многу тесни места. Тие се познати по тоа што се појавуваат на места каде што не ги очекувате. Октоподи се пронајдени во школки, опрема на научниците и шишиња оставени во морето. Понекогаш, октоподите дури користат школки за да се скријат. Тие собираат школки со чашките за вшмукување. Потоа, ги замотуваат пипалата околу своето тело со школките свртени кон надвор. Грабливците што поминуваат покрај него мислат дека октоподот е само стар куп школки." },
       { type: 'img', src: imgs.octopus.camouflage, alt: "Октопод камуфлиран меѓу карпи и алги." },
       { type: 'h2', content: "Учење да прават разни нешта" },
-      { type: 'p', content: "Еден октопод по име Фридa живееше во аквариум во Германија. Откако ги гледала нејзините чувари како ги отвараат стаклените тегли со нејзината храна, таа научила сама да ги отвора теглите. Притискајќи го капакот врз нејзиното тело и фаќајќи ја теглата со пипалата, таа го извртела нејзиното тело без коски за да го одврти капакот. Таа ги отворила само теглите со нејзината омилена храна, како ракови и ракчиња. Ги игнорирала теглите со секојдневна риба." },
+      { type: 'p', content: "Еден октопод по име Фрида живееше во аквариум во Германија. Откако ги гледала нејзините чувари како ги отвараат стаклените тегли со нејзината храна, таа научила сама да ги отвора теглите. Притискајќи го капакот врз нејзиното тело и фаќајќи ја теглата со пипалата, таа го извртела нејзиното тело без коски за да го одврти капакот. Таа ги отворила само теглите со нејзината омилена храна, како ракови и ракчиња. Ги игнорирала теглите со секојдневна риба." },
       { type: 'p', content: "Во еден морски центар во Соединетите Американски Држави, октоподот по име Сквирт научил да слика. Тој можел да го стори тоа со поместување на лостови што прскаат боја на платно. „Уметничките дела“ биле продавани за да се заработат пари за одржување на резервоарот за октоподи." },
       { type: 'img', src: imgs.octopus.learning, alt: "Октопод отвора тегла со храна во аквариум." },
       { type: 'h2', content: "Занимавање на октоподите" },
@@ -671,8 +689,8 @@ const storyContent = {
   puffins: {
     title: "НОЌИТЕ НА МОРСКИТЕ ПАПАГАЛЧИЊА",
     text: [
-      { type: 'p', content: "Хана живее на островот Хејмаеј. Секој ден пребарува по небото. Додека гледа од високо, од еден стрмен гребен надвиснат над морето, го здогледува својот прв морски папагал за таа сезона. Си шепнува за себе - „Лунди“, што на исландски значи морски папагал." },
       { type: 'img', src: imgs.puffins.cliffs, alt: "Хана на гребенот ги гледа морските папагали" },
+      { type: 'p', content: "Хана живее на островот Хејмаеј. Секој ден пребарува по небото. Додека гледа од високо, од еден стрмен гребен надвиснат над морето, го здогледува својот прв морски папагал за таа сезона. Си шепнува за себе - „Лунди“, што на исландски значи морски папагал." },
       { type: 'p', content: "Набргу небото е ишарано со нив како со точки - морски папагали, насекаде има морски папагали. Од својот зимски престој на море тие се враќаат на островот на Хана и на блиските ненаселени острови за да снесат јајца и да ги израснат своите папагалчиња. Овие „кловнови на морето“ секоја година се враќаат во истите гнезда. Тоа е единствен пат кога доаѓаат на брегот." },
       { type: 'p', content: "Секоја година, црно-бели птици со портокалови клунови го посетуваат исландскиот остров Хејмаеј. Овие птици ги викаат морски папагали. Познати се и како „кловнови на морето“ поради нивните светли клунови и невешти движења. Морските папагали се чудни летачи при полетување и слетување бидејќи имаат крупни тела и куси крилја." },
       { type: 'img', src: imgs.puffins.closeup, alt: "Две морски папагалчиња со големи портокалови клунови" },
@@ -710,7 +728,7 @@ const storyContent = {
       { type: 'p', content: "Тој посегнал и го зел орлето во двете раце. Решил да го земе дома и да се грижи за него. Речиси пристигнал дома, кога децата со истрчале да го пречекаат. „Телето си се врати само!“ извикале тие." },
       { type: 'img', src: imgs.eagle.find, alt: "Фармерот го наоѓа орлето" },
       { type: 'p', content: "Фармерот бил многу задоволен. Тој му го покажал орлето на семејството, а потоа внимателно го сместил во кокошарникот меѓу квачките и пилињата. „Орелот е кралот на птиците“, рекол, „но, ние ќе го научиме да биде кокошка“." },
-      { type: 'p', content: "И такo, орлето живеело со кокошките, и правело сѐ како што правеле тие. Како што растело, почнало да изгледа сосема различно од сите кокошки. Еден ден, еден пријател им дошол во посета. Пријателот ја видел птицата меѓу кокошките. „Еј! Тоа не е кокошка. Тоа е орел!“ Фармерот се насмеал и рекол „Се разбира дека е кокошка. Погледни – оди како кокошка, јаде како кокошка. Размислува како кокошка.“" },
+      { type: 'p', content: "И тако, орлето живеело со кокошките, и правело сѐ како што правеле тие. Како што растело, почнало да изгледа сосема различно од сите кокошки. Еден ден, еден пријател им дошол во посета. Пријателот ја видел птицата меѓу кокошките. „Еј! Тоа не е кокошка. Тоа е орел!“ Фармерот се насмеал и рекол „Се разбира дека е кокошка. Погледни – оди како кокошка, јаде како кокошка. Размислува како кокошка.“" },
       { type: 'img', src: imgs.eagle.yard, alt: "Орелот во кокошарникот" },
       { type: 'p', content: "Пријателот не бил убеден. Ја подигнал птицата над главата и рекол: „Ти не си кокошка, ти си орел. Ти не припаѓаш долу на земјата, туку на небото. Летај, орле, летај!“ Птицата ги раширила своите крилја, ги видела кокошките како јадат и скокнула долу да колве храна со нив. „Ти реков дека е кокошка“, рекол фармерот." },
       { type: 'p', content: "Наредниот ден, уште рано наутро, пријателот повторно дошол. „Дај ми уште една шанса со птицата. Дојди со мене на планината каде што ја најде.“ Двајцата мажи тргнале во темнината. „За да може орелот да го види сонцето како изгрева и да го следи до небото каде припаѓа.“ Конечно, пријателот ја донел птицата на самиот раб на планината." },
@@ -1105,6 +1123,70 @@ const playSound = (type) => {
 
 // --- Инклузивни активности (Слагалки и Боенки) ---
 const inclusiveData = {
+  chest: {
+    puzzle: [
+      { id: 1, img: './chest/Hronoloska Slagalka/1.png', text: "Марко беше тажен што мора да го помине распустот во селото." },
+      { id: 2, img: './chest/Hronoloska Slagalka/2.png', text: "Дедо му го замоли да најде еден стар часовник на таванот." },
+      { id: 3, img: './chest/Hronoloska Slagalka/3.png', text: "Марко пронајде мал дрвен ковчег со изрезбани цветови." },
+      { id: 4, img: './chest/Hronoloska Slagalka/4.png', text: "Внатре имаше само стара фотографија, камче и свирче." },
+      { id: 5, img: './chest/Hronoloska Slagalka/5.png', text: "Дедото му објасни дека вистинското богатство се спомените." }
+    ],
+    coloring: [
+      { id: 1, img: './chest/Story board/1.png', text: "Марко седи на тремот и му е досадно." },
+      { id: 2, img: './chest/Story board/2.png', text: "Искачување по старите дрвени скали до таванот." },
+      { id: 3, img: './chest/Story board/3.png', text: "Темниот таван полн со стари предмети и прашина." },
+      { id: 4, img: './chest/Story board/4.png', text: "Марко го отвора дрвениот ковчег." },
+      { id: 5, img: './chest/Story board/5.png', text: "Дедото раскажува за своето најголемо богатство." }
+    ]
+  },
+  kaja: {
+    puzzle: [
+      { id: 1, img: './kaja/Hronoloska Slagalka/1.png', text: "Каја сакаше да биде пронаоѓач и постојано црташе идеи во својата тетратка." },
+      { id: 2, img: './kaja/Hronoloska Slagalka/2.png', text: "Нејзиниот голем робот „Чистомат“ се расипа токму пред натпреварот." },
+      { id: 3, img: './kaja/Hronoloska Slagalka/3.png', text: "Таа виде како малите врапчиња се мачат да најдат храна во снегот." },
+      { id: 4, img: './kaja/Hronoloska Slagalka/4.png', text: "Каја направи едноставна хранилка од пластично шише и дрвени лажици." },
+      { id: 5, img: './kaja/Hronoloska Slagalka/5.png', text: "Таа доби специјална награда за пронајдок кој навистина им помага на другите." }
+    ],
+    coloring: [
+      { id: 1, img: './kaja/Story board/1.png', text: "Каја работи во својата соба." },
+      { id: 2, img: './kaja/Story board/2.png', text: "Врапчињата на гранката во зима." },
+      { id: 3, img: './kaja/Story board/3.png', text: "Каја го сече пластичното шише." },
+      { id: 4, img: './kaja/Story board/4.png', text: "Полнење на хранилката со зрна." },
+      { id: 5, img: './kaja/Story board/5.png', text: "Среќната Каја со својата диплома." }
+    ]
+  },
+  watchmaker: {
+    puzzle: [
+      { id: 1, img: './watchmaker/Hronoloska Slagalka/1.png', text: "Стариот часовничар живееше сам во својата тивка работилница." },
+      { id: 2, img: './watchmaker/Hronoloska Slagalka/2.png', text: "Еден ден, едно мало куче се појави пред неговата врата." },
+      { id: 3, img: './watchmaker/Hronoloska Slagalka/3.png', text: "Часовничарот почна да се грижи за кучето и повеќе не беше осамен." },
+      { id: 4, img: './watchmaker/Hronoloska Slagalka/4.png', text: "Тој ги поправаше старите часовници со голема радост." },
+      { id: 5, img: './watchmaker/Hronoloska Slagalka/5.png', text: "Животот во работилницата повторно стана весел и исполнет со звук." }
+    ],
+    coloring: [
+      { id: 1, img: './watchmaker/Story board/1.png', text: "Работилница полна со часовници." },
+      { id: 2, img: './watchmaker/Story board/2.png', text: "Часовничарот го гали малото куче." },
+      { id: 3, img: './watchmaker/Story board/3.png', text: "Кучето си игра меѓу запчаниците." },
+      { id: 4, img: './watchmaker/Story board/4.png', text: "Заедничка прошетка во парк." },
+      { id: 5, img: './watchmaker/Story board/5.png', text: "Среќниот часовничар и неговиот пријател." }
+    ]
+  },
+  kite: {
+    puzzle: [
+      { id: 1, img: './kite/Hronoloska Slagalka/1.png', text: "Бојан со денови правеше голем, шарен змеј за летање." },
+      { id: 2, img: './kite/Hronoloska Slagalka/2.png', text: "При првиот обид, змејот веднаш падна на земјата." },
+      { id: 3, img: './kite/Hronoloska Slagalka/3.png', text: "Бојан беше многу лут и сакаше да се откаже." },
+      { id: 4, img: './kite/Hronoloska Slagalka/4.png', text: "Дедо му го научи дека трпението е најважно за успех." },
+      { id: 5, img: './kite/Hronoloska Slagalka/5.png', text: "На крајот, змејот полета високо кон синото небо." }
+    ],
+    coloring: [
+      { id: 1, img: './kite/Story board/1.png', text: "Бојан во својата работилница со хартија и лепило." },
+      { id: 2, img: './kite/Story board/2.png', text: "Трчање на ливадата со змејот." },
+      { id: 3, img: './kite/Story board/3.png', text: "Дедото му покажува како да го врзе конецот." },
+      { id: 4, img: './kite/Story board/4.png', text: "Бојан се смее додека змејот се качува." },
+      { id: 5, img: './kite/Story board/5.png', text: "Шарениот змеј меѓу облаците." }
+    ]
+  },
   baba: {
     puzzle: [
       { id: 1, img: './baba gun/Hronoloski slagalki/1 Gemini_Generated_Image_cszl5bcszl5bcszl.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот." },
@@ -1137,6 +1219,102 @@ const inclusiveData = {
       { id: 4, img: './Prekrasnot oktopod/Story board and colorin book/4 Gemini_Generated_Image_opk6mxopk6mxopk6.png', text: "Време за игра во аквариумот." },
       { id: 5, img: './Prekrasnot oktopod/Story board and colorin book/5 Gemini_Generated_Image_h4xz8lh4xz8lh4xz.png', text: "Поздравување со чуварот на аквариумот." },
       { id: 6, img: './Prekrasnot oktopod/Story board and colorin book/6 Gemini_Generated_Image_jad20zjad20zjad2.png', text: "Различни бои и форми на октоподите." }
+    ]
+  },
+  lynx: {
+    puzzle: [
+      { id: 1, img: './lynx/Hronoloska Slagalka/1.png', text: "Балканскиот рис е ретко и загрозено животно." },
+      { id: 2, img: './lynx/Hronoloska Slagalka/2.png', text: "Научниците користат камери за да ги набљудуваат рисовите." },
+      { id: 3, img: './lynx/Hronoloska Slagalka/3.png', text: "Рисовите се движат тивко низ густата шума." },
+      { id: 4, img: './lynx/Hronoloska Slagalka/4.png', text: "Тие имаат карактеристични реси на ушите." },
+      { id: 5, img: './lynx/Hronoloska Slagalka/5.png', text: "Мораме да ја заштитиме природата за рисовите да преживеат." }
+    ],
+    coloring: [
+      { id: 1, img: './lynx/Story board/1.png', text: "Рис како седи на карпа." },
+      { id: 2, img: './lynx/Story board/2.png', text: "Поставување на фото-замка." },
+      { id: 3, img: './lynx/Story board/3.png', text: "Шумата во зима." },
+      { id: 4, img: './lynx/Story board/4.png', text: "Малите рисчиња си играат." },
+      { id: 5, img: './lynx/Story board/5.png', text: "Рисот во движење." }
+    ]
+  },
+  shovel: {
+    puzzle: [
+      { id: 1, img: './shovel/Hronoloska Slagalka/1.png', text: "Чичкото со лопатата секој ден работеше во својата градина." },
+      { id: 2, img: './shovel/Hronoloska Slagalka/2.png', text: "Тој најде нешто необично додека копаше." },
+      { id: 3, img: './shovel/Hronoloska Slagalka/3.png', text: "Сите соседи дојдоа да видат што се случува." },
+      { id: 4, img: './shovel/Hronoloska Slagalka/4.png', text: "Откритието беше изненадување за целото село." },
+      { id: 5, img: './shovel/Hronoloska Slagalka/5.png', text: "Градината стана место на голема авантура." }
+    ],
+    coloring: [
+      { id: 1, img: './shovel/Story board/1.png', text: "Копање во градината." },
+      { id: 2, img: './shovel/Story board/2.png', text: "Лопатата и земјата." },
+      { id: 3, img: './shovel/Story board/3.png', text: "Изненадено лице на чичкото." },
+      { id: 4, img: './shovel/Story board/4.png', text: "Соседите се собираат." },
+      { id: 5, img: './shovel/Story board/5.png', text: "Зелената градина." }
+    ]
+  },
+  rabbit: {
+    puzzle: [
+      { id: 1, img: './rabbit/Hronoloska Slagalka/1.png', text: "Зајакот уживаше во мирното попладне во шумата." },
+      { id: 2, img: './rabbit/Hronoloska Slagalka/2.png', text: "Одеднаш, земјата почна силно да се тресе." },
+      { id: 3, img: './rabbit/Hronoloska Slagalka/3.png', text: "Сите животни беа исплашени од земјотресот." },
+      { id: 4, img: './rabbit/Hronoloska Slagalka/4.png', text: "Зајакот им помогна на своите пријатели да се сокријат." },
+      { id: 5, img: './rabbit/Hronoloska Slagalka/5.png', text: "Кога тресењето престана, во шумата повторно беше безбедно." }
+    ],
+    coloring: [
+      { id: 1, img: './rabbit/Story board/1.png', text: "Зајакот јаде моркови." },
+      { id: 2, img: './rabbit/Story board/2.png', text: "Дрвјата што се нишаат." },
+      { id: 3, img: './rabbit/Story board/3.png', text: "Животните во паника." },
+      { id: 4, img: './rabbit/Story board/4.png', text: "Зајакот ги води другите во дувлото." },
+      { id: 5, img: './rabbit/Story board/5.png', text: "Мирната шума по невремето." }
+    ]
+  },
+  puffins: {
+    puzzle: [
+      { id: 1, img: './puffins/Hronoloska Slagalka/1.png', text: "Морските папагалчиња живеат на високите карпи покрај морето." },
+      { id: 2, img: './puffins/Hronoloska Slagalka/2.png', text: "Тие со своите шарени клунови ловат мали риби." },
+      { id: 3, img: './puffins/Hronoloska Slagalka/3.png', text: "Секоја година, тие се враќаат во истите гнезда." },
+      { id: 4, img: './puffins/Hronoloska Slagalka/4.png', text: "Малите папагалчиња учат како да пливаат и да летаат." },
+      { id: 5, img: './puffins/Hronoloska Slagalka/5.png', text: "Ноќите на карпите се полни со звук на ветерот и морето." }
+    ],
+    coloring: [
+      { id: 1, img: './puffins/Story board/1.png', text: "Папагалче со шарен клун." },
+      { id: 2, img: './puffins/Story board/2.png', text: "Летот над океанот." },
+      { id: 3, img: './puffins/Story board/3.png', text: "Гнезда во пукнатините на карпите." },
+      { id: 4, img: './puffins/Story board/4.png', text: "Пливање во брановите." },
+      { id: 5, img: './puffins/Story board/5.png', text: "Група папагалчиња на брегот." }
+    ]
+  },
+  eagle: {
+    puzzle: [
+      { id: 1, img: './eagle/Hronoloska Slagalka/1.png', text: "Малото орле беше пронајдено во шумата и одгледано со кокошките." },
+      { id: 2, img: './eagle/Hronoloska Slagalka/2.png', text: "Орлето мислеше дека е обична кокошка и не пробуваше да лета." },
+      { id: 3, img: './eagle/Hronoloska Slagalka/3.png', text: "Еден човек дојде и реши да му покаже на орлето дека е крал на птиците." },
+      { id: 4, img: './eagle/Hronoloska Slagalka/4.png', text: "По неколку обиди, орлето ги рашири крилјата кон сонцето." },
+      { id: 5, img: './eagle/Hronoloska Slagalka/5.png', text: "На крајот, орлето полета високо и никогаш не се врати." }
+    ],
+    coloring: [
+      { id: 1, img: './eagle/Story board/1.png', text: "Орлето меѓу кокошките во дворот." },
+      { id: 2, img: './eagle/Story board/2.png', text: "Човекот го држи орлето на рака." },
+      { id: 3, img: './eagle/Story board/3.png', text: "Гледање кон планините." },
+      { id: 4, img: './eagle/Story board/4.png', text: "Првиот замав со крилјата." },
+      { id: 5, img: './eagle/Story board/5.png', text: "Орелот лета во слобода." }
+    ]
+  },
+  pita: {
+    puzzle: [
+      { id: 1, img: './pita/Hronoloska Slagalka/1.png', text: "Баба Милка реши да направи најубава пита со јаболка." },
+      { id: 2, img: './pita/Hronoloska Slagalka/2.png', text: "Мирисот на питата се прошири низ целата улица." },
+      { id: 3, img: './pita/Hronoloska Slagalka/3.png', text: "Таа реши да му однесе парче на својот намуртен сосед." },
+      { id: 4, img: './pita/Hronoloska Slagalka/4.png', text: "Соседот се изненади и за прв пат се насмевна." },
+      { id: 5, img: './pita/Hronoloska Slagalka/5.png', text: "Питата го претвори непријателот во добар пријател." }
+    ],
+    coloring: [
+      { id: 1, img: './pita/Story board/1.png', text: "Месење на тестото." },
+      { id: 2, img: './pita/Story board/2.png', text: "Јаболка на масата." },
+      { id: 3, img: './pita/Story board/3.png', text: "Печење во рерната." },
+      { id: 4, img: './pita/Story board/4.png', text: "Носење на питата до соседната врата." },
+      { id: 5, img: './pita/Story board/5.png', text: "Заедничко пиење чај со пита." }
     ]
   },
   pot: {
@@ -1407,6 +1585,7 @@ const inclusiveData = {
 const ChronologicalPuzzle = ({ data, onClose }) => {
   const [items, setItems] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [flippedIds, setFlippedIds] = useState(new Set());
 
   useEffect(() => {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
@@ -1423,20 +1602,37 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
     }
   };
 
+  const toggleFlip = (id) => {
+    setFlippedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
   const resetPuzzle = () => {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
     setItems(shuffled);
     setIsCorrect(false);
+    setFlippedIds(new Set());
   };
 
   return (
     <div className="fixed inset-0 z-[120] bg-indigo-950/98 backdrop-blur-xl flex flex-col p-8 overflow-hidden">
+      <style>{`
+        .perspective-1000 { perspective: 1000px; }
+        .preserve-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+      `}</style>
       <div className="flex justify-between items-center mb-12">
         <div className="flex items-center gap-6">
           <div className="w-20 h-20 bg-indigo-500 rounded-3xl flex items-center justify-center text-5xl shadow-lg shadow-indigo-500/20">🧩</div>
           <div>
             <h2 className="text-5xl font-black text-white uppercase tracking-tighter">ХРОНОЛОШКА СЛАГАЛКА</h2>
-            <p className="text-indigo-300 text-xl font-bold">Повлечи ги картичките во правилен редослед!</p>
+            <p className="text-indigo-300 text-xl font-bold">Подреди ги сликите во правилен редослед! Кликни на сликата за да го видиш делот од приказната!</p>
           </div>
         </div>
         <div className="flex gap-4">
@@ -1445,67 +1641,80 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <Reorder.Group 
-          axis="x" 
-          values={items} 
-          onReorder={handleReorder}
-          className="flex gap-8 px-10 pb-20 overflow-x-auto w-full no-scrollbar"
-        >
-          {items.map((item, index) => (
-            <Reorder.Item 
-              key={item.id} 
-              value={item}
-              whileDrag={{ scale: 1.1, rotate: 2, zIndex: 50 }}
-              className="flex-shrink-0"
-            >
-              <div className={`w-80 bg-white rounded-[3.5rem] shadow-2xl p-8 cursor-grab active:cursor-grabbing border-[12px] transition-all duration-300 relative group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}>
-                <div className="absolute -top-6 -left-6 w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-3xl font-black shadow-xl group-hover:scale-110 transition-transform">
-                  {index + 1}
-                </div>
-                <div className="relative overflow-hidden rounded-[2.5rem] mb-8 shadow-inner bg-slate-100">
-                  <img src={item.img} className="w-full h-64 object-cover pointer-events-none transition-transform duration-700 group-hover:scale-110" alt="Puzzle" />
-                </div>
-                <p className="text-slate-800 font-black text-xl leading-snug text-center pointer-events-none min-h-[4.5rem] flex items-center justify-center">
-                  {item.text}
-                </p>
-                <div className="mt-8 flex justify-center opacity-20 group-hover:opacity-100 transition-opacity">
-                  <div className="flex gap-1">
-                    {[1,2,3].map(i => <div key={i} className="w-2 h-2 bg-slate-300 rounded-full"></div>)}
+      <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
+        <div className="w-full overflow-x-auto px-10 pb-20 no-scrollbar">
+          <Reorder.Group 
+            axis="x" 
+            values={items} 
+            onReorder={handleReorder}
+            className="flex gap-10 w-max mx-auto py-10"
+          >
+            {items.map((item) => (
+              <Reorder.Item 
+                key={item.id} 
+                value={item}
+                whileDrag={{ scale: 1.05, rotate: 2, zIndex: 50 }}
+                className="flex-shrink-0 cursor-grab active:cursor-grabbing perspective-1000"
+              >
+                <div 
+                  className="relative w-[22rem] h-[32rem] transition-all duration-700 preserve-3d"
+                  style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
+                >
+                  {/* FRONT SIDE: LARGE IMAGE */}
+                  <div 
+                    onTap={() => toggleFlip(item.id)}
+                    className={`absolute inset-0 backface-hidden w-full h-full bg-white rounded-[4rem] shadow-2xl p-5 border-[14px] transition-all duration-300 group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
+                  >
+                    <div className="absolute -top-6 -left-6 w-20 h-20 bg-indigo-600 text-white rounded-3xl flex items-center justify-center text-4xl font-black shadow-xl z-20">
+                      {items.indexOf(item) + 1}
+                    </div>
+                    <div className="w-full h-full relative overflow-hidden rounded-[3rem] bg-slate-100">
+                      <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt="Puzzle" />
+                    </div>
+                    <div className="absolute bottom-8 right-8 bg-indigo-500/90 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20">🔄</div>
+                  </div>
+
+                  {/* BACK SIDE: TEXT */}
+                  <div 
+                    onTap={() => toggleFlip(item.id)}
+                    className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[4rem] shadow-2xl p-12 border-[14px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
+                  >
+                    <p className="text-white font-black text-2xl leading-relaxed mb-10">
+                      {item.text}
+                    </p>
+                    <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-white text-4xl border-2 border-white/20">📖</div>
+                    <div className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20">🔄</div>
                   </div>
                 </div>
-              </div>
-            </Reorder.Item>
-          ))}
-        </Reorder.Group>
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
+        </div>
       </div>
 
       <AnimatePresence>
         {isCorrect && (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }} 
+            initial={{ opacity: 0, scale: 0.9 }} 
             animate={{ opacity: 1, scale: 1 }} 
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="absolute inset-0 flex flex-col items-center justify-center bg-emerald-500/95 z-[130] p-10 text-center"
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-indigo-900/40 backdrop-blur-md z-[130] p-10 text-center"
           >
             <motion.div 
-              animate={{ 
-                scale: [1, 1.2, 1],
-                rotate: [0, 10, -10, 0]
-              }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="text-[12rem] mb-12 drop-shadow-2xl"
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="bg-white rounded-[4rem] p-16 shadow-[0_30px_100px_rgba(0,0,0,0.5)] border-[12px] border-emerald-400 max-w-4xl"
             >
-              🏆
+              <div className="text-[12rem] mb-12 animate-bounce">🏆</div>
+              <h3 className="text-8xl font-black text-slate-900 mb-6 tracking-tighter uppercase">СЕКОЈА ЧЕСТ!</h3>
+              <p className="text-4xl text-slate-600 font-bold mb-16 opacity-90 leading-tight">Успешно ја раскажа приказната со правилно подредување на сликите!</p>
+              <button 
+                onClick={onClose} 
+                className="px-24 py-10 bg-emerald-500 text-white rounded-full text-5xl font-black shadow-[0_20px_60px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest border-b-8 border-emerald-700"
+              >
+                ОДИМЕ ПОНАТАМУ! 🚀
+              </button>
             </motion.div>
-            <h3 className="text-8xl font-black text-white mb-6 tracking-tighter">СЕКОЈА ЧЕСТ!</h3>
-            <p className="text-4xl text-white font-bold mb-16 max-w-2xl opacity-90">Успешно ја раскажа приказната со правилно подредување на сликите!</p>
-            <button 
-              onClick={onClose} 
-              className="px-20 py-8 bg-white text-emerald-600 rounded-full text-4xl font-black shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest"
-            >
-              ОДИМЕ ПОНАТАМУ! 🚀
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1695,24 +1904,29 @@ const ColoringBook = ({ data, onClose }) => {
             </div>
           </div>
 
+          {/* Expert Brush Controls */}
           <div className="h-12 w-px bg-slate-200"></div>
-
-          <div className="flex flex-col gap-2">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Големина: {brushSize}px</span>
+          <div className="flex flex-col gap-1 min-w-[120px]">
+            <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
+              <span>Четка</span>
+              <span>{brushSize}px</span>
+            </div>
             <input 
               type="range" min="2" max="100" value={brushSize} 
               onChange={(e) => setBrushSize(parseInt(e.target.value))}
-              className="w-32 accent-indigo-600"
+              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
             />
           </div>
 
           <div className="h-12 w-px bg-slate-200"></div>
 
-          <div className="flex flex-col gap-2">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Зум: {Math.round(zoom * 100)}%</span>
-            <div className="flex gap-2">
-              <button onClick={() => setZoom(Math.max(1, zoom - 0.5))} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl font-black text-xl hover:bg-slate-100">-</button>
-              <button onClick={() => setZoom(Math.min(4, zoom + 0.5))} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl font-black text-xl hover:bg-slate-100">+</button>
+          {/* Expert Zoom Controls */}
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Зум</span>
+            <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-xl border border-slate-200">
+              <button onClick={() => setZoom(Math.max(1, zoom - 0.2))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100 shadow-sm transition-all">−</button>
+              <span className="text-slate-700 font-mono text-[10px] w-8 text-center font-black">{Math.round(zoom * 100)}%</span>
+              <button onClick={() => setZoom(Math.min(4, zoom + 0.2))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100 shadow-sm transition-all">+</button>
             </div>
           </div>
         </div>
@@ -1774,7 +1988,7 @@ const ColoringBook = ({ data, onClose }) => {
   );
 };
 
-const DrawingCanvas = ({ onClose, onRecognize }) => {
+const HandwritingCanvas = ({ onClose, onRecognize }) => {
   const canvasRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushSize, setBrushSize] = useState(5);
@@ -1964,14 +2178,29 @@ export default function App() {
   }, []);
 
   const speak = (text) => {
-    if (!canSpeak) return;
+    if (!canSpeak || !text) return;
     window.speechSynthesis.cancel();
+    
     const utterance = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
-    const mkdVoice = voices.find(v => v.lang.includes('mk'));
+    
+    // Прво бараме специфичен македонски глас
+    let mkdVoice = voices.find(v => v.lang === 'mk-MK' || v.lang === 'mk');
+    
+    // Ако немаме, бараме било кој словенски јазик како приближна алтернатива (опционално)
+    // Но корисникот сака висок квалитет, па ако нема МКД, подобро да не зборува
+    
     if (mkdVoice) {
       utterance.voice = mkdVoice;
-      utterance.rate = 0.9;
+      utterance.lang = 'mk-MK';
+      utterance.rate = 0.85; // Малку побавно за подобро разбирање
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      console.warn("Македонски глас не е пронајден на овој уред.");
+      // Можеме да поставиме lang и да се надеваме на најдоброто (некои прелистувачи сами наоѓаат)
+      utterance.lang = 'mk-MK';
+      utterance.rate = 0.85;
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -2394,7 +2623,7 @@ export default function App() {
 
       {/* MODALS */}
       {showCanvas && (
-        <DrawingCanvas 
+        <HandwritingCanvas 
           onClose={() => setShowCanvas(false)} 
           onRecognize={(recognizedText) => {
             setTextAns(recognizedText);
