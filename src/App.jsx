@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Дефинирање на патеките до илустрациите
 const imgs = {
@@ -1191,10 +1192,223 @@ const playSound = (type) => {
   }
 };
 
+// --- Инклузивни активности (Слагалки и Боенки) ---
+const inclusiveData = {
+  baba: {
+    puzzle: [
+      { id: 1, img: './baba gun/Hronoloski slagalki/1 Gemini_Generated_Image_cszl5bcszl5bcszl.png', text: "Баба Гун живееше среќно во мала селска куќичка која имаше трева на покривот." },
+      { id: 2, img: './baba gun/Hronoloski slagalki/2 Gemini_Generated_Image_bockdcbockdcbock.png', text: "Докторот ѝ рече дека мора да се пресели во градот, па таа отиде да живее во голема зграда." },
+      { id: 3, img: './baba gun/Hronoloski slagalki/3 Gemini_Generated_Image_xfis2zxfis2zxfis.png', text: "Од градскиот балкон таа ги гледаше планините, но многу ѝ недостигаа нејзините животни." },
+      { id: 4, img: './baba gun/Hronoloski slagalki/4 Gemini_Generated_Image_5gfp4t5gfp4t5gfp.png', text: "За да не биде осамена, таа се врати во селото и тајно си ги донесе кокошките во станот." },
+      { id: 5, img: './baba gun/Hronoloski slagalki/5 Gemini_Generated_Image_c4v4yfc4v4yfc4v4.png', text: "Баба Гун си направи градина на балконот, но се прашуваше: Како да ја донесе и кравата?" }
+    ],
+    coloring: [
+      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун живееше во село. Нејзината мала куќичка имаше трева и цвеќиња на покривот." },
+      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Еден ден, докторот ѝ рече: „Мораш да се преселив во градот, не е безбедно да живееш сама.“" },
+      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Во новиот стан во градот сè беше чудно и бело. Но, кога баба Гун излезе на големиот балкон, ги виде планините." },
+      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "На баба Гун многу ѝ недостигаа животните. Затоа, таа се врати во селото и тајно си ги донесе кокошките!" },
+      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "За да се чувствува како дома, баба Гун донесе земја. Таа си засади трева и цвеќиња на нејзиниот балкон." },
+      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Сега баба Гун е повторно среќна. Има само уште еден мал проблем: Како да ја качи кравата во лифтот?!" }
+    ]
+  },
+  octopus: {
+    puzzle: [
+      { id: 1, img: './Prekrasnot oktopod/Hronoloska Slagalka/1 Gemini_Generated_Image_e2gucde2gucde2gu.png', text: "Во океанот, октоподот користи осум пипала за да фаќа и да јаде ракови." },
+      { id: 2, img: './Prekrasnot oktopod/Hronoloska Slagalka/2 Gemini_Generated_Image_bvd378bvd378bvd3.png', text: "Ако е во опасност, тој испушта мастило и се крие во пукнатините на карпите." },
+      { id: 3, img: './Prekrasnot oktopod/Hronoloska Slagalka/3 Gemini_Generated_Image_vcoaodvcoaodvcoa.png', text: "Октоподите се многу паметни и можат дури и сами да отворат тегла со храна." },
+      { id: 4, img: './Prekrasnot oktopod/Hronoloska Slagalka/4 Gemini_Generated_Image_8jp0qq8jp0qq8jp0.png', text: "Во аквариумот сакаат да си играат со сложувалки и со пластични топки." },
+      { id: 5, img: './Prekrasnot oktopod/Hronoloska Slagalka/5 Gemini_Generated_Image_x8oyr4x8oyr4x8oy.png', text: "Тие ги препознаваат своите чувари и сакаат нежно да се држат за рака со нив." }
+    ],
+    coloring: [
+      { id: 1, img: './Prekrasnot oktopod/Story board and colorin book/1 Gemini_Generated_Image_v7t8k3v7t8k3v7t8.png', text: "Октоподот живее на дното на океанот. Тој има осум долги пипала и најмногу сака да јаде ракови." },
+      { id: 2, img: './Prekrasnot oktopod/Story board and colorin book/2 Gemini_Generated_Image_f1t7o0f1t7o0f1t7.png', text: "Кога е во опасност, октоподот испушта голем, темен облак од мастило. Така тој се крие и брзо бега!" },
+      { id: 3, img: './Prekrasnot oktopod/Story board and colorin book/3 Gemini_Generated_Image_z78pizz78pizz78p.png', text: "Октоподот нема коски во телото. Тој може лесно да се собере и да се скрие во многу мали пукнатини во карпите." },
+      { id: 4, img: './Prekrasnot oktopod/Story board and colorin book/4 Gemini_Generated_Image_opk6mxopk6mxopk6.png', text: "Октоподите се многу паметни животни. Еден октопод по име Фрида дури научил сам да отвора тегла со храна!" },
+      { id: 5, img: './Prekrasnot oktopod/Story board and colorin book/5 Gemini_Generated_Image_h4xz8lh4xz8lh4xz.png', text: "Во аквариумот на октоподите брзо им станува здодевно. Затоа им даваат играчки, како пластични топки." },
+      { id: 6, img: './Prekrasnot oktopod/Story board and colorin book/6 Gemini_Generated_Image_jad20zjad20zjad2.png', text: "Тие многу ги сакаат своите чувари. Кога се среќни, тие поцрвенуваат и сакаат да се држат за рака со луѓето." }
+    ]
+  }
+};
+
+const ChronologicalPuzzle = ({ data, onClose }) => {
+  const [items, setItems] = useState([]);
+  const [isCorrect, setIsCorrect] = useState(false);
+
+  useEffect(() => {
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    setItems(shuffled);
+  }, [data]);
+
+  const moveItem = (fromIndex, toIndex) => {
+    const newItems = [...items];
+    const [movedItem] = newItems.splice(fromIndex, 1);
+    newItems.splice(toIndex, 0, movedItem);
+    setItems(newItems);
+    
+    const currentOrder = newItems.map(item => item.id).join(',');
+    const correctOrder = data.map(item => item.id).join(',');
+    if (currentOrder === correctOrder) {
+      setIsCorrect(true);
+      playSound('success');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[120] bg-indigo-900/95 backdrop-blur-md flex flex-col p-8 overflow-hidden">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-4xl font-black text-white uppercase tracking-tighter">🧩 ХРОНОЛОШКА СЛАГАЛКА</h2>
+        <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white p-4 rounded-2xl font-black">ЗАТВОРИ ×</button>
+      </div>
+      
+      <p className="text-white/70 text-xl mb-10 text-center font-bold">Подреди ги сликите според редоследот во приказната!</p>
+
+      <div className="flex-1 flex items-center justify-center gap-4 overflow-x-auto pb-10 px-4">
+        {items.map((item, index) => (
+          <motion.div 
+            key={item.id}
+            layout
+            className={`flex-shrink-0 w-64 bg-white rounded-[2rem] shadow-2xl p-4 cursor-pointer border-8 transition-all ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
+            onClick={() => {
+              if (index < items.length - 1) moveItem(index, index + 1);
+              else moveItem(index, 0);
+            }}
+          >
+            <img src={item.img} className="w-full h-48 object-cover rounded-2xl mb-4" alt="Puzzle" />
+            <p className="text-slate-800 font-bold text-sm leading-tight text-center">{item.text}</p>
+            <div className="mt-4 flex justify-center">
+              <span className="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-black text-xl">{index + 1}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {isCorrect && (
+        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute inset-0 flex flex-col items-center justify-center bg-emerald-500/90 z-[130] p-10 text-center">
+          <div className="text-9xl mb-10">🌟</div>
+          <h3 className="text-6xl font-black text-white mb-6">СЕКОЈА ЧЕСТ!</h3>
+          <p className="text-3xl text-white font-bold mb-12">Ги подреди сите настани во правилен редослед!</p>
+          <button onClick={onClose} className="px-12 py-6 bg-white text-emerald-600 rounded-full text-3xl font-black shadow-2xl hover:scale-105 transition-all">ОДИМЕ ПОНАТАМУ! 🚀</button>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+const ColoringBook = ({ data, onClose }) => {
+  const [activeScene, setActiveScene] = useState(0);
+  const canvasRef = useRef(null);
+  const [color, setColor] = useState('#4f46e5');
+  const [isDrawing, setIsDrawing] = useState(false);
+
+  const scene = data[activeScene];
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = scene.img;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  }, [activeScene, scene.img]);
+
+  const startDrawing = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = (clientX - rect.left) * (canvas.width / rect.width);
+    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 20;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.globalCompositeOperation = 'multiply';
+    setIsDrawing(true);
+  };
+
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = (clientX - rect.left) * (canvas.width / rect.width);
+    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    const ctx = canvas.getContext('2d');
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => setIsDrawing(false);
+
+  return (
+    <div className="fixed inset-0 z-[120] bg-white flex flex-col p-8 overflow-hidden">
+      <div className="flex justify-between items-center mb-8">
+        <div className="flex items-center gap-6">
+          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">🎨 ДИГИТАЛНА БОЕНКА</h2>
+          <div className="flex gap-2">
+            {['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#000000'].map(c => (
+              <button 
+                key={c} 
+                className={`w-12 h-12 rounded-full border-4 transition-all ${color === c ? 'scale-125 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-110'}`}
+                style={{ backgroundColor: c }}
+                onClick={() => setColor(c)}
+              />
+            ))}
+          </div>
+        </div>
+        <button onClick={onClose} className="bg-slate-100 hover:bg-slate-200 text-slate-600 p-4 rounded-2xl font-black text-xl">ЗАТВОРИ ×</button>
+      </div>
+
+      <div className="flex-1 flex gap-10 overflow-hidden">
+        <div className="w-1/4 space-y-4 overflow-y-auto pr-4">
+          {data.map((s, idx) => (
+            <button 
+              key={idx} 
+              onClick={() => setActiveScene(idx)}
+              className={`w-full p-4 rounded-3xl border-4 transition-all text-left ${activeScene === idx ? 'bg-indigo-50 border-indigo-500 shadow-md' : 'bg-white border-slate-100 hover:border-indigo-200'}`}
+            >
+              <img src={s.img} className="w-full h-24 object-cover rounded-xl mb-2 grayscale" alt="Thumbnail" />
+              <p className="text-xs font-bold text-slate-600 line-clamp-2">{s.text}</p>
+            </button>
+          ))}
+        </div>
+
+        <div className="flex-1 flex flex-col items-center justify-center bg-slate-50 rounded-[3rem] p-10 border-4 border-slate-100 relative shadow-inner">
+          <canvas 
+            ref={canvasRef}
+            width={800}
+            height={600}
+            className="bg-white rounded-2xl shadow-2xl cursor-crosshair max-w-full h-auto"
+            onMouseDown={startDrawing}
+            onMouseMove={draw}
+            onMouseUp={stopDrawing}
+            onMouseOut={stopDrawing}
+            onTouchStart={startDrawing}
+            onTouchMove={draw}
+            onTouchEnd={stopDrawing}
+          />
+          <div className="mt-8 bg-white p-6 rounded-2xl border-2 border-indigo-100 shadow-sm max-w-2xl">
+            <p className="text-xl font-bold text-indigo-900 text-center">{scene.text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [activeStory, setActiveStory] = useState('home');
   const [progress, setProgress] = useState(0);
   const [highlightMode, setHighlightMode] = useState(false);
+  const [showPuzzle, setShowPuzzle] = useState(false);
+  const [showColoring, setShowColoring] = useState(false);
   const [markColor, setMarkColor] = useState('bg-yellow-300');
   const [fontSize, setFontSize] = useState(1.5); // rem
   const [avatarMsg, setAvatarMsg] = useState("");
@@ -1611,6 +1825,31 @@ export default function App() {
                 )}
               </div>
             )}
+
+            {/* Инклузивни активности */}
+            {inclusiveData[activeStory] && (
+              <div className="mt-8 p-6 bg-white rounded-[3rem] border-4 border-indigo-100 shadow-sm">
+                <h3 className="text-xl font-black text-indigo-900 mb-4 flex items-center gap-2">
+                  <span className="text-2xl">🌟</span> ИНКЛУЗИВНИ АКТИВНОСТИ
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <button 
+                    onClick={() => setShowPuzzle(true)}
+                    className="flex flex-col items-center gap-2 p-4 bg-indigo-50 hover:bg-indigo-100 rounded-3xl border-2 border-indigo-200 transition-all group"
+                  >
+                    <span className="text-3xl group-hover:scale-110 transition-transform">🧩</span>
+                    <span className="text-xs font-black text-indigo-700 uppercase tracking-widest">Слагалка</span>
+                  </button>
+                  <button 
+                    onClick={() => setShowColoring(true)}
+                    className="flex flex-col items-center gap-2 p-4 bg-rose-50 hover:bg-rose-100 rounded-3xl border-2 border-rose-200 transition-all group"
+                  >
+                    <span className="text-3xl group-hover:scale-110 transition-transform">🎨</span>
+                    <span className="text-xs font-black text-rose-700 uppercase tracking-widest">Боенка</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1621,6 +1860,14 @@ export default function App() {
           onClose={() => setShowCanvas(false)} 
           onRecognize={(recognizedText) => setTextAns(recognizedText)} 
         />
+      )}
+
+      {/* Модални прозорци за инклузивни активности */}
+      {showPuzzle && inclusiveData[activeStory]?.puzzle && (
+        <ChronologicalPuzzle data={inclusiveData[activeStory].puzzle} onClose={() => setShowPuzzle(false)} />
+      )}
+      {showColoring && inclusiveData[activeStory]?.coloring && (
+        <ColoringBook data={inclusiveData[activeStory].coloring} onClose={() => setShowColoring(false)} />
       )}
       
       {glossaryTerm && (
@@ -1639,6 +1886,10 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Background Shapes */}
+      <div className="fixed -bottom-20 -left-20 w-80 h-80 bg-indigo-200 rounded-full blur-3xl opacity-30 -z-10" />
+      <div className="fixed -top-20 -right-20 w-80 h-80 bg-rose-200 rounded-full blur-3xl opacity-30 -z-10" />
     </div>
   );
 }
