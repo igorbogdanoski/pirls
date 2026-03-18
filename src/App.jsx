@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Reorder } from 'framer-motion';
+import Tesseract from 'tesseract.js';
 
 // Дефинирање на патеките до илустрациите
 const imgs = {
@@ -157,6 +158,7 @@ const DrawingCanvas = ({ onClose, onRecognize }) => {
   const canvasRef = React.useRef(null);
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isProcessing, setIsProcessing] = React.useState(false);
+  const [recognizedText, setRecognizedText] = React.useState("");
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -208,7 +210,7 @@ const DrawingCanvas = ({ onClose, onRecognize }) => {
   };
 
   const handleRecognize = async () => {
-    if (!window.Tesseract) {
+    if (!Tesseract) {
       alert("OCR Библиотеката сè уште не е вчитана.");
       return;
     }
@@ -217,9 +219,8 @@ const DrawingCanvas = ({ onClose, onRecognize }) => {
     const image = canvas.toDataURL('image/png');
     
     try {
-      const result = await window.Tesseract.recognize(image, 'mkd+eng');
-      onRecognize(result.data.text);
-      onClose();
+      const result = await Tesseract.recognize(image, 'mkd+eng');
+      setRecognizedText(result.data.text.trim());
     } catch (err) {
       console.error(err);
       alert("Грешка при препознавање на текстот.");
@@ -228,42 +229,66 @@ const DrawingCanvas = ({ onClose, onRecognize }) => {
     }
   };
 
+  const handleAccept = () => {
+    onRecognize(recognizedText);
+    onClose();
+  };
+
   return (
     <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-8 animate-in fade-in duration-300">
       <div className="bg-white rounded-[3rem] shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col border-8 border-indigo-100 animate-in zoom-in-95 duration-300">
         <div className="p-6 bg-indigo-50 flex items-center justify-between border-b-4 border-indigo-100">
           <h2 className="text-2xl font-black text-indigo-900 flex items-center gap-3">
-            <span className="text-3xl">✍️</span> ТАБЛА ЗА ПИШУВАЊЕ (SMART BOARD)
+            <span className="text-3xl">✍️</span> ТАБЛА ЗА ПИШУВАЊЕ
           </h2>
           <div className="flex gap-4">
-            <button onClick={clear} className="px-6 py-2 bg-white border-2 border-indigo-200 rounded-full font-bold text-indigo-600 hover:bg-indigo-100 transition-colors">ИЗБРИШИ</button>
-            <button 
-              onClick={handleRecognize} 
-              disabled={isProcessing}
-              className={`px-6 py-2 ${isProcessing ? 'bg-slate-400' : 'bg-emerald-600 hover:bg-emerald-700'} text-white rounded-full font-bold transition-colors shadow-lg shadow-emerald-200`}
-            >
-              {isProcessing ? 'СЕ ПРЕПОЗНАВА...' : 'ПРЕТВОРИ ВО ТЕКСТ 🤖'}
-            </button>
+            {!recognizedText ? (
+              <>
+                <button onClick={clear} className="px-6 py-2 bg-white border-2 border-indigo-200 rounded-full font-bold text-indigo-600 hover:bg-indigo-100 transition-colors">ИЗБРИШИ</button>
+                <button 
+                  onClick={handleRecognize} 
+                  disabled={isProcessing}
+                  className={`px-6 py-2 ${isProcessing ? 'bg-slate-400' : 'bg-emerald-600 hover:bg-emerald-700'} text-white rounded-full font-bold transition-colors shadow-lg shadow-emerald-200`}
+                >
+                  {isProcessing ? 'СЕ ПРЕПОЗНАВА...' : 'ПРЕТВОРИ ВО ТЕКСТ 🤖'}
+                </button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => setRecognizedText("")} className="px-6 py-2 bg-white border-2 border-indigo-200 rounded-full font-bold text-indigo-600 hover:bg-indigo-100 transition-colors">ОБИДИ СЕ ПАК</button>
+                <button onClick={handleAccept} className="px-6 py-2 bg-emerald-600 text-white rounded-full font-bold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200 uppercase tracking-widest">ПРИФАТИ И ПРАТИ ✅</button>
+              </>
+            )}
             <button onClick={onClose} className="px-6 py-2 bg-indigo-600 text-white rounded-full font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">ЗАТВОРИ</button>
           </div>
         </div>
         <div className="bg-slate-50 flex-1 relative cursor-crosshair overflow-hidden" style={{ minHeight: '500px' }}>
-          <canvas 
-            ref={canvasRef}
-            width={1200}
-            height={700}
-            className="w-full h-full touch-none bg-white"
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={stopDrawing}
-            onMouseOut={stopDrawing}
-            onTouchStart={startDrawing}
-            onTouchMove={draw}
-            onTouchEnd={stopDrawing}
-          />
+          {!recognizedText ? (
+            <canvas 
+              ref={canvasRef}
+              width={1200}
+              height={700}
+              className="w-full h-full touch-none bg-white"
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={stopDrawing}
+              onMouseOut={stopDrawing}
+              onTouchStart={startDrawing}
+              onTouchMove={draw}
+              onTouchEnd={stopDrawing}
+            />
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-20 bg-emerald-50/30">
+              <span className="text-sm font-black text-emerald-600 uppercase tracking-widest mb-4">Препознаен текст:</span>
+              <div className="bg-white p-12 rounded-[2.5rem] shadow-xl border-4 border-emerald-100 w-full max-w-2xl text-center">
+                <p className="text-4xl font-black text-slate-800 leading-tight">"{recognizedText}"</p>
+              </div>
+              <p className="mt-8 text-slate-400 font-bold italic">Провери дали текстот е точен пред да го пратиш до АИ учителот.</p>
+            </div>
+          )}
         </div>
         <div className="p-4 bg-white text-center text-slate-400 font-medium text-sm italic">
-          Напиши го твојот одговор со големи букви за подобра прецизност
+          {!recognizedText ? "Напиши го твојот одговор со јасен ракопис" : "Текстот ќе биде автоматски внесен во полето за одговор"}
         </div>
       </div>
     </div>
@@ -1434,12 +1459,97 @@ const inclusiveData = {
       { id: 5, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_13.png', text: "Среќни папагалчиња на море." }
     ]
   },
+  chest: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко седеше на тремот и му беше многу досадно." },
+      { id: 2, img: 'Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "На таванот пронајде мал дрвен ковчег со цвеќиња." },
+      { id: 3, img: 'Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Дедо му му ги раскажа приказните за предметите во ковчегот." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко на тремот." },
+      { id: 2, img: 'Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "Дрвениот ковчег." },
+      { id: 3, img: 'Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Среќните спомени." }
+    ]
+  },
+  kaja: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Каја сакаше да направи робот што чисти." },
+      { id: 2, img: 'Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Дедото ја утеши Каја кога роботот се расипа." },
+      { id: 3, img: 'Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Каја направи паметна хранилка за птиците." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Лабораторијата на Каја." },
+      { id: 2, img: 'Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Разговор со дедото." },
+      { id: 3, img: 'Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Хранилката за птици." }
+    ]
+  },
+  watchmaker: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Марко се чувствуваше осамено во новиот град." },
+      { id: 2, img: 'Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Кучето на часовничарот го повика Марко на помош." },
+      { id: 3, img: 'Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Марко и часовничарот станаа најдобри пријатели." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Марко пред куќата." },
+      { id: 2, img: 'Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Средба со кучето." },
+      { id: 3, img: 'Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Работилницата за часовници." }
+    ]
+  },
+  pita: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Баба и внукот направија вкусна пита." },
+      { id: 2, img: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Тие ја однесоа питата кај стариот сосед." },
+      { id: 3, img: 'Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Заедно уживаа во вечерата и разговорот." },
+      { id: 4, img: 'Gemini_Generated_Image_bn489hbn489hbn48.png', text: "Непријателот стана најдобар пријател." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Готвење во кујната." },
+      { id: 2, img: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Носење на питата." },
+      { id: 3, img: 'Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Вечера кај соседот." },
+      { id: 4, img: 'Gemini_Generated_Image_bn489hbn489hbn48.png', text: "Ново пријателство." }
+    ]
+  },
+  shovel: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Чичкото со лопатата работеше напорно секој ден." },
+      { id: 2, img: 'Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Децата му помагаа и се смееја заедно." },
+      { id: 3, img: 'Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Чичкото им раскажуваше најубави приказни." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Работа во дворот." },
+      { id: 2, img: 'Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Радост и смеа." },
+      { id: 3, img: 'Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Време за приказни." }
+    ]
+  },
+  kite: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_ovlkzqovlkzqovlk.png', text: "Змејот беше заплеткан во гранките." },
+      { id: 2, img: 'Gemini_Generated_Image_2fxzxn2fxzxn2fxz.png', text: "Децата со многу трпение го поправаа змејот." },
+      { id: 3, img: 'Gemini_Generated_Image_22q3ph22q3ph22q3.png', text: "Змејот конечно полета високо на небото." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_ovlkzqovlkzqovlk.png', text: "Несреќа со змејот." },
+      { id: 2, img: 'Gemini_Generated_Image_2fxzxn2fxzxn2fxz.png', text: "Поправка во работилницата." },
+      { id: 3, img: 'Gemini_Generated_Image_22q3ph22q3ph22q3.png', text: "Лет кон облаците." }
+    ]
+  },
+  rabbit: {
+    puzzle: [
+      { id: 1, img: 'Gemini_Generated_Image_j12s9rj12s9rj12s.png', text: "Зајакот многу се исплаши од чудниот звук." },
+      { id: 2, img: 'Gemini_Generated_Image_nnfx6onnfx6onnfx.png', text: "Лавот го сопре зајакот и го праша зошто бега." },
+      { id: 3, img: 'Gemini_Generated_Image_1hdc6w1hdc6w1hdc.png', text: "Сите сфатија дека нема страв и се вратија дома." }
+    ],
+    coloring: [
+      { id: 1, img: 'Gemini_Generated_Image_j12s9rj12s9rj12s.png', text: "Исплашениот зајак." },
+      { id: 2, img: 'Gemini_Generated_Image_nnfx6onnfx6onnfx.png', text: "Кралот лав." },
+      { id: 3, img: 'Gemini_Generated_Image_1hdc6w1hdc6w1hdc.png', text: "Среќен крај." }
+    ]
+  }
 };
 
 const ChronologicalPuzzle = ({ data, onClose }) => {
   const [items, setItems] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState(null);
 
   useEffect(() => {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
@@ -1452,78 +1562,96 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
     const correctOrder = data.map(item => item.id).join(',');
     if (currentOrder === correctOrder) {
       setIsCorrect(true);
-      playSound('success');
+      if (typeof playSound === 'function') playSound('success');
     }
-  };
-
-  const swapItems = (idx1, idx2) => {
-    const newItems = [...items];
-    [newItems[idx1], newItems[idx2]] = [newItems[idx2], newItems[idx1]];
-    handleReorder(newItems);
-    setSelectedIdx(null);
   };
 
   const resetPuzzle = () => {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
     setItems(shuffled);
     setIsCorrect(false);
-    setSelectedIdx(null);
   };
 
   return (
-    <div className="fixed inset-0 z-[120] bg-indigo-900/95 backdrop-blur-md flex flex-col p-8 overflow-hidden">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-4xl font-black text-white uppercase tracking-tighter">🧩 ХРОНОЛОШКА СЛАГАЛКА</h2>
+    <div className="fixed inset-0 z-[120] bg-indigo-950/98 backdrop-blur-xl flex flex-col p-8 overflow-hidden">
+      <div className="flex justify-between items-center mb-12">
+        <div className="flex items-center gap-6">
+          <div className="w-20 h-20 bg-indigo-500 rounded-3xl flex items-center justify-center text-5xl shadow-lg shadow-indigo-500/20">🧩</div>
+          <div>
+            <h2 className="text-5xl font-black text-white uppercase tracking-tighter">ХРОНОЛОШКА СЛАГАЛКА</h2>
+            <p className="text-indigo-300 text-xl font-bold">Повлечи ги картичките во правилен редослед!</p>
+          </div>
+        </div>
         <div className="flex gap-4">
-          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-6 py-4 rounded-2xl font-black uppercase tracking-widest text-sm">Ресетирај 🔄</button>
-          <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white p-4 rounded-2xl font-black text-2xl">×</button>
+          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-8 py-5 rounded-[2rem] font-black uppercase tracking-widest text-sm border-2 border-white/10 transition-all">Ресетирај 🔄</button>
+          <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white w-20 h-20 rounded-[2rem] font-black text-4xl border-2 border-white/10 flex items-center justify-center transition-all">×</button>
         </div>
       </div>
-      
-      <p className="text-white/70 text-xl mb-10 text-center font-bold">Кликни на две слики за да им ги замениш местата и да ја подредиш приказната!</p>
 
-      <div className="flex-1 flex items-center justify-center overflow-x-auto pb-10 px-4">
-        <div className="flex gap-6">
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <Reorder.Group 
+          axis="x" 
+          values={items} 
+          onReorder={handleReorder}
+          className="flex gap-8 px-10 pb-20 overflow-x-auto w-full no-scrollbar"
+        >
           {items.map((item, index) => (
-            <motion.div 
-              key={item.id}
-              layout
-              onClick={() => {
-                if (selectedIdx === null) {
-                  setSelectedIdx(index);
-                } else if (selectedIdx === index) {
-                  setSelectedIdx(null);
-                } else {
-                  swapItems(selectedIdx, index);
-                }
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`flex-shrink-0 w-72 bg-white rounded-[3rem] shadow-2xl p-6 cursor-pointer border-[12px] transition-all duration-300 relative ${isCorrect ? 'border-emerald-400' : selectedIdx === index ? 'border-yellow-400 shadow-[0_0_50px_rgba(250,204,21,0.5)] scale-105' : 'border-white hover:border-indigo-400'}`}
+            <Reorder.Item 
+              key={item.id} 
+              value={item}
+              whileDrag={{ scale: 1.1, rotate: 2, zIndex: 50 }}
+              className="flex-shrink-0"
             >
-              {selectedIdx === index && (
-                <div className="absolute -top-6 -right-4 bg-yellow-400 text-indigo-900 w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-xl animate-bounce z-20">
-                  📍
+              <div className={`w-80 bg-white rounded-[3.5rem] shadow-2xl p-8 cursor-grab active:cursor-grabbing border-[12px] transition-all duration-300 relative group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}>
+                <div className="absolute -top-6 -left-6 w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-3xl font-black shadow-xl group-hover:scale-110 transition-transform">
+                  {index + 1}
                 </div>
-              )}
-              <img src={item.img} className="w-full h-56 object-cover rounded-[2rem] mb-6 pointer-events-none" alt="Puzzle" />
-              <p className="text-slate-800 font-black text-lg leading-tight text-center pointer-events-none px-2">{item.text}</p>
-              <div className="mt-6 flex justify-center">
-                <span className={`w-12 h-12 rounded-full flex items-center justify-center font-black text-2xl transition-colors ${isCorrect ? 'bg-emerald-100 text-emerald-600' : 'bg-indigo-100 text-indigo-600'}`}>{index + 1}</span>
+                <div className="relative overflow-hidden rounded-[2.5rem] mb-8 shadow-inner bg-slate-100">
+                  <img src={item.img} className="w-full h-64 object-cover pointer-events-none transition-transform duration-700 group-hover:scale-110" alt="Puzzle" />
+                </div>
+                <p className="text-slate-800 font-black text-xl leading-snug text-center pointer-events-none min-h-[4.5rem] flex items-center justify-center">
+                  {item.text}
+                </p>
+                <div className="mt-8 flex justify-center opacity-20 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-1">
+                    {[1,2,3].map(i => <div key={i} className="w-2 h-2 bg-slate-300 rounded-full"></div>)}
+                  </div>
+                </div>
               </div>
-            </motion.div>
+            </Reorder.Item>
           ))}
-        </div>
+        </Reorder.Group>
       </div>
 
-      {isCorrect && (
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute inset-0 flex flex-col items-center justify-center bg-emerald-500/90 z-[130] p-10 text-center">
-          <div className="text-9xl mb-10">🌟</div>
-          <h3 className="text-6xl font-black text-white mb-6">СЕКОЈА ЧЕСТ!</h3>
-          <p className="text-3xl text-white font-bold mb-12">Ги подреди сите настани во правилен редослед!</p>
-          <button onClick={onClose} className="px-12 py-6 bg-white text-emerald-600 rounded-full text-3xl font-black shadow-2xl hover:scale-105 transition-all">ОДИМЕ ПОНАТАМУ! 🚀</button>
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isCorrect && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-emerald-500/95 z-[130] p-10 text-center"
+          >
+            <motion.div 
+              animate={{ 
+                scale: [1, 1.2, 1],
+                rotate: [0, 10, -10, 0]
+              }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="text-[12rem] mb-12 drop-shadow-2xl"
+            >
+              🏆
+            </motion.div>
+            <h3 className="text-8xl font-black text-white mb-6 tracking-tighter">СЕКОЈА ЧЕСТ!</h3>
+            <p className="text-4xl text-white font-bold mb-16 max-w-2xl opacity-90">Успешно ја раскажа приказната со правилно подредување на сликите!</p>
+            <button 
+              onClick={onClose} 
+              className="px-20 py-8 bg-white text-emerald-600 rounded-full text-4xl font-black shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest"
+            >
+              ОДИМЕ ПОНАТАМУ! 🚀
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -1535,8 +1663,20 @@ const ColoringBook = ({ data, onClose }) => {
   const [brushSize, setBrushSize] = useState(20);
   const [zoom, setZoom] = useState(1);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isEraser, setIsEraser] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+  const [points, setPoints] = useState([]);
 
   const scene = data[activeScene];
+
+  const saveToHistory = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      setHistory(prev => [...prev.slice(-19), canvas.toDataURL()]);
+      setRedoStack([]);
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1547,30 +1687,67 @@ const ColoringBook = ({ data, onClose }) => {
     img.onload = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      setHistory([canvas.toDataURL()]);
+      setRedoStack([]);
     };
   }, [activeScene, scene.img]);
 
+  const undo = () => {
+    if (history.length <= 1) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const currentState = history[history.length - 1];
+    const prevState = history[history.length - 2];
+    
+    setRedoStack(prev => [...prev, currentState]);
+    setHistory(prev => prev.slice(0, -1));
+
+    const img = new Image();
+    img.src = prevState;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  };
+
+  const redo = () => {
+    if (redoStack.length === 0) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const nextState = redoStack[redoStack.length - 1];
+    
+    setHistory(prev => [...prev, nextState]);
+    setRedoStack(prev => prev.slice(0, -1));
+
+    const img = new Image();
+    img.src = nextState;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  };
+
   const startDrawing = (e) => {
+    saveToHistory();
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     
-    // Adjust for zoom
     const x = ((clientX - rect.left) * (canvas.width / rect.width)) / zoom;
     const y = ((clientY - rect.top) * (canvas.height / rect.height)) / zoom;
     
+    setPoints([{ x, y }]);
+    setIsDrawing(true);
+
     const ctx = canvas.getContext('2d');
-    ctx.save();
-    ctx.scale(zoom, zoom);
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = isEraser ? '#ffffff' : color;
     ctx.lineWidth = brushSize / zoom;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.globalCompositeOperation = 'multiply';
-    setIsDrawing(true);
+    ctx.globalCompositeOperation = isEraser ? 'source-over' : 'multiply';
   };
 
   const draw = (e) => {
@@ -1583,20 +1760,32 @@ const ColoringBook = ({ data, onClose }) => {
     const x = ((clientX - rect.left) * (canvas.width / rect.width)) / zoom;
     const y = ((clientY - rect.top) * (canvas.height / rect.height)) / zoom;
     
+    const newPoints = [...points, { x, y }];
+    setPoints(newPoints);
+
     const ctx = canvas.getContext('2d');
-    ctx.lineTo(x, y);
-    ctx.stroke();
+    
+    if (newPoints.length > 2) {
+      const lastTwo = newPoints.slice(-3);
+      const xc = (lastTwo[1].x + lastTwo[2].x) / 2;
+      const yc = (lastTwo[1].y + lastTwo[2].y) / 2;
+      ctx.quadraticCurveTo(lastTwo[1].x, lastTwo[1].y, xc, yc);
+      ctx.stroke();
+    } else {
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
   };
 
   const stopDrawing = () => {
     if (isDrawing) {
-      const ctx = canvasRef.current.getContext('2d');
-      ctx.restore();
       setIsDrawing(false);
+      setPoints([]);
     }
   };
 
   const clearCanvas = () => {
+    saveToHistory();
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const img = new Image();
@@ -1607,12 +1796,32 @@ const ColoringBook = ({ data, onClose }) => {
     };
   };
 
+  const downloadCanvas = () => {
+    const canvas = canvasRef.current;
+    const link = document.createElement('a');
+    link.download = `pirls-boenka-${activeScene + 1}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
   return (
     <div className="fixed inset-0 z-[120] bg-white flex flex-col p-8 overflow-hidden">
-      <div className="flex justify-between items-center mb-8 bg-slate-50 p-6 rounded-[2.5rem] border-2 border-slate-100 shadow-sm">
-        <div className="flex items-center gap-8">
-          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">🎨 ДИГИТАЛНА БОЕНКА</h2>
+      <div className="flex justify-between items-center mb-8 bg-slate-50 p-6 rounded-[2.5rem] border-2 border-slate-100 shadow-sm overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-8 min-w-max">
+          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">🎨 БОЕНКА</h2>
           
+          <div className="h-12 w-px bg-slate-200"></div>
+
+          <div className="flex gap-2 bg-white p-2 rounded-2xl shadow-inner">
+            <button onClick={() => setIsEraser(false)} className={`w-12 h-12 flex items-center justify-center rounded-xl text-2xl transition-all ${!isEraser ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-50'}`} title="Четка">🖌️</button>
+            <button onClick={() => setIsEraser(true)} className={`w-12 h-12 flex items-center justify-center rounded-xl text-2xl transition-all ${isEraser ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-50'}`} title="Гума">🧽</button>
+          </div>
+
+          <div className="flex gap-2">
+            <button onClick={undo} disabled={history.length <= 1} className="w-12 h-12 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center text-xl hover:bg-slate-50 disabled:opacity-30" title="Назад">↩️</button>
+            <button onClick={redo} disabled={redoStack.length === 0} className="w-12 h-12 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center text-xl hover:bg-slate-50 disabled:opacity-30" title="Напред">↪️</button>
+          </div>
+
           <div className="h-12 w-px bg-slate-200"></div>
 
           <div className="flex flex-col gap-2">
@@ -1621,9 +1830,9 @@ const ColoringBook = ({ data, onClose }) => {
               {['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#000000', '#ffffff'].map(c => (
                 <button 
                   key={c} 
-                  className={`w-10 h-10 rounded-full border-4 transition-all ${color === c ? 'scale-110 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-105'}`}
+                  className={`w-10 h-10 rounded-full border-4 transition-all ${color === c && !isEraser ? 'scale-110 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-105'}`}
                   style={{ backgroundColor: c }}
-                  onClick={() => setColor(c)}
+                  onClick={() => { setColor(c); setIsEraser(false); }}
                 />
               ))}
             </div>
@@ -1652,7 +1861,8 @@ const ColoringBook = ({ data, onClose }) => {
         </div>
 
         <div className="flex gap-4">
-          <button onClick={clearCanvas} className="bg-rose-50 text-rose-600 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-rose-100 transition-all">Избриши сè 🗑️</button>
+          <button onClick={downloadCanvas} className="bg-emerald-50 text-emerald-600 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-emerald-100 transition-all">Сними 💾</button>
+          <button onClick={clearCanvas} className="bg-rose-50 text-rose-600 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-rose-100 transition-all">Исчисти 🗑️</button>
           <button onClick={onClose} className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl">ЗАТВОРИ ×</button>
         </div>
       </div>
@@ -1701,6 +1911,164 @@ const ColoringBook = ({ data, onClose }) => {
               <p className="text-xl font-bold text-slate-900 leading-relaxed italic">"{scene.text}"</p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DrawingCanvas = ({ onClose, onRecognize }) => {
+  const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [brushSize, setBrushSize] = useState(5);
+  const [points, setPoints] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [history, setHistory] = useState([]);
+
+  const saveToHistory = () => {
+    const canvas = canvasRef.current;
+    if (canvas) setHistory(prev => [...prev.slice(-9), canvas.toDataURL()]);
+  };
+
+  const startDrawing = (e) => {
+    saveToHistory();
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = (clientX - rect.left) * (canvas.width / rect.width) / zoom;
+    const y = (clientY - rect.top) * (canvas.height / rect.height) / zoom;
+    setPoints([{ x, y }]);
+    setIsDrawing(true);
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = brushSize / zoom;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  };
+
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const x = (clientX - rect.left) * (canvas.width / rect.width) / zoom;
+    const y = (clientY - rect.top) * (canvas.height / rect.height) / zoom;
+    const newPoints = [...points, { x, y }];
+    setPoints(newPoints);
+    const ctx = canvas.getContext('2d');
+    if (newPoints.length > 2) {
+      const lastTwo = newPoints.slice(-3);
+      const xc = (lastTwo[1].x + lastTwo[2].x) / 2;
+      const yc = (lastTwo[1].y + lastTwo[2].y) / 2;
+      ctx.quadraticCurveTo(lastTwo[1].x, lastTwo[1].y, xc, yc);
+      ctx.stroke();
+    } else {
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+  };
+
+  const stopDrawing = () => setIsDrawing(false);
+
+  const handleRecognize = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    setIsProcessing(true);
+    try {
+      const { data: { text } } = await Tesseract.recognize(canvas, 'mkd+eng', {
+        logger: m => console.log(m)
+      });
+      onRecognize(text);
+      onClose();
+    } catch (err) {
+      console.error(err);
+      alert("Грешка при препознавање на текстот.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const undo = () => {
+    if (history.length === 0) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const prevState = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    const img = new Image();
+    img.src = prevState;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  };
+
+  return (
+    <div className="fixed inset-0 z-[200] bg-slate-900/90 backdrop-blur-xl flex flex-col items-center justify-center p-4">
+      <div className="bg-white rounded-[3rem] shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col h-[90vh]">
+        <div className="p-8 border-b flex justify-between items-center bg-slate-50">
+          <div className="flex items-center gap-4">
+            <span className="text-4xl">✍️</span>
+            <div>
+              <h2 className="text-2xl font-black text-slate-800 uppercase">Паметна табла за пишување</h2>
+              <p className="text-sm text-slate-500 font-bold">Напиши го твојот одговор со ракопис</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div className="flex bg-white rounded-2xl border shadow-sm p-1">
+              <button onClick={() => setZoom(Math.max(1, zoom - 0.5))} className="w-12 h-12 flex items-center justify-center hover:bg-slate-50 rounded-xl text-xl font-bold">➖</button>
+              <div className="w-16 flex items-center justify-center font-black text-sm">{Math.round(zoom * 100)}%</div>
+              <button onClick={() => setZoom(Math.min(3, zoom + 0.5))} className="w-12 h-12 flex items-center justify-center hover:bg-slate-50 rounded-xl text-xl font-bold">➕</button>
+            </div>
+            <button onClick={undo} disabled={history.length === 0} className="px-6 py-4 bg-white border-2 rounded-2xl font-black text-sm uppercase hover:bg-slate-50 disabled:opacity-30">Назад ↩️</button>
+            <button onClick={onClose} className="w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center text-3xl font-black hover:bg-rose-100 transition-all">×</button>
+          </div>
+        </div>
+
+        <div className="flex-1 bg-slate-200 p-10 flex items-center justify-center overflow-hidden relative">
+          <div 
+            className="bg-white shadow-2xl rounded-xl cursor-crosshair transition-transform duration-200"
+            style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
+          >
+            <canvas
+              ref={canvasRef}
+              width={1000}
+              height={600}
+              className="max-w-full h-auto"
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={stopDrawing}
+              onMouseLeave={stopDrawing}
+              onTouchStart={startDrawing}
+              onTouchMove={draw}
+              onTouchEnd={stopDrawing}
+            />
+          </div>
+          {isProcessing && (
+            <div className="absolute inset-0 bg-indigo-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white z-50">
+              <div className="w-20 h-20 border-8 border-white/20 border-t-white rounded-full animate-spin mb-8"></div>
+              <h3 className="text-3xl font-black uppercase tracking-widest">Се препознава твојот ракопис...</h3>
+              <p className="mt-4 text-xl opacity-80">Почекај малку додека АИ го чита твојот одговор</p>
+            </div>
+          )}
+        </div>
+
+        <div className="p-10 bg-slate-50 border-t flex gap-6">
+          <div className="flex-1 flex flex-col gap-2">
+            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Дебелина на пенкалото: {brushSize}px</span>
+            <input type="range" min="1" max="20" value={brushSize} onChange={(e) => setBrushSize(parseInt(e.target.value))} className="accent-indigo-600" />
+          </div>
+          <button 
+            onClick={handleRecognize}
+            disabled={isProcessing}
+            className="px-12 py-6 bg-indigo-600 text-white rounded-[2rem] text-2xl font-black shadow-xl hover:bg-indigo-700 transition-all flex items-center gap-4 active:scale-95"
+          >
+            {isProcessing ? "ПРЕПОЗНАВАЊЕ..." : "ГОТОВ СУМ, ПРАТИ ОДГОВОР! 🚀"}
+          </button>
         </div>
       </div>
     </div>
@@ -1834,8 +2202,9 @@ export default function App() {
     }
   };
 
-  const handleTextSubmit = () => {
-    const trimmedAns = textAns.trim().toLowerCase();
+  const handleTextSubmit = (customAns) => {
+    const ansToProcess = customAns || textAns;
+    const trimmedAns = ansToProcess.trim().toLowerCase();
     if (trimmedAns.length < 6) {
       setAvatarMsg("Те молам напиши подетален одговор за да го разберам твоето објаснување. 📝");
       return;
@@ -2170,7 +2539,10 @@ export default function App() {
       {showCanvas && (
         <DrawingCanvas 
           onClose={() => setShowCanvas(false)} 
-          onRecognize={(recognizedText) => setTextAns(recognizedText)} 
+          onRecognize={(recognizedText) => {
+            setTextAns(recognizedText);
+            handleTextSubmit(recognizedText);
+          }} 
         />
       )}
 
