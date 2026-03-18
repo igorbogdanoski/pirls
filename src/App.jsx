@@ -123,7 +123,34 @@ const glossaryData = {
   "трошна": "Стара куќа или предмет кој е во многу лоша состојба и лесно може да се распадне.",
   "надитри": "Да се победи некој со помош на памет и итрина, наместо со сила.",
   "хистерични": "Состојба на многу голем страв или возбуда кога личноста не може да се контролира.",
-  "несвест": "Состојба кога некој привремено го губи чувството за околината и паѓа како да спие."
+  "несвест": "Состојба кога некој привремено го губи чувството за околината и паѓа како да спие.",
+  "аквариум": "Стаклен сад во кој се чуваат риби и други водни животни.",
+  "глувци": "Мали глодачи со долги опашки.",
+  "стапици": "Уреди за фаќање животни.",
+  "лепило": "Супстанца што служи за спојување на два предмети.",
+  "паника": "Одеднашен голем страв.",
+  "змеј": "Играчка направена од хартија или ткаенина што лета на ветерот.",
+  "трпение": "Способност да се чека без да се лутиш.",
+  "кошница": "Плетен сад за носење предмети.",
+  "шума": "Голема површина покриена со дрвја.",
+  "таван": "Просторот под покривот на куќата кој обично се користи за чување стари работи.",
+  "ковчег": "Дрвен сандак за чување скапоцени предмети или спомени.",
+  "семе": "Мал дел од растение од кој може да порасне ново растение.",
+  "император": "Владетел на голема држава или царство.",
+  "балкон": "Отворен дел од стан или куќа кој се наоѓа надвор од ѕидовите.",
+  "зграда": "Голем објект со многу катови каде живеат или работат луѓе.",
+  "мастило": "Течност во боја која се користи за пишување или цртање.",
+  "рис": "Дива мачка со препознатливи реси на ушите која живее во планините.",
+  "загрозен": "Вид кој е во опасност целосно да исчезне ако не се заштити.",
+  "живеалиште": "Местото каде што едно животно или растение природно живее.",
+  "папагалчиња": "Мали морски птици со обоен клун кои личат на папагали.",
+  "карпи": "Големи камени маси на брегот на морето или планините.",
+  "гнездо": "Дом на птица каде ги несе јајцата и ги чува малите пилиња.",
+  "слобода": "Можноста да се движиш и да живееш каде што сакаш.",
+  "непријател": "Некој кој не ти мисли добро или со кого си во конфликт.",
+  "пријателство": "Близок однос помеѓи луѓе кои се сакаат и си помагаат.",
+  "едрилица": "Мал брод кој се движи со помош на ветерот.",
+  "ѕвезда": "Светло тело на небото кое го гледаме ноќе."
 };
 
 const DrawingCanvas = ({ onClose, onRecognize }) => {
@@ -1196,36 +1223,83 @@ const playSound = (type) => {
 const inclusiveData = {
   baba: {
     puzzle: [
-      { id: 1, img: './baba gun/Hronoloski slagalki/1 Gemini_Generated_Image_cszl5bcszl5bcszl.png', text: "Баба Гун живееше среќно во мала селска куќичка која имаше трева на покривот." },
-      { id: 2, img: './baba gun/Hronoloski slagalki/2 Gemini_Generated_Image_bockdcbockdcbock.png', text: "Докторот ѝ рече дека мора да се пресели во градот, па таа отиде да живее во голема зграда." },
-      { id: 3, img: './baba gun/Hronoloski slagalki/3 Gemini_Generated_Image_xfis2zxfis2zxfis.png', text: "Од градскиот балкон таа ги гледаше планините, но многу ѝ недостигаа нејзините животни." },
-      { id: 4, img: './baba gun/Hronoloski slagalki/4 Gemini_Generated_Image_5gfp4t5gfp4t5gfp.png', text: "За да не биде осамена, таа се врати во селото и тајно си ги донесе кокошките во станот." },
-      { id: 5, img: './baba gun/Hronoloski slagalki/5 Gemini_Generated_Image_c4v4yfc4v4yfc4v4.png', text: "Баба Гун си направи градина на балконот, но се прашуваше: Како да ја донесе и кравата?" }
+      { id: 1, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_1.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_3.png', text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_7.png', text: "Баба Гун тајно си ги донесе кокошките во својот нов стан." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_10.png', text: "Таа си направи прекрасна градина на својот балкон." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_14.png', text: "Сега баба Гун е среќна, но се прашува како да ја качи кравата во лифтот!" }
     ],
     coloring: [
-      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун живееше во село. Нејзината мала куќичка имаше трева и цвеќиња на покривот." },
-      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Еден ден, докторот ѝ рече: „Мораш да се преселив во градот, не е безбедно да живееш сама.“" },
-      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Во новиот стан во градот сè беше чудно и бело. Но, кога баба Гун излезе на големиот балкон, ги виде планините." },
-      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "На баба Гун многу ѝ недостигаа животните. Затоа, таа се врати во селото и тајно си ги донесе кокошките!" },
-      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "За да се чувствува како дома, баба Гун донесе земја. Таа си засади трева и цвеќиња на нејзиниот балкон." },
-      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Сега баба Гун е повторно среќна. Има само уште еден мал проблем: Како да ја качи кравата во лифтот?!" }
+      { id: 1, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_2.png', text: "Баба Гун и нејзините животни во селото." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_4.png', text: "Преселба во новиот стан во градот." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_8.png', text: "Кокошките се качуваат по скалите во зградата." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_11.png', text: "Баба Гун сади трева и цвеќиња на балконот." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_15.png', text: "Кравата чека пред вратата на лифтот." }
     ]
   },
   octopus: {
     puzzle: [
-      { id: 1, img: './Prekrasnot oktopod/Hronoloska Slagalka/1 Gemini_Generated_Image_e2gucde2gucde2gu.png', text: "Во океанот, октоподот користи осум пипала за да фаќа и да јаде ракови." },
-      { id: 2, img: './Prekrasnot oktopod/Hronoloska Slagalka/2 Gemini_Generated_Image_bvd378bvd378bvd3.png', text: "Ако е во опасност, тој испушта мастило и се крие во пукнатините на карпите." },
-      { id: 3, img: './Prekrasnot oktopod/Hronoloska Slagalka/3 Gemini_Generated_Image_vcoaodvcoaodvcoa.png', text: "Октоподите се многу паметни и можат дури и сами да отворат тегла со храна." },
-      { id: 4, img: './Prekrasnot oktopod/Hronoloska Slagalka/4 Gemini_Generated_Image_8jp0qq8jp0qq8jp0.png', text: "Во аквариумот сакаат да си играат со сложувалки и со пластични топки." },
-      { id: 5, img: './Prekrasnot oktopod/Hronoloska Slagalka/5 Gemini_Generated_Image_x8oyr4x8oyr4x8oy.png', text: "Тие ги препознаваат своите чувари и сакаат нежно да се држат за рака со нив." }
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_1.png', text: "Октоподот е мајстор за криење и живее на дното на океанот." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_3.png', text: "Кога е во опасност, тој испушта темен облак од мастило." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_6.png', text: "Октоподите се многу паметни и можат да отвораат тегли." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_9.png', text: "Во аквариумите, тие сакаат да си играат со пластични топки." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_12.png', text: "Октоподите се многу пријателски расположени кон своите чувари." }
     ],
     coloring: [
-      { id: 1, img: './Prekrasnot oktopod/Story board and colorin book/1 Gemini_Generated_Image_v7t8k3v7t8k3v7t8.png', text: "Октоподот живее на дното на океанот. Тој има осум долги пипала и најмногу сака да јаде ракови." },
-      { id: 2, img: './Prekrasnot oktopod/Story board and colorin book/2 Gemini_Generated_Image_f1t7o0f1t7o0f1t7.png', text: "Кога е во опасност, октоподот испушта голем, темен облак од мастило. Така тој се крие и брзо бега!" },
-      { id: 3, img: './Prekrasnot oktopod/Story board and colorin book/3 Gemini_Generated_Image_z78pizz78pizz78p.png', text: "Октоподот нема коски во телото. Тој може лесно да се собере и да се скрие во многу мали пукнатини во карпите." },
-      { id: 4, img: './Prekrasnot oktopod/Story board and colorin book/4 Gemini_Generated_Image_opk6mxopk6mxopk6.png', text: "Октоподите се многу паметни животни. Еден октопод по име Фрида дури научил сам да отвора тегла со храна!" },
-      { id: 5, img: './Prekrasnot oktopod/Story board and colorin book/5 Gemini_Generated_Image_h4xz8lh4xz8lh4xz.png', text: "Во аквариумот на октоподите брзо им станува здодевно. Затоа им даваат играчки, како пластични топки." },
-      { id: 6, img: './Prekrasnot oktopod/Story board and colorin book/6 Gemini_Generated_Image_jad20zjad20zjad2.png', text: "Тие многу ги сакаат своите чувари. Кога се среќни, тие поцрвенуваат и сакаат да се држат за рака со луѓето." }
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_2.png', text: "Октопод со осум долги пипала." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_4.png', text: "Бегство со помош на мастило." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_7.png', text: "Паметниот октопод Фрида отвора тегла." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_10.png', text: "Време за игра во аквариумот." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_13.png', text: "Поздравување со чуварот на аквариумот." }
+    ]
+  },
+  pot: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_1.png', text: "Одамна во Кина живеело момче по име Пинг кое многу сакало цвеќиња." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_3.png', text: "Царот им дал на сите деца по едно семе и рекол: „Оној што ќе го одгледа најубавото цвеќе, ќе ме наследи!“" },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_5.png', text: "Пинг го засадил семето, го наводнувал секој ден, но ништо не никнувало." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_7.png', text: "По една година, сите деца донеле прекрасни цвеќиња, освен Пинг кој носел празна саксија." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_12.png', text: "Царот го избрал Пинг за нов владетел затоа што тој бил искрен – сите семиња биле варени!" }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_2.png', text: "Пинг и неговата градина полна со цвеќиња." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_4.png', text: "Децата ги добиваат посебните семиња од Царот." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_6.png', text: "Пинг се грижи за својата саксија со многу љубов и трпение." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_8.png', text: "Пинг е тажен затоа што неговото семе не никнува." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_10.png', text: "Пинг стои пред Царот со својата празна саксија." },
+      { id: 6, img: './PDF PIRLS Slidedecks/The_Empty_Pot/The_Empty_Pot_13.png', text: "Пинг станува нов цар поради неговата искреност." }
+    ]
+  },
+  lambe: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_1.png', text: "Дедо Ламбе живееше во мала куќарка полна со весели глувци." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_3.png', text: "Глувците беа многу итри и не се фаќаа во стапиците со сирење." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_5.png', text: "Дедо Ламбе го залепи целиот мебел наопаку за таванот." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_7.png', text: "Глувците мислеа дека стојат на таванот и почнаа да паничат." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_10.png', text: "Откако ги надитри, дедо Ламбе ги однесе глувците во шумата." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_2.png', text: "Дедо Ламбе ги трпеше глувците кои му прават врева." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_4.png', text: "Глувците танцуваат околу стапиците на Ламбе." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_6.png', text: "Ламбе го лепи телевизорот и килимот за таванот." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_8.png', text: "Глувците се обидуваат да стојат на главите за да не паднат." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lambe_Enigma/The_Lambe_Enigma_9.png', text: "Дедо Ламбе ги собира онесвестените глувци од подот." }
+    ]
+  },
+  lynx: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_1.png', text: "Балканскиот рис е прекрасна дива мачка која живее во нашите планини." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_3.png', text: "Научниците користат специјални камери за да го следат движењето на рисовите." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_5.png', text: "Рисовите се многу вешти ловци и се движат нешумно низ шумата." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_8.png', text: "Мајката рис се грижи за своите мали рисчиња во скриени дувла." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_12.png', text: "Мораме да ги заштитиме рисовите затоа што се многу ретки и загрозени." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_2.png', text: "Рис со карактеристични реси на ушите." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_4.png', text: "Поставување фото-замка во планината." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_6.png', text: "Рис како демне во снежната шума." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_9.png', text: "Малите рисчиња си играат пред дувлото." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_11.png', text: "Природата каде што живее балканскиот рис." }
     ]
   }
 };
@@ -1239,18 +1313,20 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
     setItems(shuffled);
   }, [data]);
 
-  const moveItem = (fromIndex, toIndex) => {
-    const newItems = [...items];
-    const [movedItem] = newItems.splice(fromIndex, 1);
-    newItems.splice(toIndex, 0, movedItem);
-    setItems(newItems);
-    
-    const currentOrder = newItems.map(item => item.id).join(',');
+  const handleReorder = (newOrder) => {
+    setItems(newOrder);
+    const currentOrder = newOrder.map(item => item.id).join(',');
     const correctOrder = data.map(item => item.id).join(',');
     if (currentOrder === correctOrder) {
       setIsCorrect(true);
       playSound('success');
     }
+  };
+
+  const swapItems = (idx1, idx2) => {
+    const newItems = [...items];
+    [newItems[idx1], newItems[idx2]] = [newItems[idx2], newItems[idx1]];
+    handleReorder(newItems);
   };
 
   return (
@@ -1260,26 +1336,35 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
         <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white p-4 rounded-2xl font-black">ЗАТВОРИ ×</button>
       </div>
       
-      <p className="text-white/70 text-xl mb-10 text-center font-bold">Подреди ги сликите според редоследот во приказната!</p>
+      <p className="text-white/70 text-xl mb-10 text-center font-bold">Кликни на две слики за да им ги замениш местата и да ја подредиш приказната!</p>
 
-      <div className="flex-1 flex items-center justify-center gap-4 overflow-x-auto pb-10 px-4">
-        {items.map((item, index) => (
-          <motion.div 
-            key={item.id}
-            layout
-            className={`flex-shrink-0 w-64 bg-white rounded-[2rem] shadow-2xl p-4 cursor-pointer border-8 transition-all ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
-            onClick={() => {
-              if (index < items.length - 1) moveItem(index, index + 1);
-              else moveItem(index, 0);
-            }}
-          >
-            <img src={item.img} className="w-full h-48 object-cover rounded-2xl mb-4" alt="Puzzle" />
-            <p className="text-slate-800 font-bold text-sm leading-tight text-center">{item.text}</p>
-            <div className="mt-4 flex justify-center">
-              <span className="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-black text-xl">{index + 1}</span>
-            </div>
-          </motion.div>
-        ))}
+      <div className="flex-1 flex items-center justify-center overflow-x-auto pb-10 px-4">
+        <div className="flex gap-4">
+          {items.map((item, index) => (
+            <motion.div 
+              key={item.id}
+              layout
+              onClick={() => {
+                if (window.selectedIdx === undefined) {
+                  window.selectedIdx = index;
+                  // Force re-render or visual feedback
+                } else {
+                  swapItems(window.selectedIdx, index);
+                  delete window.selectedIdx;
+                }
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`flex-shrink-0 w-64 bg-white rounded-[2rem] shadow-2xl p-4 cursor-pointer border-8 transition-all ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
+            >
+              <img src={item.img} className="w-full h-48 object-cover rounded-2xl mb-4 pointer-events-none" alt="Puzzle" />
+              <p className="text-slate-800 font-bold text-sm leading-tight text-center pointer-events-none">{item.text}</p>
+              <div className="mt-4 flex justify-center">
+                <span className="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-black text-xl">{index + 1}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {isCorrect && (
@@ -1298,6 +1383,8 @@ const ColoringBook = ({ data, onClose }) => {
   const [activeScene, setActiveScene] = useState(0);
   const canvasRef = useRef(null);
   const [color, setColor] = useState('#4f46e5');
+  const [brushSize, setBrushSize] = useState(20);
+  const [zoom, setZoom] = useState(1);
   const [isDrawing, setIsDrawing] = useState(false);
 
   const scene = data[activeScene];
@@ -1319,13 +1406,18 @@ const ColoringBook = ({ data, onClose }) => {
     const rect = canvas.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const x = (clientX - rect.left) * (canvas.width / rect.width);
-    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    
+    // Adjust for zoom
+    const x = ((clientX - rect.left) * (canvas.width / rect.width)) / zoom;
+    const y = ((clientY - rect.top) * (canvas.height / rect.height)) / zoom;
+    
     const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.scale(zoom, zoom);
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.strokeStyle = color;
-    ctx.lineWidth = 20;
+    ctx.lineWidth = brushSize / zoom;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.globalCompositeOperation = 'multiply';
@@ -1338,64 +1430,127 @@ const ColoringBook = ({ data, onClose }) => {
     const rect = canvas.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const x = (clientX - rect.left) * (canvas.width / rect.width);
-    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    
+    const x = ((clientX - rect.left) * (canvas.width / rect.width)) / zoom;
+    const y = ((clientY - rect.top) * (canvas.height / rect.height)) / zoom;
+    
     const ctx = canvas.getContext('2d');
     ctx.lineTo(x, y);
     ctx.stroke();
   };
 
-  const stopDrawing = () => setIsDrawing(false);
+  const stopDrawing = () => {
+    if (isDrawing) {
+      const ctx = canvasRef.current.getContext('2d');
+      ctx.restore();
+      setIsDrawing(false);
+    }
+  };
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = scene.img;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+  };
 
   return (
     <div className="fixed inset-0 z-[120] bg-white flex flex-col p-8 overflow-hidden">
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-6">
+      <div className="flex justify-between items-center mb-8 bg-slate-50 p-6 rounded-[2.5rem] border-2 border-slate-100 shadow-sm">
+        <div className="flex items-center gap-8">
           <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">🎨 ДИГИТАЛНА БОЕНКА</h2>
-          <div className="flex gap-2">
-            {['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#000000'].map(c => (
-              <button 
-                key={c} 
-                className={`w-12 h-12 rounded-full border-4 transition-all ${color === c ? 'scale-125 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-110'}`}
-                style={{ backgroundColor: c }}
-                onClick={() => setColor(c)}
-              />
-            ))}
+          
+          <div className="h-12 w-px bg-slate-200"></div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Боја</span>
+            <div className="flex gap-2">
+              {['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#000000', '#ffffff'].map(c => (
+                <button 
+                  key={c} 
+                  className={`w-10 h-10 rounded-full border-4 transition-all ${color === c ? 'scale-110 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-105'}`}
+                  style={{ backgroundColor: c }}
+                  onClick={() => setColor(c)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="h-12 w-px bg-slate-200"></div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Големина: {brushSize}px</span>
+            <input 
+              type="range" min="2" max="100" value={brushSize} 
+              onChange={(e) => setBrushSize(parseInt(e.target.value))}
+              className="w-32 accent-indigo-600"
+            />
+          </div>
+
+          <div className="h-12 w-px bg-slate-200"></div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Зум: {Math.round(zoom * 100)}%</span>
+            <div className="flex gap-2">
+              <button onClick={() => setZoom(Math.max(1, zoom - 0.5))} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl font-black text-xl hover:bg-slate-100">-</button>
+              <button onClick={() => setZoom(Math.min(4, zoom + 0.5))} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl font-black text-xl hover:bg-slate-100">+</button>
+            </div>
           </div>
         </div>
-        <button onClick={onClose} className="bg-slate-100 hover:bg-slate-200 text-slate-600 p-4 rounded-2xl font-black text-xl">ЗАТВОРИ ×</button>
+
+        <div className="flex gap-4">
+          <button onClick={clearCanvas} className="bg-rose-50 text-rose-600 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-rose-100 transition-all">Избриши сè 🗑️</button>
+          <button onClick={onClose} className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl">ЗАТВОРИ ×</button>
+        </div>
       </div>
 
       <div className="flex-1 flex gap-10 overflow-hidden">
         <div className="w-1/4 space-y-4 overflow-y-auto pr-4">
+          <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 px-2">Сцени за боење</p>
           {data.map((s, idx) => (
             <button 
               key={idx} 
-              onClick={() => setActiveScene(idx)}
-              className={`w-full p-4 rounded-3xl border-4 transition-all text-left ${activeScene === idx ? 'bg-indigo-50 border-indigo-500 shadow-md' : 'bg-white border-slate-100 hover:border-indigo-200'}`}
+              onClick={() => { setActiveScene(idx); setZoom(1); }}
+              className={`w-full p-4 rounded-[2rem] border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl -translate-y-1' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
             >
-              <img src={s.img} className="w-full h-24 object-cover rounded-xl mb-2 grayscale" alt="Thumbnail" />
-              <p className="text-xs font-bold text-slate-600 line-clamp-2">{s.text}</p>
+              <div className="relative overflow-hidden rounded-2xl mb-3">
+                <img src={s.img} className={`w-full h-28 object-cover transition-all duration-500 ${activeScene === idx ? 'grayscale-0 scale-105' : 'grayscale group-hover:grayscale-0'}`} alt="Thumbnail" />
+                <div className={`absolute inset-0 flex items-center justify-center font-black text-4xl text-white drop-shadow-lg transition-opacity ${activeScene === idx ? 'opacity-100' : 'opacity-0'}`}>{idx + 1}</div>
+              </div>
+              <p className={`text-xs font-bold leading-tight line-clamp-2 ${activeScene === idx ? 'text-white' : 'text-slate-500'}`}>{s.text}</p>
             </button>
           ))}
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center bg-slate-50 rounded-[3rem] p-10 border-4 border-slate-100 relative shadow-inner">
-          <canvas 
-            ref={canvasRef}
-            width={800}
-            height={600}
-            className="bg-white rounded-2xl shadow-2xl cursor-crosshair max-w-full h-auto"
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={stopDrawing}
-            onMouseOut={stopDrawing}
-            onTouchStart={startDrawing}
-            onTouchMove={draw}
-            onTouchEnd={stopDrawing}
-          />
-          <div className="mt-8 bg-white p-6 rounded-2xl border-2 border-indigo-100 shadow-sm max-w-2xl">
-            <p className="text-xl font-bold text-indigo-900 text-center">{scene.text}</p>
+        <div className="flex-1 flex flex-col items-center justify-center bg-slate-100/50 rounded-[4rem] border-4 border-dashed border-slate-200 relative overflow-hidden shadow-inner">
+          <div 
+            className="transition-transform duration-200 ease-out cursor-crosshair shadow-2xl rounded-2xl overflow-hidden bg-white"
+            style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
+          >
+            <canvas 
+              ref={canvasRef}
+              width={800}
+              height={600}
+              className="max-w-full h-auto"
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={stopDrawing}
+              onMouseOut={stopDrawing}
+              onTouchStart={startDrawing}
+              onTouchMove={draw}
+              onTouchEnd={stopDrawing}
+            />
+          </div>
+          
+          <div className="absolute bottom-10 left-10 right-10 bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] border-2 border-white shadow-2xl max-w-3xl mx-auto transform translate-y-4 hover:translate-y-0 transition-transform duration-500">
+            <div className="flex items-center gap-6">
+              <span className="bg-indigo-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center text-2xl font-black shadow-lg shadow-indigo-200">{activeScene + 1}</span>
+              <p className="text-xl font-bold text-slate-900 leading-relaxed italic">"{scene.text}"</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1771,6 +1926,38 @@ export default function App() {
               </div>
             )}
 
+            {/* ИНКЛУЗИВЕН МОДУЛ (ПОСТОЈАНО ВИДЛИВ АКО ИМА ПОДАТОЦИ) */}
+            {inclusiveData[activeStory] && (
+              <div className="mb-8 p-8 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[3rem] shadow-2xl border-4 border-white/20 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:scale-110 transition-transform">
+                   <span className="text-8xl">🌟</span>
+                </div>
+                <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-3 relative z-10">
+                  <span className="bg-white/20 p-2 rounded-2xl">✨</span> 
+                  ИНКЛУЗИВНИ АКТИВНОСТИ
+                </h3>
+                <div className="grid grid-cols-2 gap-6 relative z-10">
+                  <button 
+                    onClick={() => setShowPuzzle(true)}
+                    className="flex flex-col items-center gap-4 p-6 bg-white/10 hover:bg-white/20 rounded-[2rem] border-2 border-white/30 backdrop-blur-sm transition-all hover:scale-105"
+                  >
+                    <span className="text-5xl">🧩</span>
+                    <span className="text-sm font-black text-white uppercase tracking-widest text-center leading-tight">Подреди ја<br/>приказната</span>
+                  </button>
+                  <button 
+                    onClick={() => setShowColoring(true)}
+                    className="flex flex-col items-center gap-4 p-6 bg-white/10 hover:bg-white/20 rounded-[2rem] border-2 border-white/30 backdrop-blur-sm transition-all hover:scale-105"
+                  >
+                    <span className="text-5xl">🎨</span>
+                    <span className="text-sm font-black text-white uppercase tracking-widest text-center leading-tight">Дигитална<br/>боенка</span>
+                  </button>
+                </div>
+                <p className="mt-6 text-indigo-100 text-xs font-bold text-center uppercase tracking-widest opacity-60">
+                  Специјално дизајнирано за инклузивно учење
+                </p>
+              </div>
+            )}
+
             {currentQuestion && (
               <div className="bg-white p-8 rounded-[3rem] shadow-xl border-4 border-slate-100">
                 <h3 className="text-2xl font-black text-slate-800 mb-8">{step + 1}. {currentQuestion.q}</h3>
@@ -1826,30 +2013,6 @@ export default function App() {
               </div>
             )}
 
-            {/* Инклузивни активности */}
-            {inclusiveData[activeStory] && (
-              <div className="mt-8 p-6 bg-white rounded-[3rem] border-4 border-indigo-100 shadow-sm">
-                <h3 className="text-xl font-black text-indigo-900 mb-4 flex items-center gap-2">
-                  <span className="text-2xl">🌟</span> ИНКЛУЗИВНИ АКТИВНОСТИ
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <button 
-                    onClick={() => setShowPuzzle(true)}
-                    className="flex flex-col items-center gap-2 p-4 bg-indigo-50 hover:bg-indigo-100 rounded-3xl border-2 border-indigo-200 transition-all group"
-                  >
-                    <span className="text-3xl group-hover:scale-110 transition-transform">🧩</span>
-                    <span className="text-xs font-black text-indigo-700 uppercase tracking-widest">Слагалка</span>
-                  </button>
-                  <button 
-                    onClick={() => setShowColoring(true)}
-                    className="flex flex-col items-center gap-2 p-4 bg-rose-50 hover:bg-rose-100 rounded-3xl border-2 border-rose-200 transition-all group"
-                  >
-                    <span className="text-3xl group-hover:scale-110 transition-transform">🎨</span>
-                    <span className="text-xs font-black text-rose-700 uppercase tracking-widest">Боенка</span>
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -1877,10 +2040,22 @@ export default function App() {
               <h4 className="text-3xl font-black text-slate-900 uppercase tracking-tight">{glossaryTerm.term}</h4>
               <button onClick={() => setGlossaryTerm(null)} className="text-slate-300 hover:text-slate-600 text-4xl">×</button>
             </div>
-            <p className="text-xl text-slate-600 leading-relaxed font-medium">
-              {glossaryTerm.def}
-            </p>
-            <button onClick={() => setGlossaryTerm(null)} className="mt-8 w-full py-4 bg-slate-100 text-slate-600 rounded-2xl font-black hover:bg-slate-200 transition-all">
+            <div className="flex items-center gap-6 mb-8">
+               <div className="p-4 bg-indigo-50 rounded-3xl text-4xl">📚</div>
+               <p className="text-xl text-slate-600 leading-relaxed font-medium flex-1">
+                 {glossaryTerm.def}
+               </p>
+               {canSpeak && (
+                 <button 
+                   onClick={() => speak(glossaryTerm.def)}
+                   className="w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg hover:scale-110 active:scale-95 transition-all"
+                   title="Слушај го објаснувањето"
+                 >
+                   🔊
+                 </button>
+               )}
+            </div>
+            <button onClick={() => setGlossaryTerm(null)} className="w-full py-5 bg-slate-100 text-slate-600 rounded-3xl font-black text-xl hover:bg-slate-200 transition-all uppercase tracking-widest">
               ЗАТВОРИ
             </button>
           </div>
