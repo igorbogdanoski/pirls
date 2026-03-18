@@ -1234,7 +1234,9 @@ const inclusiveData = {
       { id: 2, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_4.png', text: "Преселба во новиот стан во градот." },
       { id: 3, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_8.png', text: "Кокошките се качуваат по скалите во зградата." },
       { id: 4, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_11.png', text: "Баба Гун сади трева и цвеќиња на балконот." },
-      { id: 5, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_15.png', text: "Кравата чека пред вратата на лифтот." }
+      { id: 5, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_15.png', text: "Кравата чека пред вратата на лифтот." },
+      { id: 6, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_5.png', text: "Животот на фармата во село." },
+      { id: 7, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_12.png', text: "Баба Гун се грижи за животните." }
     ]
   },
   octopus: {
@@ -1250,7 +1252,9 @@ const inclusiveData = {
       { id: 2, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_4.png', text: "Бегство со помош на мастило." },
       { id: 3, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_7.png', text: "Паметниот октопод Фрида отвора тегла." },
       { id: 4, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_10.png', text: "Време за игра во аквариумот." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_13.png', text: "Поздравување со чуварот на аквариумот." }
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_13.png', text: "Поздравување со чуварот на аквариумот." },
+      { id: 6, img: './PDF PIRLS Slidedecks/Octopus_Field_Journal/Octopus_Field_Journal_5.png', text: "Дневник на истражувачот: Октопод во природа." },
+      { id: 7, img: './PDF PIRLS Slidedecks/Octopus_Field_Journal/Octopus_Field_Journal_8.png', text: "Различни бои и форми на октоподите." }
     ]
   },
   pot: {
@@ -1301,12 +1305,141 @@ const inclusiveData = {
       { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_9.png', text: "Малите рисчиња си играат пред дувлото." },
       { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_11.png', text: "Природата каде што живее балканскиот рис." }
     ]
-  }
+  },
+  boat: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_1.png', text: "Малото дрвено бродче беше направено со многу љубов." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_4.png', text: "Тоа храбро заплови низ брановите на големото езеро." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_7.png', text: "Бродчето се сретна со многу нови пријатели во плитакот." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_11.png', text: "Една голема бура за малку ќе го потопеше малото бродче." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_14.png', text: "На крајот, бродчето се врати безбедно кај својот пронаоѓач." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_2.png', text: "Изработка на дрвеното бродче." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_5.png', text: "Бродчето на сред езеро." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_8.png', text: "Средба со водните животни." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_12.png', text: "Борба со силниот ветар." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Brave_Wooden_Boat/The_Brave_Wooden_Boat_15.png', text: "Среќното враќање дома." }
+    ]
+  },
+  dino_first: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_1.png', text: "Одамна, пред милиони години, на Земјата владееле диносаурусите." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_3.png', text: "Првиот диносаурус бил откриен во една длабока пештера." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_6.png', text: "Научниците внимателно ги склопиле сите пронајдени коски." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_9.png', text: "Диносаурусот бил огромен и имал многу остри заби." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_12.png', text: "Денес можеме да ги видиме нивните скелети во големите музеи." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_2.png', text: "Диносауруси во нивната природна средина." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_4.png', text: "Археолошко наоѓалиште." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_7.png', text: "Реконструкција на скелет." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_10.png', text: "Различни видови диносауруси." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_First_Dinosaur/The_First_Dinosaur_11.png', text: "Посета на музеј." }
+    ]
+  },
+  dino_iguanodon: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_1.png', text: "Мери Енинг била позната по своите откритија на фосили." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_3.png', text: "Еден ден таа пронашла необичен заб во карпите покрај морето." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_6.png', text: "Се покажало дека тоа е заб од дотогаш непознатиот Игуанодон." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_9.png', text: "Луѓето биле воодушевени од ова неверојатно пронаоѓалиште." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_14.png', text: "Мери Енинг станала една од најважните жени во науката." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_2.png', text: "Мери Енинг ги истражува карпите." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_4.png', text: "Пронаоѓање на првиот фосил." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_7.png', text: "Цртање на скелетот на Игуанодонот." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_10.png', text: "Изложба во Лондон." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Iguanodon_Discovery/The_Iguanodon_Discovery_15.png', text: "Портрет на Мери Енинг." }
+    ]
+  },
+  star: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_1.png', text: "На небото секоја ноќ светеше една многу посебна ѕвезда." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_4.png', text: "Една вечер, ѕвездата падна право во мирното езеро." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_7.png', text: "Сите животни во шумата се собраа да видат што се случи." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_11.png', text: "Ѕвездата ги претвори сите риби во светлечки суштества." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_14.png', text: "Оттогаш, езерото свети во најубавите бои на виножитото." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_2.png', text: "Ноќното небо над езерото." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_5.png', text: "Падот на ѕвездата." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_8.png', text: "Љубопитните животни." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_12.png', text: "Магичните риби во водата." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_15.png', text: "Светлечкото езеро." }
+    ]
+  },
+  seed: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_1.png', text: "Царот им даде на сите деца по едно магично семе." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_3.png', text: "Пинг многу се трудеше, но неговото семе не никнуваше." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_6.png', text: "Помина една година и дојде денот за избор на наследник." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_10.png', text: "Пинг беше единствениот со празна саксија пред Царот." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_14.png', text: "Царот го награди Пинг затоа што ја кажа вистината." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_2.png', text: "Царот ги дели семињата." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_4.png', text: "Пинг го наводнува своето семе." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_7.png', text: "Децата со прекрасни цвеќиња." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_11.png', text: "Пинг е искрен со Царот." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Seed_of_Truth/The_Seed_of_Truth_15.png', text: "Пинг станува нов цар." }
+    ]
+  },
+  soar: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_1.png', text: "Малото орле беше пронајдено во едно гнездо со кокошки." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_4.png', text: "Тоа мислеше дека е кокошка и не знаеше да лета." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_7.png', text: "Еден стар орел дојде да го научи дека е роден за височините." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_11.png', text: "По многу обиди, орлето конечно ги рашири своите крилја." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_14.png', text: "Сега тоа лета високо над планините, онаму каде што припаѓа." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_2.png', text: "Орлето меѓу кокошките." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_5.png', text: "Првите обиди за летање." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_8.png', text: "Средба со стариот орел." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_12.png', text: "Летање во височините." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Born_to_Soar/Born_to_Soar_15.png', text: "Слободен орел на небото." }
+    ]
+  },
+  eagle: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_1.png', text: "Во планината живееше еден орел кој заборавил како да лета." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_4.png', text: "Еден мудар старец му покажа дека сонцето му ја дава силата." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_7.png', text: "Орелот полека почна да ја враќа вербата во себе." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_11.png', text: "Тој полета кон сонцето и стана крал на небото." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_14.png', text: "Никогаш не заборавајте дека сте родени за големи нешта." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_2.png', text: "Орелот на карпата." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_5.png', text: "Старецот и орелот." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_8.png', text: "Првиот замав со крилјата." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_12.png', text: "Лет кон сонцето." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Awakened_Eagle/The_Awakened_Eagle_15.png', text: "Орелот владетел." }
+    ]
+  },
+  puffin: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_1.png', text: "Малите морски папагалчиња чекаа да падне ноќта за да полетаат." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_4.png', text: "Тие често се губеа во градот поради светлата од зградите." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_7.png', text: "Децата од градот решија да им помогнат да го најдат морето." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_11.png', text: "Сите заедно ги собираа залутаните папагалчиња во кутии." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_14.png', text: "На крајот, сите безбедно полетаа кон нивниот вистински дом." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_2.png', text: "Папагалчињата на брегот." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_5.png', text: "Светлата на градот." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_8.png', text: "Акција за спасување." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_12.png', text: "Ослободување на птиците." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_13.png', text: "Среќни папагалчиња на море." }
+    ]
+  },
 };
 
 const ChronologicalPuzzle = ({ data, onClose }) => {
   const [items, setItems] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [selectedIdx, setSelectedIdx] = useState(null);
 
   useEffect(() => {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
@@ -1327,40 +1460,56 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
     const newItems = [...items];
     [newItems[idx1], newItems[idx2]] = [newItems[idx2], newItems[idx1]];
     handleReorder(newItems);
+    setSelectedIdx(null);
+  };
+
+  const resetPuzzle = () => {
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    setItems(shuffled);
+    setIsCorrect(false);
+    setSelectedIdx(null);
   };
 
   return (
     <div className="fixed inset-0 z-[120] bg-indigo-900/95 backdrop-blur-md flex flex-col p-8 overflow-hidden">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-4xl font-black text-white uppercase tracking-tighter">🧩 ХРОНОЛОШКА СЛАГАЛКА</h2>
-        <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white p-4 rounded-2xl font-black">ЗАТВОРИ ×</button>
+        <div className="flex gap-4">
+          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-6 py-4 rounded-2xl font-black uppercase tracking-widest text-sm">Ресетирај 🔄</button>
+          <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white p-4 rounded-2xl font-black text-2xl">×</button>
+        </div>
       </div>
       
       <p className="text-white/70 text-xl mb-10 text-center font-bold">Кликни на две слики за да им ги замениш местата и да ја подредиш приказната!</p>
 
       <div className="flex-1 flex items-center justify-center overflow-x-auto pb-10 px-4">
-        <div className="flex gap-4">
+        <div className="flex gap-6">
           {items.map((item, index) => (
             <motion.div 
               key={item.id}
               layout
               onClick={() => {
-                if (window.selectedIdx === undefined) {
-                  window.selectedIdx = index;
-                  // Force re-render or visual feedback
+                if (selectedIdx === null) {
+                  setSelectedIdx(index);
+                } else if (selectedIdx === index) {
+                  setSelectedIdx(null);
                 } else {
-                  swapItems(window.selectedIdx, index);
-                  delete window.selectedIdx;
+                  swapItems(selectedIdx, index);
                 }
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex-shrink-0 w-64 bg-white rounded-[2rem] shadow-2xl p-4 cursor-pointer border-8 transition-all ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
+              className={`flex-shrink-0 w-72 bg-white rounded-[3rem] shadow-2xl p-6 cursor-pointer border-[12px] transition-all duration-300 relative ${isCorrect ? 'border-emerald-400' : selectedIdx === index ? 'border-yellow-400 shadow-[0_0_50px_rgba(250,204,21,0.5)] scale-105' : 'border-white hover:border-indigo-400'}`}
             >
-              <img src={item.img} className="w-full h-48 object-cover rounded-2xl mb-4 pointer-events-none" alt="Puzzle" />
-              <p className="text-slate-800 font-bold text-sm leading-tight text-center pointer-events-none">{item.text}</p>
-              <div className="mt-4 flex justify-center">
-                <span className="bg-indigo-100 text-indigo-600 w-10 h-10 rounded-full flex items-center justify-center font-black text-xl">{index + 1}</span>
+              {selectedIdx === index && (
+                <div className="absolute -top-6 -right-4 bg-yellow-400 text-indigo-900 w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-xl animate-bounce z-20">
+                  📍
+                </div>
+              )}
+              <img src={item.img} className="w-full h-56 object-cover rounded-[2rem] mb-6 pointer-events-none" alt="Puzzle" />
+              <p className="text-slate-800 font-black text-lg leading-tight text-center pointer-events-none px-2">{item.text}</p>
+              <div className="mt-6 flex justify-center">
+                <span className={`w-12 h-12 rounded-full flex items-center justify-center font-black text-2xl transition-colors ${isCorrect ? 'bg-emerald-100 text-emerald-600' : 'bg-indigo-100 text-indigo-600'}`}>{index + 1}</span>
               </div>
             </motion.div>
           ))}
