@@ -1107,38 +1107,36 @@ const playSound = (type) => {
 const inclusiveData = {
   baba: {
     puzzle: [
-      { id: 1, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_1.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот." },
-      { id: 2, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_3.png', text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот." },
-      { id: 3, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_7.png', text: "Баба Гун тајно си ги донесе кокошките во својот нов стан." },
-      { id: 4, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_10.png', text: "Таа си направи прекрасна градина на својот балкон." },
-      { id: 5, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_14.png', text: "Сега баба Гун е среќна, но се прашува како да ја качи кравата во лифтот!" }
+      { id: 1, img: './baba gun/Hronoloski slagalki/1 Gemini_Generated_Image_cszl5bcszl5bcszl.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот." },
+      { id: 2, img: './baba gun/Hronoloski slagalki/2 Gemini_Generated_Image_bockdcbockdcbock.png', text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот." },
+      { id: 3, img: './baba gun/Hronoloski slagalki/3 Gemini_Generated_Image_xfis2zxfis2zxfis.png', text: "Баба Гун тајно си ги донесе кокошките во својот нов стан." },
+      { id: 4, img: './baba gun/Hronoloski slagalki/4 Gemini_Generated_Image_5gfp4t5gfp4t5gfp.png', text: "Таа си направи прекрасна градина на својот балкон." },
+      { id: 5, img: './baba gun/Hronoloski slagalki/5 Gemini_Generated_Image_c4v4yfc4v4yfc4v4.png', text: "Сега баба Гун е среќна, но се прашува како да ја качи кравата во лифтот!" }
     ],
     coloring: [
-      { id: 1, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_2.png', text: "Баба Гун и нејзините животни во селото." },
-      { id: 2, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_4.png', text: "Преселба во новиот стан во градот." },
-      { id: 3, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_8.png', text: "Кокошките се качуваат по скалите во зградата." },
-      { id: 4, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_11.png', text: "Баба Гун сади трева и цвеќиња на балконот." },
-      { id: 5, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_15.png', text: "Кравата чека пред вратата на лифтот." },
-      { id: 6, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_5.png', text: "Животот на фармата во село." },
-      { id: 7, img: './PDF PIRLS Slidedecks/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_12.png', text: "Баба Гун се грижи за животните." }
+      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун и нејзините животни во селото." },
+      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Преселба во новиот стан во градот." },
+      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Кокошките се качуваат по скалите во зградата." },
+      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "Баба Гун сади трева и цвеќиња на балконот." },
+      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "Кравата чека пред вратата на лифтот." },
+      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Животот на фармата во село." }
     ]
   },
   octopus: {
     puzzle: [
-      { id: 1, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_1.png', text: "Октоподот е мајстор за криење и живее на дното на океанот." },
-      { id: 2, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_3.png', text: "Кога е во опасност, тој испушта темен облак од мастило." },
-      { id: 3, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_6.png', text: "Октоподите се многу паметни и можат да отвораат тегли." },
-      { id: 4, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_9.png', text: "Во аквариумите, тие сакаат да си играат со пластични топки." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_12.png', text: "Октоподите се многу пријателски расположени кон своите чувари." }
+      { id: 1, img: './Prekrasnot oktopod/Hronoloska Slagalka/1 Gemini_Generated_Image_e2gucde2gucde2gu.png', text: "Октоподот е мајстор за криење и живее на дното на океанот." },
+      { id: 2, img: './Prekrasnot oktopod/Hronoloska Slagalka/2 Gemini_Generated_Image_bvd378bvd378bvd3.png', text: "Кога е во опасност, тој испушта темен облак од мастило." },
+      { id: 3, img: './Prekrasnot oktopod/Hronoloska Slagalka/3 Gemini_Generated_Image_vcoaodvcoaodvcoa.png', text: "Октоподите се многу паметни и можат да отвораат тегли." },
+      { id: 4, img: './Prekrasnot oktopod/Hronoloska Slagalka/4 Gemini_Generated_Image_8jp0qq8jp0qq8jp0.png', text: "Во аквариумите, тие сакаат да си играат со пластични топки." },
+      { id: 5, img: './Prekrasnot oktopod/Hronoloska Slagalka/5 Gemini_Generated_Image_x8oyr4x8oyr4x8oy.png', text: "Октоподите се многу пријателски расположени кон своите чувари." }
     ],
     coloring: [
-      { id: 1, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_2.png', text: "Октопод со осум долги пипала." },
-      { id: 2, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_4.png', text: "Бегство со помош на мастило." },
-      { id: 3, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_7.png', text: "Паметниот октопод Фрида отвора тегла." },
-      { id: 4, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_10.png', text: "Време за игра во аквариумот." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Clever_Octopus/The_Clever_Octopus_13.png', text: "Поздравување со чуварот на аквариумот." },
-      { id: 6, img: './PDF PIRLS Slidedecks/Octopus_Field_Journal/Octopus_Field_Journal_5.png', text: "Дневник на истражувачот: Октопод во природа." },
-      { id: 7, img: './PDF PIRLS Slidedecks/Octopus_Field_Journal/Octopus_Field_Journal_8.png', text: "Различни бои и форми на октоподите." }
+      { id: 1, img: './Prekrasnot oktopod/Story board and colorin book/1 Gemini_Generated_Image_v7t8k3v7t8k3v7t8.png', text: "Октопод со осум долги пипала." },
+      { id: 2, img: './Prekrasnot oktopod/Story board and colorin book/2 Gemini_Generated_Image_f1t7o0f1t7o0f1t7.png', text: "Бегство со помош на мастило." },
+      { id: 3, img: './Prekrasnot oktopod/Story board and colorin book/3 Gemini_Generated_Image_z78pizz78pizz78p.png', text: "Паметниот октопод Фрида отвора тегла." },
+      { id: 4, img: './Prekrasnot oktopod/Story board and colorin book/4 Gemini_Generated_Image_opk6mxopk6mxopk6.png', text: "Време за игра во аквариумот." },
+      { id: 5, img: './Prekrasnot oktopod/Story board and colorin book/5 Gemini_Generated_Image_h4xz8lh4xz8lh4xz.png', text: "Поздравување со чуварот на аквариумот." },
+      { id: 6, img: './Prekrasnot oktopod/Story board and colorin book/6 Gemini_Generated_Image_jad20zjad20zjad2.png', text: "Различни бои и форми на октоподите." }
     ]
   },
   pot: {
