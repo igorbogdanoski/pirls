@@ -2499,7 +2499,16 @@ export default function App() {
                 {/* Question */}
                 {currentQuestion && (
                   <div>
-                    <h3 className="text-2xl font-black text-slate-800 mb-8">{step + 1}. {currentQuestion.q}</h3>
+                    <div className="flex items-start gap-3 mb-8">
+                      <h3 className="text-2xl font-black text-slate-800 flex-1">{step + 1}. {currentQuestion.q}</h3>
+                      {canSpeak && (
+                        <button
+                          onClick={() => speak(currentQuestion.q)}
+                          className="shrink-0 w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center hover:bg-orange-200 hover:scale-110 transition-all mt-1"
+                          title="Слушај го прашањето"
+                        >🔊</button>
+                      )}
+                    </div>
                     {currentQuestion.type === 'mcq' ? (
                       <div className="space-y-4">
                         {currentQuestion.options.map((opt) => (
