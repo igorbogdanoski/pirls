@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
-import Tesseract from 'tesseract.js';
+// Google Vision AI се користи за OCR (Tesseract заменет)
 
 // Дефинирање на патеките до илустрациите
 const imgs = {
@@ -203,8 +203,18 @@ const TextWithGlossary = ({ content, glossary, onTermClick }) => {
     const word = match[0];
     const wordLower = word.toLowerCase();
     
-    // Check if the word contains any glossary term
-    const matchedTermKey = terms.find(term => wordLower.includes(term.toLowerCase()));
+    // Совпаѓање на зборовни форми (македонска морфологија):
+    // 1. Зборот го содржи терминот (пр. "пипалата" содржи "пипала")
+    // 2. Стем-совпаѓање: делат заеднички префикс ≥5 знаци (пр. "тропски"/"тропска")
+    const matchedTermKey = terms.find(term => {
+      const t = term.toLowerCase();
+      if (wordLower.includes(t)) return true;
+      if (t.length >= 5 && wordLower.length >= 5) {
+        const stemLen = Math.min(t.length, wordLower.length) - 2;
+        if (stemLen >= 4 && t.slice(0, stemLen) === wordLower.slice(0, stemLen)) return true;
+      }
+      return false;
+    });
     
     if (matchedTermKey) {
       elements.push(
@@ -1582,6 +1592,25 @@ const inclusiveData = {
   }
 };
 
+// Приказни кои имаат линеарт за дигитална боенка
+const STORIES_WITH_COLORING = new Set(['octopus', 'baba']);
+
+const WIPModal = ({ onClose, emoji, title, description }) => (
+  <div className="fixed inset-0 z-[120] bg-slate-900/80 backdrop-blur-xl flex items-center justify-center p-8" onClick={onClose}>
+    <div className="bg-white rounded-[4rem] shadow-2xl p-16 max-w-lg text-center" onClick={e => e.stopPropagation()}>
+      <div className="text-8xl mb-8">{emoji}</div>
+      <h2 className="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tight">Во изработка</h2>
+      <p className="text-xl text-slate-500 font-bold mb-10 leading-relaxed">{description}</p>
+      <div className="flex items-center justify-center gap-3 mb-10">
+        <div className="w-3 h-3 bg-indigo-400 rounded-full animate-bounce"></div>
+        <div className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce" style={{animationDelay:'0.1s'}}></div>
+        <div className="w-3 h-3 bg-indigo-600 rounded-full animate-bounce" style={{animationDelay:'0.2s'}}></div>
+      </div>
+      <button onClick={onClose} className="px-12 py-5 bg-indigo-600 text-white rounded-[2rem] font-black text-lg uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-xl">Затвори</button>
+    </div>
+  </div>
+);
+
 const ChronologicalPuzzle = ({ data, onClose }) => {
   const [items, setItems] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -1661,8 +1690,7 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
                   style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
                 >
                   {/* FRONT SIDE: LARGE IMAGE */}
-                  <div 
-                    onTap={() => toggleFlip(item.id)}
+                  <div
                     className={`absolute inset-0 backface-hidden w-full h-full bg-white rounded-[4rem] shadow-2xl p-5 border-[14px] transition-all duration-300 group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
                   >
                     <div className="absolute -top-6 -left-6 w-20 h-20 bg-indigo-600 text-white rounded-3xl flex items-center justify-center text-4xl font-black shadow-xl z-20">
@@ -1671,19 +1699,26 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
                     <div className="w-full h-full relative overflow-hidden rounded-[3rem] bg-slate-100">
                       <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt="Puzzle" />
                     </div>
-                    <div className="absolute bottom-8 right-8 bg-indigo-500/90 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20">🔄</div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
+                      className="absolute bottom-8 right-8 bg-indigo-500/90 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
+                      title="Прочитај дел од приказната"
+                    >🔄</button>
                   </div>
 
                   {/* BACK SIDE: TEXT */}
-                  <div 
-                    onTap={() => toggleFlip(item.id)}
+                  <div
                     className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[4rem] shadow-2xl p-12 border-[14px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
                   >
                     <p className="text-white font-black text-2xl leading-relaxed mb-10">
                       {item.text}
                     </p>
                     <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-white text-4xl border-2 border-white/20">📖</div>
-                    <div className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20">🔄</div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
+                      className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
+                      title="Назад кон сликата"
+                    >🔄</button>
                   </div>
                 </div>
               </Reorder.Item>
@@ -2051,14 +2086,36 @@ const HandwritingCanvas = ({ onClose, onRecognize }) => {
     if (!canvas) return;
     setIsProcessing(true);
     try {
-      const { data: { text } } = await Tesseract.recognize(canvas, 'mkd+eng', {
-        logger: m => console.log(m)
-      });
+      const apiKey = import.meta.env.VITE_GOOGLE_VISION_KEY;
+      if (!apiKey) {
+        alert("Google Vision API клучот не е поставен. Додади VITE_GOOGLE_VISION_KEY во .env фајлот.");
+        return;
+      }
+      const base64Image = canvas.toDataURL('image/png').split(',')[1];
+      const response = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            requests: [{
+              image: { content: base64Image },
+              features: [{ type: 'DOCUMENT_TEXT_DETECTION' }]
+            }]
+          })
+        }
+      );
+      const result = await response.json();
+      const text = result.responses?.[0]?.fullTextAnnotation?.text || '';
+      if (!text.trim()) {
+        alert("Не е препознаен текст. Обиди се со поголеми и појасни букви.");
+        return;
+      }
       onRecognize(text);
       onClose();
     } catch (err) {
       console.error(err);
-      alert("Грешка при препознавање на текстот.");
+      alert("Грешка при препознавање. Провери дали API клучот е точен.");
     } finally {
       setIsProcessing(false);
     }
@@ -2633,11 +2690,25 @@ export default function App() {
       )}
 
       {/* Модални прозорци за инклузивни активности */}
-      {showPuzzle && inclusiveData[activeStory]?.puzzle && (
-        <ChronologicalPuzzle data={inclusiveData[activeStory].puzzle} onClose={() => setShowPuzzle(false)} />
+      {showPuzzle && (
+        inclusiveData[activeStory]?.puzzle
+          ? <ChronologicalPuzzle data={inclusiveData[activeStory].puzzle} onClose={() => setShowPuzzle(false)} />
+          : <WIPModal
+              onClose={() => setShowPuzzle(false)}
+              emoji="🧩"
+              title="Хронолошка слагалка"
+              description="Сликите за оваа приказна се во подготовка. Наскоро достапно!"
+            />
       )}
-      {showColoring && inclusiveData[activeStory]?.coloring && (
-        <ColoringBook data={inclusiveData[activeStory].coloring} onClose={() => setShowColoring(false)} />
+      {showColoring && (
+        STORIES_WITH_COLORING.has(activeStory) && inclusiveData[activeStory]?.coloring
+          ? <ColoringBook data={inclusiveData[activeStory].coloring} onClose={() => setShowColoring(false)} />
+          : <WIPModal
+              onClose={() => setShowColoring(false)}
+              emoji="🎨"
+              title="Дигитална боенка"
+              description={"Боенката со линеарт илустрации е во подготовка.\nНаскоро достапно!"}
+            />
       )}
       
       {glossaryTerm && (
