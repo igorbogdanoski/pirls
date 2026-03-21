@@ -1589,6 +1589,42 @@ const inclusiveData = {
       { id: 2, img: 'Gemini_Generated_Image_nnfx6onnfx6onnfx.png', text: "Кралот лав." },
       { id: 3, img: 'Gemini_Generated_Image_1hdc6w1hdc6w1hdc.png', text: "Среќен крај." }
     ]
+  },
+  // FIX: puffins ID uses Patience_Takes_Flight (old ./puffins/... paths didn't exist)
+  puffins: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_1.png', text: "Малите морски папагалчиња чекаа да падне ноќта за да полетаат кон морето." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_3.png', text: "Тие често се губеа во градот поради светлата од зградите." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_6.png', text: "Децата од градот решија да им помогнат да го најдат морето." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_9.png', text: "Сите заедно внимателно ги собираа залутаните папагалчиња." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_12.png', text: "Децата ги однесоа папагалчињата кон брегот на морето." },
+      { id: 6, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_14.png', text: "На крајот, сите безбедно полетаа кон нивниот вистински дом." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_2.png', text: "Папагалчиња на карпите покрај морето." },
+      { id: 2, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_4.png', text: "Светлата на градот ги збунуваат птиците." },
+      { id: 3, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_7.png', text: "Акција за спасување во ноќта." },
+      { id: 4, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_10.png', text: "Нежно ракување со папагалчињата." },
+      { id: 5, img: './PDF PIRLS Slidedecks/Patience_Takes_Flight/Patience_Takes_Flight_13.png', text: "Ослободување кон морето." }
+    ]
+  },
+  // ADD: lakestar ID — maps to The_Lake_Star folder
+  lakestar: {
+    puzzle: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_1.png', text: "На небото секоја ноќ светеше една многу посебна ѕвезда." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_3.png', text: "Една вечер, ѕвездата падна право во мирното езеро." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_6.png', text: "Сите животни во шумата се собраа да видат што се случи." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_9.png', text: "Ѕвездата ги претвори сите риби во светлечки суштества." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_12.png', text: "Езерото почна да свети во прекрасни бои на виножитото." },
+      { id: 6, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_15.png', text: "Оттогаш, езерото е чудо кое луѓето доаѓаат да го гледаат." }
+    ],
+    coloring: [
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_2.png', text: "Ноќното небо над езерото." },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_4.png', text: "Падот на ѕвездата." },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_7.png', text: "Животните се собираат на брегот." },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_10.png', text: "Магичните светлечки риби." },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_13.png', text: "Светлечкото езеро." }
+    ]
   }
 };
 
