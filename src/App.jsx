@@ -1716,7 +1716,7 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
         </div>
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Ваше ime (незадолжително)</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Ваше име (незадолжително)</label>
             <input value={teacherName} onChange={e => setTeacherName(e.target.value)}
               placeholder="пр. Марија Петровска"
               className="w-full border-4 border-slate-200 rounded-2xl py-4 px-6 font-bold text-lg focus:outline-none focus:border-indigo-400" />
@@ -1775,11 +1775,11 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
         <div className="text-center mb-8">
           <div className="text-7xl mb-4">🎓</div>
           <h2 className="text-4xl font-black text-slate-900">Влези во час</h2>
-          <p className="text-slate-500 mt-3 text-base leading-snug">Наставникот ти дал 6-знаковен код за часот. Внеси го своето <strong>ime и презиме</strong> и кодот за да се приклучиш.</p>
+          <p className="text-slate-500 mt-3 text-base leading-snug">Наставникот ти дал 6-знаковен код за часот. Внеси го своето <strong>име и презиме</strong> и кодот за да се приклучиш.</p>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Твое ime и презиме</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Твое име и презиме</label>
             <input value={name} onChange={e => setName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
               placeholder="пр. Марко Јованоски"
