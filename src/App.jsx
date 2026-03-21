@@ -2721,15 +2721,55 @@ export default function App() {
         </div>
 
         <div className="relative z-10 w-full max-w-7xl px-8 py-16 flex flex-col items-center">
-          <div className="mb-16 text-center">
-            <h1 className="text-8xl font-black text-indigo-950 mb-4 tracking-tighter italic">
-              digital<span className="text-indigo-600 underline decoration-yellow-400 decoration-8 underline-offset-8">PIRLS</span>
-            </h1>
-            <div className="flex items-center gap-4 justify-center">
-              <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
-              <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Интерактивна платформа</p>
-              <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
+          <div className="mb-16 w-full flex items-center gap-6 justify-between">
+
+            {/* Left card — Ученик / Влези во час */}
+            {sessionCode && studentName ? (
+              <div className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-green-50 to-green-100 border-green-200 text-center">
+                <div className="text-6xl mb-4">✅</div>
+                <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{studentName}</h2>
+                <p className="text-sm text-slate-500 leading-snug">Поврзан на час: <strong className="text-green-700">{sessionCode}</strong></p>
+                <button
+                  onClick={() => { setSessionCode(''); setStudentName(''); localStorage.removeItem('pirls_session'); localStorage.removeItem('pirls_student_name'); }}
+                  className="mt-4 text-xs text-red-400 hover:text-red-600 font-bold transition-all underline">
+                  Напушти час
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => setShowJoinSession(true)}
+                className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:-translate-y-2 hover:shadow-2xl transition-all group text-center">
+                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-500">🔗</div>
+                <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Влези во час</h2>
+                <p className="text-sm text-slate-500 leading-snug">Внеси го своето <strong>име и презиме</strong> и 6-знаковниот код од наставникот за да се приклучиш во часот.</p>
+                <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-indigo-600 font-black text-xs tracking-widest uppercase italic">Приклучи се →</span>
+                </div>
+              </button>
+            )}
+
+            {/* Center — Title */}
+            <div className="text-center flex-shrink-0">
+              <h1 className="text-8xl font-black text-indigo-950 mb-4 tracking-tighter italic">
+                digital<span className="text-indigo-600 underline decoration-yellow-400 decoration-8 underline-offset-8">PIRLS</span>
+              </h1>
+              <div className="flex items-center gap-4 justify-center">
+                <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
+                <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Интерактивна платформа</p>
+                <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
+              </div>
             </div>
+
+            {/* Right card — Наставник */}
+            <button onClick={() => setShowTeacherLogin(true)}
+              className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:-translate-y-2 hover:shadow-2xl transition-all group text-center">
+              <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-500">👩‍🏫</div>
+              <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Наставник</h2>
+              <p className="text-sm text-slate-500 leading-snug">Создај час, следи ги учениците во живо и преземи извештај по завршувањето на часот.</p>
+              <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-violet-600 font-black text-xs tracking-widest uppercase italic">Влези →</span>
+              </div>
+            </button>
+
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
@@ -2774,31 +2814,6 @@ export default function App() {
             <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">digitalPIRLS 2026 • Образовна алатка за ученици</p>
           </footer>
 
-        {/* Session status badge (top right) */}
-        {sessionCode && studentName && (
-          <div className="fixed top-4 right-4 z-50 bg-indigo-600 rounded-2xl px-5 py-3 flex items-center gap-3 shadow-2xl">
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shrink-0" />
-            <div>
-              <p className="text-white font-black text-sm leading-none">{studentName}</p>
-              <p className="text-indigo-200 text-xs font-bold mt-0.5">Час: {sessionCode}</p>
-            </div>
-            <button onClick={() => { setSessionCode(''); setStudentName(''); localStorage.removeItem('pirls_session'); localStorage.removeItem('pirls_student_name'); }}
-              className="text-white/50 hover:text-white text-xl ml-1 transition-all">×</button>
-          </div>
-        )}
-
-        {/* Teacher button (bottom right) */}
-        <button onClick={() => setShowTeacherLogin(true)}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-slate-200/80 hover:bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl transition-all border-2 border-slate-300 hover:border-indigo-400 shadow-lg"
-          title="Наставник">👩‍🏫</button>
-
-        {/* Join session button (bottom left) — only when not in a session */}
-        {!sessionCode && (
-          <button onClick={() => setShowJoinSession(true)}
-            className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-indigo-600 text-white px-5 py-3 rounded-2xl font-black text-sm hover:bg-indigo-700 transition-all shadow-xl">
-            🔗 Влези во час
-          </button>
-        )}
         </div>
       </div>
     );
