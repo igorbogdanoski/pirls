@@ -1715,7 +1715,7 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
         </div>
         <div className="space-y-4">
           <input value={teacherName} onChange={e => setTeacherName(e.target.value)}
-            placeholder="Вашето ime (незадолжително)"
+            placeholder="Вашето име (незадолжително)"
             className="w-full border-4 border-slate-200 rounded-2xl py-4 px-6 font-bold text-lg focus:outline-none focus:border-indigo-400" />
           <button onClick={handleCreateSession}
             className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3">
@@ -1749,7 +1749,7 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
   const [loading, setLoading] = useState(false);
 
   const handleJoin = async () => {
-    if (name.trim().length < 2) { setError('Внеси го своето ime (барем 2 букви)'); return; }
+    if (name.trim().length < 2) { setError('Внеси го своето име (барем 2 букви)'); return; }
     if (code.trim().length < 4) { setError('Внеси го кодот за час'); return; }
     const upperCode = code.toUpperCase().trim();
     setLoading(true);
@@ -1767,12 +1767,12 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
         <div className="text-center mb-10">
           <div className="text-7xl mb-4">🎓</div>
           <h2 className="text-4xl font-black text-slate-900">Влези во час</h2>
-          <p className="text-slate-500 mt-2 text-lg">Внеси го своето ime и кодот од наставникот</p>
+          <p className="text-slate-500 mt-2 text-lg">Внеси го своето име и кодот од наставникот</p>
         </div>
         <div className="space-y-4">
           <input value={name} onChange={e => setName(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleJoin()}
-            placeholder="Твоето ime и презиме"
+            placeholder="Твоето име и презиме"
             className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
           <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
             onKeyDown={e => e.key === 'Enter' && handleJoin()}
