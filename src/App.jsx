@@ -1206,12 +1206,12 @@ const inclusiveData = {
       { id: 5, img: './baba gun/Hronoloski slagalki/5 Gemini_Generated_Image_c4v4yfc4v4yfc4v4.png', text: "Сега баба Гун е среќна, но се прашува како да ја качи кравата во лифтот!" }
     ],
     coloring: [
-      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун и нејзините животни во селото." },
-      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Преселба во новиот стан во градот." },
-      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Кокошките се качуваат по скалите во зградата." },
-      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "Баба Гун сади трева и цвеќиња на балконот." },
-      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "Кравата чека пред вратата на лифтот." },
-      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Животот на фармата во село." }
+      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун со нејзините животни пред куќичката во село." },
+      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Докторот ѝ рече да се пресели — баба Гун ги пакува своите работи." },
+      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Баба Гун го разгледува новиот стан и балконот со поглед на градот." },
+      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "Баба Гун тајно ги качува кокошките по скалите во зградата." },
+      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "Баба Гун сади трева и цвеќиња на балконот — исто како во село!" },
+      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Кравата влезе во лифтот — баба Гун не знае што да прави!" }
     ]
   },
   octopus: {
