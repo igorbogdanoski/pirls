@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
-// Google Vision AI се користи за OCR (Tesseract заменет)
+import { ref, set, update, onValue, off, get } from 'firebase/database';
+import { db, FIREBASE_ENABLED } from './firebase.js';
 
 // Дефинирање на патеките до илустрациите
 const imgs = {
@@ -1647,6 +1648,294 @@ const WIPModal = ({ onClose, emoji, title, description }) => (
   </div>
 );
 
+// ─── HELPERS ────────────────────────────────────────────────
+const generateSessionCode = () => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+};
+
+const STORY_ICONS = { chest:'🗝️', kaja:'💡', baba:'🌻', octopus:'🐙', watchmaker:'🕰️', kite:'🪁', lynx:'🐾', shovel:'⛏️', rabbit:'🐰', puffins:'🐧', eagle:'🦅', pita:'🥧', pot:'🏺', lakestar:'⛵', lambe:'🐭' };
+
+// ─── TEACHER LOGIN MODAL ─────────────────────────────────────
+const TeacherLoginModal = ({ onSuccess, onClose }) => {
+  const [pin, setPin] = useState('');
+  const [mode, setMode] = useState('pin');
+  const [joinCode, setJoinCode] = useState('');
+  const [teacherName, setTeacherName] = useState('');
+  const [error, setError] = useState('');
+  const TEACHER_PIN = import.meta.env.VITE_TEACHER_PIN || 'pirls2025';
+
+  const handlePinSubmit = () => {
+    if (pin === TEACHER_PIN) { setMode('options'); setError(''); }
+    else { setError('Погрешен PIN. Обидете се повторно.'); setPin(''); }
+  };
+
+  const handleCreateSession = async () => {
+    const code = generateSessionCode();
+    if (FIREBASE_ENABLED && db) {
+      await set(ref(db, `pirls_sessions/${code}`), {
+        createdAt: Date.now(), teacher: teacherName || 'Наставник', students: {},
+      }).catch(() => {});
+    }
+    onSuccess(code);
+  };
+
+  const handleJoinSession = () => {
+    if (joinCode.trim().length < 4) { setError('Внесете валиден код'); return; }
+    onSuccess(joinCode.toUpperCase().trim());
+  };
+
+  if (mode === 'pin') return (
+    <div className="fixed inset-0 z-[300] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-md">
+        <div className="text-center mb-10">
+          <div className="text-7xl mb-4">👩‍🏫</div>
+          <h2 className="text-4xl font-black text-slate-900">Пристап — Наставник</h2>
+          <p className="text-slate-500 mt-2">Внесете го PIN кодот</p>
+        </div>
+        <input type="password" value={pin} onChange={e => setPin(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handlePinSubmit()}
+          placeholder="••••••••"
+          className="w-full text-center text-3xl tracking-widest border-4 border-slate-200 rounded-2xl py-5 px-6 font-mono focus:outline-none focus:border-indigo-400 mb-4" />
+        {error && <p className="text-red-500 text-center font-bold mb-4">{error}</p>}
+        <div className="flex gap-4">
+          <button onClick={onClose} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">Откажи</button>
+          <button onClick={handlePinSubmit} className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-lg hover:bg-indigo-700 transition-all">Влез →</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="fixed inset-0 z-[300] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
+        <div className="text-center mb-10">
+          <div className="text-6xl mb-4">📋</div>
+          <h2 className="text-3xl font-black text-slate-900">Командна Табла</h2>
+        </div>
+        <div className="space-y-4">
+          <input value={teacherName} onChange={e => setTeacherName(e.target.value)}
+            placeholder="Вашето ime (незадолжително)"
+            className="w-full border-4 border-slate-200 rounded-2xl py-4 px-6 font-bold text-lg focus:outline-none focus:border-indigo-400" />
+          <button onClick={handleCreateSession}
+            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3">
+            🆕 Создади нов час
+          </button>
+          <div className="flex items-center gap-4">
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-slate-400 text-sm font-bold">или приклучи се кон постоечки</span>
+            <div className="flex-1 h-px bg-slate-200" />
+          </div>
+          <div className="flex gap-3">
+            <input value={joinCode} onChange={e => setJoinCode(e.target.value.toUpperCase())}
+              placeholder="КОД НА ЧАС" maxLength={8}
+              className="flex-1 border-4 border-slate-200 rounded-2xl py-4 px-6 font-black text-xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
+            <button onClick={handleJoinSession}
+              className="px-8 py-4 bg-slate-800 text-white rounded-2xl font-black text-lg hover:bg-slate-700 transition-all">Влез</button>
+          </div>
+          {error && <p className="text-red-500 text-center font-bold">{error}</p>}
+        </div>
+        <button onClick={onClose} className="w-full mt-6 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">Откажи</button>
+      </div>
+    </div>
+  );
+};
+
+// ─── STUDENT JOIN MODAL ──────────────────────────────────────
+const StudentJoinModal = ({ onJoin, onSkip }) => {
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleJoin = async () => {
+    if (name.trim().length < 2) { setError('Внеси го своето ime (барем 2 букви)'); return; }
+    if (code.trim().length < 4) { setError('Внеси го кодот за час'); return; }
+    const upperCode = code.toUpperCase().trim();
+    setLoading(true);
+    if (FIREBASE_ENABLED && db) {
+      const snap = await get(ref(db, `pirls_sessions/${upperCode}`)).catch(() => null);
+      if (!snap?.exists()) { setError('Кодот не постои. Прашај го наставникот.'); setLoading(false); return; }
+    }
+    setLoading(false);
+    onJoin(name.trim(), upperCode);
+  };
+
+  return (
+    <div className="fixed inset-0 z-[300] bg-indigo-950/95 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
+        <div className="text-center mb-10">
+          <div className="text-7xl mb-4">🎓</div>
+          <h2 className="text-4xl font-black text-slate-900">Влези во час</h2>
+          <p className="text-slate-500 mt-2 text-lg">Внеси го своето ime и кодот од наставникот</p>
+        </div>
+        <div className="space-y-4">
+          <input value={name} onChange={e => setName(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleJoin()}
+            placeholder="Твоето ime и презиме"
+            className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
+          <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
+            onKeyDown={e => e.key === 'Enter' && handleJoin()}
+            placeholder="КОД НА ЧАС" maxLength={8}
+            className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-black text-2xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
+          {error && <p className="text-red-500 text-center font-bold">{error}</p>}
+          <button onClick={handleJoin} disabled={loading}
+            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 disabled:opacity-60 transition-all">
+            {loading ? '⏳ Се поврзува...' : 'Влезам! 🚀'}
+          </button>
+        </div>
+        <button onClick={onSkip} className="w-full mt-4 py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-lg hover:bg-slate-200 transition-all">
+          Продолжи без час →
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ─── TEACHER DASHBOARD ───────────────────────────────────────
+const TeacherDashboard = ({ sessionCode, onClose }) => {
+  const [sessionData, setSessionData] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+
+  useEffect(() => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode) return;
+    const sessionRef = ref(db, `pirls_sessions/${sessionCode}`);
+    onValue(sessionRef, snap => setSessionData(snap.val()));
+    return () => off(sessionRef);
+  }, [sessionCode]);
+
+  const students = sessionData?.students ? Object.entries(sessionData.students) : [];
+  const now = Date.now();
+
+  const exportCSV = () => {
+    const rows = [['Ученик', 'Приказна', 'Прашање', 'Одговор', 'Точно', 'Тип', 'Час']];
+    students.forEach(([, s]) => {
+      if (!s.answers) return;
+      Object.entries(s.answers).forEach(([key, ans]) => {
+        const parts = key.split('_q');
+        rows.push([
+          s.name || '—', parts[0], parseInt(parts[1] || 0) + 1,
+          `"${(ans.value || '').replace(/"/g, '""')}"`,
+          ans.isCorrect === true ? 'Точно' : ans.isCorrect === false ? 'Неточно' : '—',
+          ans.type === 'mcq' ? 'Избор' : 'Текст',
+          new Date(ans.timestamp).toLocaleTimeString('mk-MK'),
+        ]);
+      });
+    });
+    const csv = '\uFEFF' + rows.map(r => r.join(',')).join('\n');
+    const a = Object.assign(document.createElement('a'), {
+      href: URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })),
+      download: `pirls_${sessionCode}_${new Date().toISOString().slice(0, 10)}.csv`,
+    });
+    a.click();
+  };
+
+  return (
+    <div className="fixed inset-0 z-[250] bg-slate-950 flex flex-col">
+      {/* HEADER */}
+      <div className="bg-slate-900 border-b-2 border-slate-800 px-8 py-4 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-5">
+          <span className="text-5xl">👩‍🏫</span>
+          <div>
+            <h1 className="text-white font-black text-2xl">Командна Табла — Наставник</h1>
+            <p className="text-slate-400 text-sm font-bold">
+              {students.filter(([, s]) => now - (s.lastSeen || 0) < 90000).length} активни · {students.length} вкупно
+              {!FIREBASE_ENABLED && <span className="ml-3 text-amber-400">⚠️ Firebase не е поврзан — режим на демо</span>}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="bg-indigo-600 rounded-2xl px-8 py-3 text-center">
+            <p className="text-indigo-200 text-xs font-black uppercase tracking-widest mb-1">Код за ученици</p>
+            <p className="text-white font-black text-4xl tracking-[0.3em]">{sessionCode}</p>
+          </div>
+          <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 rounded-2xl font-black transition-all text-sm">📥 CSV</button>
+          <button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 text-white w-14 h-14 rounded-2xl font-black text-2xl flex items-center justify-center transition-all">×</button>
+        </div>
+      </div>
+
+      {/* GRID */}
+      <div className="flex-1 overflow-y-auto p-6">
+        {students.length === 0 ? (
+          <div className="h-full flex flex-col items-center justify-center text-slate-600">
+            <div className="text-9xl mb-6 animate-pulse">⏳</div>
+            <p className="text-3xl font-black text-slate-400 mb-3">Чекање на ученици...</p>
+            <p className="text-xl text-slate-500">Кажете им да го внесат кодот:</p>
+            <p className="text-6xl font-black text-white mt-4 tracking-widest">{sessionCode}</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+            {students.map(([sId, s]) => {
+              const isActive = now - (s.lastSeen || 0) < 90000;
+              const allAns = s.answers ? Object.values(s.answers) : [];
+              const correct = allAns.filter(a => a.isCorrect === true).length;
+              const total = allAns.length;
+              const pct = total > 0 ? Math.round((correct / total) * 100) : null;
+              const isSelected = selectedId === sId;
+              return (
+                <div key={sId} onClick={() => setSelectedId(isSelected ? null : sId)}
+                  className={`rounded-3xl p-5 border-2 cursor-pointer transition-all ${isSelected ? 'bg-indigo-900 border-indigo-500 ring-2 ring-indigo-500/40' : isActive ? 'bg-slate-800 border-slate-700 hover:border-indigo-500' : 'bg-slate-900 border-slate-800 opacity-50'}`}>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg shrink-0 ${isActive ? 'bg-indigo-600' : 'bg-slate-600'}`}>
+                      {(s.name || '?').slice(0, 2).toUpperCase()}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-white font-black truncate">{s.name || 'Анонимен'}</p>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-green-400 animate-pulse' : 'bg-slate-500'}`} />
+                        <span className={`text-xs font-bold ${isActive ? 'text-green-400' : 'text-slate-500'}`}>{isActive ? 'Активен' : 'Неактивен'}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-700/40 rounded-2xl p-3 mb-3">
+                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Сега</p>
+                    {s.currentStory && s.currentStory !== 'home' ? (
+                      <>
+                        <p className="text-white text-sm font-bold">{STORY_ICONS[s.currentStory] || '📖'} {s.currentStory}</p>
+                        <p className="text-slate-300 text-xs mt-0.5">Прашање {(s.currentQuestion || 0) + 1}</p>
+                      </>
+                    ) : <p className="text-slate-400 text-sm">🏠 Почетна</p>}
+                  </div>
+                  {pct !== null && (
+                    <div className="mb-2">
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-slate-400 font-bold">Резултат</span>
+                        <span className={`font-black ${pct >= 70 ? 'text-emerald-400' : pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`}>{correct}/{total} ({pct}%)</span>
+                      </div>
+                      <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all ${pct >= 70 ? 'bg-emerald-400' : pct >= 40 ? 'bg-amber-400' : 'bg-rose-400'}`} style={{ width: `${pct}%` }} />
+                      </div>
+                    </div>
+                  )}
+                  {isSelected && s.answers && (
+                    <div className="border-t border-slate-600 pt-3 mt-3 space-y-2 max-h-60 overflow-y-auto">
+                      <p className="text-slate-400 text-xs font-black uppercase tracking-widest">Одговори</p>
+                      {Object.entries(s.answers).map(([key, ans]) => {
+                        const parts = key.split('_q');
+                        return (
+                          <div key={key} className={`p-2.5 rounded-xl text-xs border-l-4 ${ans.isCorrect === true ? 'border-emerald-500 bg-emerald-900/30' : ans.isCorrect === false ? 'border-rose-500 bg-rose-900/30' : 'border-slate-500 bg-slate-700/30'}`}>
+                            <div className="flex justify-between mb-1">
+                              <span className="font-black text-slate-300">{STORY_ICONS[parts[0]] || '📖'} П{parseInt(parts[1] || 0) + 1}</span>
+                              <span className={`font-black ${ans.isCorrect === true ? 'text-emerald-400' : ans.isCorrect === false ? 'text-rose-400' : 'text-slate-400'}`}>
+                                {ans.isCorrect === true ? '✓' : ans.isCorrect === false ? '✗' : '—'}
+                              </span>
+                            </div>
+                            <p className="text-slate-300 break-words leading-snug">{ans.value || '—'}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const ChronologicalPuzzle = ({ data, onClose }) => {
   const [items, setItems] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -2189,6 +2478,18 @@ export default function App() {
   const [canSpeak, setCanSpeak] = useState(false);
   const textRef = useRef(null);
 
+  // ── Teacher / Student session state ──────────────────────
+  const [sessionCode, setSessionCode] = useState(() => localStorage.getItem('pirls_session') || '');
+  const [studentName, setStudentName] = useState(() => localStorage.getItem('pirls_student_name') || '');
+  const [studentId] = useState(() => {
+    let id = localStorage.getItem('pirls_student_id');
+    if (!id) { id = Math.random().toString(36).substr(2, 9); localStorage.setItem('pirls_student_id', id); }
+    return id;
+  });
+  const [showTeacherLogin, setShowTeacherLogin] = useState(false);
+  const [showTeacher, setShowTeacher] = useState(false);
+  const [showJoinSession, setShowJoinSession] = useState(false);
+
   useEffect(() => {
     const checkVoices = () => {
       const voices = window.speechSynthesis.getVoices();
@@ -2271,6 +2572,24 @@ export default function App() {
     setAvatarMsg(greetings[activeStory] || "Прочитај го текстот внимателно!");
   }, [activeStory]);
 
+  // ── Firebase: sync student presence whenever story/step changes ──
+  useEffect(() => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode || !studentName) return;
+    update(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}`), {
+      name: studentName,
+      lastSeen: Date.now(),
+      currentStory: activeStory === 'home' ? null : activeStory,
+      currentQuestion: step,
+    }).catch(() => {});
+  }, [sessionCode, studentName, activeStory, step]);
+
+  const saveAnswer = (type, value, isCorrect) => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode || !studentName) return;
+    set(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}/answers/${activeStory}_q${step}`), {
+      type, question: storyContent[activeStory]?.questions?.[step]?.q || '', value, isCorrect, timestamp: Date.now(),
+    }).catch(() => {});
+  };
+
   const handleHighlight = () => {
     if (!highlightMode) return;
     const sel = window.getSelection();
@@ -2297,6 +2616,7 @@ export default function App() {
 
   const handleMCQ = (opt, correct) => {
     setSelectedOpt(opt);
+    saveAnswer('mcq', opt, opt === correct);
     if (opt === correct) {
       playSound('success');
       setAvatarMsg("Одлично! Одиме на следното прашање.");
@@ -2319,12 +2639,11 @@ export default function App() {
 
     // AI Feedback Logic based on PIRLS criteria (Expert Level)
     if (currentQuestion.criteria) {
-      const foundKeywords = currentQuestion.criteria.filter(kw => 
+      const foundKeywords = currentQuestion.criteria.filter(kw =>
         trimmedAns.includes(kw.toLowerCase())
       );
-
-      // Check if the answer has enough "meat" (at least 3 words)
       const wordCount = trimmedAns.split(/\s+/).length;
+      saveAnswer('text', ansToProcess.trim(), foundKeywords.length >= 2 && wordCount >= 3);
 
       if (foundKeywords.length >= 2 && wordCount >= 3) {
         // FULL SUCCESS - EXPERT LEVEL
@@ -2363,6 +2682,7 @@ export default function App() {
       }
     } else {
       // Fallback for generic text questions
+      saveAnswer('text', ansToProcess.trim(), null);
       playSound('success');
       setAvatarMsg("Примено! Твојот одговор е зачуван. ⭐");
       const nextStep = step + 1;
@@ -2438,6 +2758,32 @@ export default function App() {
             </p>
             <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">digitalPIRLS 2026 • Образовна алатка за ученици</p>
           </footer>
+
+        {/* Session status badge (top right) */}
+        {sessionCode && studentName && (
+          <div className="fixed top-4 right-4 z-50 bg-indigo-600 rounded-2xl px-5 py-3 flex items-center gap-3 shadow-2xl">
+            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shrink-0" />
+            <div>
+              <p className="text-white font-black text-sm leading-none">{studentName}</p>
+              <p className="text-indigo-200 text-xs font-bold mt-0.5">Час: {sessionCode}</p>
+            </div>
+            <button onClick={() => { setSessionCode(''); setStudentName(''); localStorage.removeItem('pirls_session'); localStorage.removeItem('pirls_student_name'); }}
+              className="text-white/50 hover:text-white text-xl ml-1 transition-all">×</button>
+          </div>
+        )}
+
+        {/* Teacher button (bottom right) */}
+        <button onClick={() => setShowTeacherLogin(true)}
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-slate-200/80 hover:bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl transition-all border-2 border-slate-300 hover:border-indigo-400 shadow-lg"
+          title="Наставник">👩‍🏫</button>
+
+        {/* Join session button (bottom left) — only when not in a session */}
+        {!sessionCode && (
+          <button onClick={() => setShowJoinSession(true)}
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-indigo-600 text-white px-5 py-3 rounded-2xl font-black text-sm hover:bg-indigo-700 transition-all shadow-xl">
+            🔗 Влези во час
+          </button>
+        )}
         </div>
       </div>
     );
@@ -2724,6 +3070,41 @@ export default function App() {
       {/* Background Shapes */}
       <div className="fixed -bottom-20 -left-20 w-80 h-80 bg-indigo-200 rounded-full blur-3xl opacity-30 -z-10" />
       <div className="fixed -top-20 -right-20 w-80 h-80 bg-rose-200 rounded-full blur-3xl opacity-30 -z-10" />
+
+      {/* ── TEACHER LOGIN ── */}
+      {showTeacherLogin && (
+        <TeacherLoginModal
+          onSuccess={(code) => {
+            setSessionCode(code);
+            localStorage.setItem('pirls_session', code);
+            setShowTeacherLogin(false);
+            setShowTeacher(true);
+          }}
+          onClose={() => setShowTeacherLogin(false)}
+        />
+      )}
+
+      {/* ── TEACHER DASHBOARD ── */}
+      {showTeacher && (
+        <TeacherDashboard
+          sessionCode={sessionCode}
+          onClose={() => { setShowTeacher(false); setSessionCode(''); localStorage.removeItem('pirls_session'); }}
+        />
+      )}
+
+      {/* ── STUDENT JOIN SESSION ── */}
+      {showJoinSession && (
+        <StudentJoinModal
+          onJoin={(name, code) => {
+            setStudentName(name);
+            setSessionCode(code);
+            localStorage.setItem('pirls_student_name', name);
+            localStorage.setItem('pirls_session', code);
+            setShowJoinSession(false);
+          }}
+          onSkip={() => setShowJoinSession(false)}
+        />
+      )}
     </div>
   );
 }
