@@ -2737,11 +2737,11 @@ export default function App() {
               </div>
             ) : (
               <button onClick={() => setShowJoinSession(true)}
-                className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:-translate-y-2 hover:shadow-2xl transition-all group text-center">
-                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-500">🔗</div>
+                className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-2xl hover:border-indigo-400 transition-all group text-center">
+                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🔗</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Влези во час</h2>
                 <p className="text-sm text-slate-500 leading-snug">Внеси го своето <strong>име и презиме</strong> и 6-знаковниот код од наставникот за да се приклучиш во часот.</p>
-                <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="mt-3">
                   <span className="text-indigo-600 font-black text-xs tracking-widest uppercase italic">Приклучи се →</span>
                 </div>
               </button>
@@ -2761,11 +2761,11 @@ export default function App() {
 
             {/* Right card — Наставник */}
             <button onClick={() => setShowTeacherLogin(true)}
-              className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:-translate-y-2 hover:shadow-2xl transition-all group text-center">
-              <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-500">👩‍🏫</div>
+              className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:shadow-2xl hover:border-violet-400 transition-all group text-center">
+              <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">👩‍🏫</div>
               <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Наставник</h2>
               <p className="text-sm text-slate-500 leading-snug">Создај час, следи ги учениците во живо и преземи извештај по завршувањето на часот.</p>
-              <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="mt-3">
                 <span className="text-violet-600 font-black text-xs tracking-widest uppercase italic">Влези →</span>
               </div>
             </button>
