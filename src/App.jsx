@@ -1700,6 +1700,7 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
                       <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt="Puzzle" />
                     </div>
                     <button
+                      onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
                       className="absolute bottom-8 right-8 bg-indigo-500/90 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
                       title="Прочитај дел од приказната"
@@ -1715,6 +1716,7 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
                     </p>
                     <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-white text-4xl border-2 border-white/20">📖</div>
                     <button
+                      onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
                       className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
                       title="Назад кон сликата"
@@ -1760,14 +1762,16 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
 const ColoringBook = ({ data, onClose }) => {
   const [activeScene, setActiveScene] = useState(0);
   const canvasRef = useRef(null);
-  const [color, setColor] = useState('#4f46e5');
+  const [color, setColor] = useState('#ef4444');
   const [brushSize, setBrushSize] = useState(20);
   const [zoom, setZoom] = useState(1);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [isEraser, setIsEraser] = useState(false);
+  // toolType: 'brush' | 'pencil' | 'eraser'
+  const [toolType, setToolType] = useState('brush');
   const [history, setHistory] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
   const [points, setPoints] = useState([]);
+  const [showText, setShowText] = useState(true);
 
   const scene = data[activeScene];
 
@@ -1799,16 +1803,11 @@ const ColoringBook = ({ data, onClose }) => {
     const ctx = canvas.getContext('2d');
     const currentState = history[history.length - 1];
     const prevState = history[history.length - 2];
-    
     setRedoStack(prev => [...prev, currentState]);
     setHistory(prev => prev.slice(0, -1));
-
     const img = new Image();
     img.src = prevState;
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
+    img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
   };
 
   const redo = () => {
@@ -1816,74 +1815,72 @@ const ColoringBook = ({ data, onClose }) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const nextState = redoStack[redoStack.length - 1];
-    
     setHistory(prev => [...prev, nextState]);
     setRedoStack(prev => prev.slice(0, -1));
-
     const img = new Image();
     img.src = nextState;
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+  };
+
+  // FIX: coordinates use canvas.width/rect.width which already handles zoom via CSS width
+  const getCoords = (e, canvas) => {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (clientX - rect.left) * (canvas.width / rect.width),
+      y: (clientY - rect.top) * (canvas.height / rect.height),
     };
   };
 
   const startDrawing = (e) => {
+    e.preventDefault();
     saveToHistory();
     const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    
-    const x = ((clientX - rect.left) * (canvas.width / rect.width)) / zoom;
-    const y = ((clientY - rect.top) * (canvas.height / rect.height)) / zoom;
-    
+    const { x, y } = getCoords(e, canvas);
     setPoints([{ x, y }]);
     setIsDrawing(true);
-
     const ctx = canvas.getContext('2d');
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.strokeStyle = isEraser ? '#ffffff' : color;
-    ctx.lineWidth = brushSize / zoom;
+    if (toolType === 'eraser') {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = brushSize / zoom;
+    } else if (toolType === 'pencil') {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = color;
+      ctx.lineWidth = Math.max(1, brushSize * 0.3 / zoom);
+    } else {
+      ctx.globalCompositeOperation = 'multiply';
+      ctx.strokeStyle = color;
+      ctx.lineWidth = brushSize / zoom;
+    }
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.globalCompositeOperation = isEraser ? 'source-over' : 'multiply';
   };
 
   const draw = (e) => {
     if (!isDrawing) return;
+    e.preventDefault();
     const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    
-    const x = ((clientX - rect.left) * (canvas.width / rect.width)) / zoom;
-    const y = ((clientY - rect.top) * (canvas.height / rect.height)) / zoom;
-    
+    const { x, y } = getCoords(e, canvas);
     const newPoints = [...points, { x, y }];
     setPoints(newPoints);
-
     const ctx = canvas.getContext('2d');
-    
-    if (newPoints.length > 2) {
+    if (toolType === 'pencil' || newPoints.length <= 2) {
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    } else {
       const lastTwo = newPoints.slice(-3);
       const xc = (lastTwo[1].x + lastTwo[2].x) / 2;
       const yc = (lastTwo[1].y + lastTwo[2].y) / 2;
       ctx.quadraticCurveTo(lastTwo[1].x, lastTwo[1].y, xc, yc);
       ctx.stroke();
-    } else {
-      ctx.lineTo(x, y);
-      ctx.stroke();
     }
   };
 
-  const stopDrawing = () => {
-    if (isDrawing) {
-      setIsDrawing(false);
-      setPoints([]);
-    }
-  };
+  const stopDrawing = () => { if (isDrawing) { setIsDrawing(false); setPoints([]); } };
 
   const clearCanvas = () => {
     saveToHistory();
@@ -1891,10 +1888,7 @@ const ColoringBook = ({ data, onClose }) => {
     const ctx = canvas.getContext('2d');
     const img = new Image();
     img.src = scene.img;
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
+    img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
   };
 
   const downloadCanvas = () => {
@@ -1905,268 +1899,134 @@ const ColoringBook = ({ data, onClose }) => {
     link.click();
   };
 
+  const printCanvas = () => {
+    const canvas = canvasRef.current;
+    const dataUrl = canvas.toDataURL();
+    const win = window.open('', '_blank');
+    win.document.write(`<html><body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#fff">
+      <img src="${dataUrl}" style="max-width:100%;max-height:100vh;object-fit:contain" onload="window.print();window.close()"/>
+    </body></html>`);
+    win.document.close();
+  };
+
+  const toolBtn = (type, icon, title) => (
+    <button
+      onClick={() => setToolType(type)}
+      className={`w-12 h-12 flex items-center justify-center rounded-xl text-2xl transition-all ${toolType === type ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-50'}`}
+      title={title}
+    >{icon}</button>
+  );
+
   return (
-    <div className="fixed inset-0 z-[120] bg-white flex flex-col p-8 overflow-hidden">
-      <div className="flex justify-between items-center mb-8 bg-slate-50 p-6 rounded-[2.5rem] border-2 border-slate-100 shadow-sm overflow-x-auto no-scrollbar">
-        <div className="flex items-center gap-8 min-w-max">
-          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">🎨 БОЕНКА</h2>
-          
-          <div className="h-12 w-px bg-slate-200"></div>
+    <div className="fixed inset-0 z-[120] bg-white flex flex-col p-6 overflow-hidden">
+      {/* TOOLBAR */}
+      <div className="flex justify-between items-center mb-6 bg-slate-50 p-4 rounded-[2rem] border-2 border-slate-100 shadow-sm overflow-x-auto no-scrollbar gap-4">
+        <div className="flex items-center gap-6 min-w-max">
+          <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter shrink-0">🎨 БОЕНКА</h2>
 
-          <div className="flex gap-2 bg-white p-2 rounded-2xl shadow-inner">
-            <button onClick={() => setIsEraser(false)} className={`w-12 h-12 flex items-center justify-center rounded-xl text-2xl transition-all ${!isEraser ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-50'}`} title="Четка">🖌️</button>
-            <button onClick={() => setIsEraser(true)} className={`w-12 h-12 flex items-center justify-center rounded-xl text-2xl transition-all ${isEraser ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-50'}`} title="Гума">🧽</button>
+          <div className="h-10 w-px bg-slate-200 shrink-0" />
+
+          {/* Tools */}
+          <div className="flex gap-1 bg-white p-1.5 rounded-2xl shadow-inner shrink-0">
+            {toolBtn('brush', '🖌️', 'Четка (меки бои)')}
+            {toolBtn('pencil', '✏️', 'Молив (прецизно)')}
+            {toolBtn('eraser', '🧽', 'Гума')}
           </div>
 
-          <div className="flex gap-2">
-            <button onClick={undo} disabled={history.length <= 1} className="w-12 h-12 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center text-xl hover:bg-slate-50 disabled:opacity-30" title="Назад">↩️</button>
-            <button onClick={redo} disabled={redoStack.length === 0} className="w-12 h-12 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center text-xl hover:bg-slate-50 disabled:opacity-30" title="Напред">↪️</button>
+          {/* Undo/Redo */}
+          <div className="flex gap-1 shrink-0">
+            <button onClick={undo} disabled={history.length <= 1} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати назад">↩️</button>
+            <button onClick={redo} disabled={redoStack.length === 0} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати напред">↪️</button>
           </div>
 
-          <div className="h-12 w-px bg-slate-200"></div>
+          <div className="h-10 w-px bg-slate-200 shrink-0" />
 
-          <div className="flex flex-col gap-2">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Боја</span>
-            <div className="flex gap-2">
-              {['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#000000', '#ffffff'].map(c => (
-                <button 
-                  key={c} 
-                  className={`w-10 h-10 rounded-full border-4 transition-all ${color === c && !isEraser ? 'scale-110 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-105'}`}
-                  style={{ backgroundColor: c }}
-                  onClick={() => { setColor(c); setIsEraser(false); }}
-                />
-              ))}
-            </div>
+          {/* Colors */}
+          <div className="flex gap-2 shrink-0">
+            {['#ef4444','#f97316','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#000000'].map(c => (
+              <button
+                key={c}
+                className={`w-9 h-9 rounded-full border-4 transition-all ${color === c && toolType !== 'eraser' ? 'scale-125 border-indigo-600 shadow-lg' : 'border-transparent hover:scale-110'}`}
+                style={{ backgroundColor: c }}
+                onClick={() => { setColor(c); if (toolType === 'eraser') setToolType('brush'); }}
+              />
+            ))}
           </div>
 
-          {/* Expert Brush Controls */}
-          <div className="h-12 w-px bg-slate-200"></div>
-          <div className="flex flex-col gap-1 min-w-[120px]">
-            <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">
-              <span>Четка</span>
+          <div className="h-10 w-px bg-slate-200 shrink-0" />
+
+          {/* Brush size */}
+          <div className="flex flex-col gap-1 min-w-[110px] shrink-0">
+            <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <span>{toolType === 'pencil' ? 'Молив' : 'Четка'}</span>
               <span>{brushSize}px</span>
             </div>
-            <input 
-              type="range" min="2" max="100" value={brushSize} 
-              onChange={(e) => setBrushSize(parseInt(e.target.value))}
-              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-            />
+            <input type="range" min="2" max="80" value={brushSize} onChange={e => setBrushSize(+e.target.value)}
+              className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600" />
           </div>
 
-          <div className="h-12 w-px bg-slate-200"></div>
+          <div className="h-10 w-px bg-slate-200 shrink-0" />
 
-          {/* Expert Zoom Controls */}
-          <div className="flex flex-col gap-1">
+          {/* Zoom */}
+          <div className="flex flex-col gap-1 shrink-0">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Зум</span>
-            <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-xl border border-slate-200">
-              <button onClick={() => setZoom(Math.max(1, zoom - 0.2))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100 shadow-sm transition-all">−</button>
-              <span className="text-slate-700 font-mono text-[10px] w-8 text-center font-black">{Math.round(zoom * 100)}%</span>
-              <button onClick={() => setZoom(Math.min(4, zoom + 0.2))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100 shadow-sm transition-all">+</button>
+            <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200">
+              <button onClick={() => setZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100">−</button>
+              <span className="text-slate-700 font-mono text-[10px] w-10 text-center font-black">{Math.round(zoom * 100)}%</span>
+              <button onClick={() => setZoom(z => Math.min(4, +(z + 0.25).toFixed(2)))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100">+</button>
             </div>
           </div>
+
+          <div className="h-10 w-px bg-slate-200 shrink-0" />
+
+          {/* Show/hide text — инклузивна помош */}
+          <button
+            onClick={() => setShowText(v => !v)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-sm border-2 transition-all shrink-0 ${showText ? 'bg-amber-400 text-amber-900 border-amber-300' : 'bg-slate-100 text-slate-400 border-slate-200'}`}
+            title="Покажи/скриј текстуален опис (помош за ученици)"
+          >
+            {showText ? '👁️ Текст' : '🙈 Текст'}
+          </button>
         </div>
 
-        <div className="flex gap-4">
-          <button onClick={downloadCanvas} className="bg-emerald-50 text-emerald-600 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-emerald-100 transition-all">Сними 💾</button>
-          <button onClick={clearCanvas} className="bg-rose-50 text-rose-600 px-6 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-rose-100 transition-all">Исчисти 🗑️</button>
-          <button onClick={onClose} className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl">ЗАТВОРИ ×</button>
+        {/* Right actions */}
+        <div className="flex gap-3 shrink-0">
+          <button onClick={printCanvas} className="flex items-center gap-2 bg-indigo-50 text-indigo-700 px-5 py-3 rounded-2xl font-black text-sm hover:bg-indigo-100 transition-all border-2 border-indigo-100">🖨️ Печати</button>
+          <button onClick={downloadCanvas} className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-5 py-3 rounded-2xl font-black text-sm hover:bg-emerald-100 transition-all border-2 border-emerald-100">💾 Сними</button>
+          <button onClick={clearCanvas} className="flex items-center gap-2 bg-rose-50 text-rose-600 px-5 py-3 rounded-2xl font-black text-sm hover:bg-rose-100 transition-all border-2 border-rose-100">🗑️ Исчисти</button>
+          <button onClick={onClose} className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-black text-sm hover:bg-slate-800 transition-all shadow-xl">× Затвори</button>
         </div>
       </div>
 
-      <div className="flex-1 flex gap-10 overflow-hidden">
-        <div className="w-1/4 space-y-4 overflow-y-auto pr-4">
-          <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 px-2">Сцени за боење</p>
+      {/* MAIN AREA */}
+      <div className="flex-1 flex gap-6 overflow-hidden min-h-0">
+        {/* Scene list */}
+        <div className="w-48 space-y-3 overflow-y-auto pr-2 shrink-0">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Сцени</p>
           {data.map((s, idx) => (
-            <button 
-              key={idx} 
+            <button
+              key={idx}
               onClick={() => { setActiveScene(idx); setZoom(1); }}
-              className={`w-full p-4 rounded-[2rem] border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl -translate-y-1' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
+              className={`w-full p-3 rounded-2xl border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
             >
-              <div className="relative overflow-hidden rounded-2xl mb-3">
-                <img src={s.img} className={`w-full h-28 object-cover transition-all duration-500 ${activeScene === idx ? 'grayscale-0 scale-105' : 'grayscale group-hover:grayscale-0'}`} alt="Thumbnail" />
-                <div className={`absolute inset-0 flex items-center justify-center font-black text-4xl text-white drop-shadow-lg transition-opacity ${activeScene === idx ? 'opacity-100' : 'opacity-0'}`}>{idx + 1}</div>
+              <div className="relative overflow-hidden rounded-xl mb-2">
+                <img src={s.img} className={`w-full h-20 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt="" />
+                <div className={`absolute inset-0 flex items-center justify-center font-black text-3xl text-white drop-shadow-lg ${activeScene === idx ? 'opacity-100' : 'opacity-0'}`}>{idx + 1}</div>
               </div>
-              <p className={`text-xs font-bold leading-tight line-clamp-2 ${activeScene === idx ? 'text-white' : 'text-slate-500'}`}>{s.text}</p>
+              <p className={`text-[11px] font-bold leading-tight line-clamp-2 ${activeScene === idx ? 'text-white' : 'text-slate-500'}`}>{s.text}</p>
             </button>
           ))}
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center bg-slate-100/50 rounded-[4rem] border-4 border-dashed border-slate-200 relative overflow-hidden shadow-inner">
-          <div 
-            className="transition-transform duration-200 ease-out cursor-crosshair shadow-2xl rounded-2xl overflow-hidden bg-white"
-            style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
-          >
-            <canvas 
+        {/* Canvas area — scrollable to fix zoom offset */}
+        <div className="flex-1 overflow-auto bg-slate-100/50 rounded-[3rem] border-4 border-dashed border-slate-200 shadow-inner flex items-start justify-center p-4">
+          <div className="relative inline-block">
+            <canvas
               ref={canvasRef}
               width={800}
               height={600}
-              className="max-w-full h-auto"
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={stopDrawing}
-              onMouseOut={stopDrawing}
-              onTouchStart={startDrawing}
-              onTouchMove={draw}
-              onTouchEnd={stopDrawing}
-            />
-          </div>
-          
-          <div className="absolute bottom-10 left-10 right-10 bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] border-2 border-white shadow-2xl max-w-3xl mx-auto transform translate-y-4 hover:translate-y-0 transition-transform duration-500">
-            <div className="flex items-center gap-6">
-              <span className="bg-indigo-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center text-2xl font-black shadow-lg shadow-indigo-200">{activeScene + 1}</span>
-              <p className="text-xl font-bold text-slate-900 leading-relaxed italic">"{scene.text}"</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const HandwritingCanvas = ({ onClose, onRecognize }) => {
-  const canvasRef = useRef(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [brushSize, setBrushSize] = useState(5);
-  const [points, setPoints] = useState([]);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [zoom, setZoom] = useState(1);
-  const [history, setHistory] = useState([]);
-
-  const saveToHistory = () => {
-    const canvas = canvasRef.current;
-    if (canvas) setHistory(prev => [...prev.slice(-9), canvas.toDataURL()]);
-  };
-
-  const startDrawing = (e) => {
-    saveToHistory();
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const x = (clientX - rect.left) * (canvas.width / rect.width) / zoom;
-    const y = (clientY - rect.top) * (canvas.height / rect.height) / zoom;
-    setPoints([{ x, y }]);
-    setIsDrawing(true);
-    const ctx = canvas.getContext('2d');
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.strokeStyle = '#1e293b';
-    ctx.lineWidth = brushSize / zoom;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-  };
-
-  const draw = (e) => {
-    if (!isDrawing) return;
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const x = (clientX - rect.left) * (canvas.width / rect.width) / zoom;
-    const y = (clientY - rect.top) * (canvas.height / rect.height) / zoom;
-    const newPoints = [...points, { x, y }];
-    setPoints(newPoints);
-    const ctx = canvas.getContext('2d');
-    if (newPoints.length > 2) {
-      const lastTwo = newPoints.slice(-3);
-      const xc = (lastTwo[1].x + lastTwo[2].x) / 2;
-      const yc = (lastTwo[1].y + lastTwo[2].y) / 2;
-      ctx.quadraticCurveTo(lastTwo[1].x, lastTwo[1].y, xc, yc);
-      ctx.stroke();
-    } else {
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    }
-  };
-
-  const stopDrawing = () => setIsDrawing(false);
-
-  const handleRecognize = async () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    setIsProcessing(true);
-    try {
-      const apiKey = import.meta.env.VITE_GOOGLE_VISION_KEY;
-      if (!apiKey) {
-        alert("Google Vision API клучот не е поставен. Додади VITE_GOOGLE_VISION_KEY во .env фајлот.");
-        return;
-      }
-      const base64Image = canvas.toDataURL('image/png').split(',')[1];
-      const response = await fetch(
-        `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            requests: [{
-              image: { content: base64Image },
-              features: [{ type: 'DOCUMENT_TEXT_DETECTION' }]
-            }]
-          })
-        }
-      );
-      const result = await response.json();
-      const text = result.responses?.[0]?.fullTextAnnotation?.text || '';
-      if (!text.trim()) {
-        alert("Не е препознаен текст. Обиди се со поголеми и појасни букви.");
-        return;
-      }
-      onRecognize(text);
-      onClose();
-    } catch (err) {
-      console.error(err);
-      alert("Грешка при препознавање. Провери дали API клучот е точен.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const undo = () => {
-    if (history.length === 0) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const prevState = history[history.length - 1];
-    setHistory(prev => prev.slice(0, -1));
-    const img = new Image();
-    img.src = prevState;
-    img.onload = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-  };
-
-  return (
-    <div className="fixed inset-0 z-[200] bg-slate-900/90 backdrop-blur-xl flex flex-col items-center justify-center p-4">
-      <div className="bg-white rounded-[3rem] shadow-2xl w-full max-w-5xl overflow-hidden flex flex-col h-[90vh]">
-        <div className="p-8 border-b flex justify-between items-center bg-slate-50">
-          <div className="flex items-center gap-4">
-            <span className="text-4xl">✍️</span>
-            <div>
-              <h2 className="text-2xl font-black text-slate-800 uppercase">Паметна табла за пишување</h2>
-              <p className="text-sm text-slate-500 font-bold">Напиши го твојот одговор со ракопис</p>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <div className="flex bg-white rounded-2xl border shadow-sm p-1">
-              <button onClick={() => setZoom(Math.max(1, zoom - 0.5))} className="w-12 h-12 flex items-center justify-center hover:bg-slate-50 rounded-xl text-xl font-bold">➖</button>
-              <div className="w-16 flex items-center justify-center font-black text-sm">{Math.round(zoom * 100)}%</div>
-              <button onClick={() => setZoom(Math.min(3, zoom + 0.5))} className="w-12 h-12 flex items-center justify-center hover:bg-slate-50 rounded-xl text-xl font-bold">➕</button>
-            </div>
-            <button onClick={undo} disabled={history.length === 0} className="px-6 py-4 bg-white border-2 rounded-2xl font-black text-sm uppercase hover:bg-slate-50 disabled:opacity-30">Назад ↩️</button>
-            <button onClick={onClose} className="w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center text-3xl font-black hover:bg-rose-100 transition-all">×</button>
-          </div>
-        </div>
-
-        <div className="flex-1 bg-slate-200 p-10 flex items-center justify-center overflow-hidden relative">
-          <div 
-            className="bg-white shadow-2xl rounded-xl cursor-crosshair transition-transform duration-200"
-            style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
-          >
-            <canvas
-              ref={canvasRef}
-              width={1000}
-              height={600}
-              className="max-w-full h-auto"
+              style={{ width: `${800 * zoom}px`, height: `${600 * zoom}px`, display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
+              className="shadow-2xl rounded-2xl bg-white"
               onMouseDown={startDrawing}
               onMouseMove={draw}
               onMouseUp={stopDrawing}
@@ -2175,28 +2035,17 @@ const HandwritingCanvas = ({ onClose, onRecognize }) => {
               onTouchMove={draw}
               onTouchEnd={stopDrawing}
             />
-          </div>
-          {isProcessing && (
-            <div className="absolute inset-0 bg-indigo-900/60 backdrop-blur-md flex flex-col items-center justify-center text-white z-50">
-              <div className="w-20 h-20 border-8 border-white/20 border-t-white rounded-full animate-spin mb-8"></div>
-              <h3 className="text-3xl font-black uppercase tracking-widest">Се препознава твојот ракопис...</h3>
-              <p className="mt-4 text-xl opacity-80">Почекај малку додека АИ го чита твојот одговор</p>
-            </div>
-          )}
-        </div>
 
-        <div className="p-10 bg-slate-50 border-t flex gap-6">
-          <div className="flex-1 flex flex-col gap-2">
-            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Дебелина на пенкалото: {brushSize}px</span>
-            <input type="range" min="1" max="20" value={brushSize} onChange={(e) => setBrushSize(parseInt(e.target.value))} className="accent-indigo-600" />
+            {/* Text overlay — инклузивна помош */}
+            {showText && (
+              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md px-6 py-4 rounded-2xl border-2 border-amber-200 shadow-xl">
+                <div className="flex items-center gap-4">
+                  <span className="bg-amber-400 text-amber-900 w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black shadow shrink-0">{activeScene + 1}</span>
+                  <p className="text-base font-bold text-slate-800 leading-snug italic">"{scene.text}"</p>
+                </div>
+              </div>
+            )}
           </div>
-          <button 
-            onClick={handleRecognize}
-            disabled={isProcessing}
-            className="px-12 py-6 bg-indigo-600 text-white rounded-[2rem] text-2xl font-black shadow-xl hover:bg-indigo-700 transition-all flex items-center gap-4 active:scale-95"
-          >
-            {isProcessing ? "ПРЕПОЗНАВАЊЕ..." : "ГОТОВ СУМ, ПРАТИ ОДГОВОР! 🚀"}
-          </button>
         </div>
       </div>
     </div>
@@ -2216,7 +2065,7 @@ export default function App() {
   const [step, setStep] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
   const [textAns, setTextAns] = useState("");
-  const [showCanvas, setShowCanvas] = useState(false);
+
   const [showHint, setShowHint] = useState(false);
   const [glossaryTerm, setGlossaryTerm] = useState(null);
   const [completedStories, setCompletedStories] = useState(() => {
@@ -2685,11 +2534,6 @@ export default function App() {
                               title="Побарај помош"
                             >💡</button>
                           )}
-                          <button
-                            onClick={() => setShowCanvas(true)}
-                            className="w-16 h-16 bg-white border-4 border-indigo-100 rounded-full flex items-center justify-center text-3xl shadow-lg hover:border-indigo-400 transition-all"
-                            title="Цртај на табла"
-                          >✍️</button>
                         </div>
                       </div>
                     )}
@@ -2703,16 +2547,6 @@ export default function App() {
       </AnimatePresence>
 
       {/* MODALS */}
-      {showCanvas && (
-        <HandwritingCanvas 
-          onClose={() => setShowCanvas(false)} 
-          onRecognize={(recognizedText) => {
-            setTextAns(recognizedText);
-            handleTextSubmit(recognizedText);
-          }} 
-        />
-      )}
-
       {/* Модални прозорци за инклузивни активности */}
       {showPuzzle && (
         inclusiveData[activeStory]?.puzzle
