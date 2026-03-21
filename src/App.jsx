@@ -1807,9 +1807,38 @@ const ColoringBook = ({ data, onClose }) => {
   const [history, setHistory] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
   const [points, setPoints] = useState([]);
-  const [showText, setShowText] = useState(true);
+
+  // Caption matching: sceneAssignments[sceneIdx] = captionOriginalIdx
+  const [sceneAssignments, setSceneAssignments] = useState({});
+  // Shuffle caption order once on mount for the matching challenge
+  const [shuffledOrder] = useState(() => {
+    const arr = data.map((_, i) => i);
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  });
+
+  const handleCaptionClick = (captionIdx) => {
+    setSceneAssignments(prev => {
+      const newA = { ...prev };
+      // Remove this caption from any previously assigned scene
+      for (const k of Object.keys(newA)) {
+        if (newA[k] === captionIdx) delete newA[k];
+      }
+      // Toggle: unassign if same caption already on current scene
+      if (prev[activeScene] === captionIdx) {
+        delete newA[activeScene];
+      } else {
+        newA[activeScene] = captionIdx;
+      }
+      return newA;
+    });
+  };
 
   const scene = data[activeScene];
+  const assignedCaptionIdx = sceneAssignments[activeScene];
 
   const saveToHistory = () => {
     const canvas = canvasRef.current;
@@ -1938,9 +1967,12 @@ const ColoringBook = ({ data, onClose }) => {
   const printCanvas = () => {
     const canvas = canvasRef.current;
     const dataUrl = canvas.toDataURL();
+    const captionText = assignedCaptionIdx !== undefined ? data[assignedCaptionIdx].text : '';
     const win = window.open('', '_blank');
-    win.document.write(`<html><body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#fff">
-      <img src="${dataUrl}" style="max-width:100%;max-height:100vh;object-fit:contain" onload="window.print();window.close()"/>
+    win.document.write(`<html><body style="margin:0;padding:24px;font-family:sans-serif;background:#fff;text-align:center">
+      <img src="${dataUrl}" style="max-width:100%;max-height:85vh;object-fit:contain;display:block;margin:0 auto"/>
+      ${captionText ? `<p style="font-size:20px;margin-top:20px;font-style:italic;color:#333;text-align:center">&bdquo;${captionText}&ldquo;</p>` : ''}
+      <script>window.onload=function(){window.print();window.close();}<\/script>
     </body></html>`);
     win.document.close();
   };
@@ -2015,14 +2047,11 @@ const ColoringBook = ({ data, onClose }) => {
 
           <div className="h-10 w-px bg-slate-200 shrink-0" />
 
-          {/* Show/hide text — инклузивна помош */}
-          <button
-            onClick={() => setShowText(v => !v)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-sm border-2 transition-all shrink-0 ${showText ? 'bg-amber-400 text-amber-900 border-amber-300' : 'bg-slate-100 text-slate-400 border-slate-200'}`}
-            title="Покажи/скриј текстуален опис (помош за ученици)"
-          >
-            {showText ? '👁️ Текст' : '🙈 Текст'}
-          </button>
+          {/* Caption matching progress indicator */}
+          <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-amber-50 border-2 border-amber-200 shrink-0">
+            <span className="text-amber-600 text-lg">📝</span>
+            <span className="text-amber-800 font-black text-sm">{Object.keys(sceneAssignments).length}/{data.length}</span>
+          </div>
         </div>
 
         {/* Right actions */}
@@ -2034,27 +2063,36 @@ const ColoringBook = ({ data, onClose }) => {
         </div>
       </div>
 
-      {/* MAIN AREA */}
-      <div className="flex-1 flex gap-6 overflow-hidden min-h-0">
-        {/* Scene list */}
-        <div className="w-48 space-y-3 overflow-y-auto pr-2 shrink-0">
+      {/* MAIN AREA — 3 columns: scenes | canvas | captions */}
+      <div className="flex-1 flex gap-4 overflow-hidden min-h-0">
+
+        {/* LEFT: scene thumbnails (no text shown — student matches captions) */}
+        <div className="w-36 space-y-2 overflow-y-auto pr-1 shrink-0">
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Сцени</p>
-          {data.map((s, idx) => (
-            <button
-              key={idx}
-              onClick={() => { setActiveScene(idx); setZoom(1); }}
-              className={`w-full p-3 rounded-2xl border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
-            >
-              <div className="relative overflow-hidden rounded-xl mb-2">
-                <img src={s.img} className={`w-full h-20 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt="" />
-                <div className={`absolute inset-0 flex items-center justify-center font-black text-3xl text-white drop-shadow-lg ${activeScene === idx ? 'opacity-100' : 'opacity-0'}`}>{idx + 1}</div>
-              </div>
-              <p className={`text-[11px] font-bold leading-tight line-clamp-2 ${activeScene === idx ? 'text-white' : 'text-slate-500'}`}>{s.text}</p>
-            </button>
-          ))}
+          {data.map((s, idx) => {
+            const isCorrect = sceneAssignments[idx] === idx;
+            const hasAssignment = sceneAssignments[idx] !== undefined;
+            return (
+              <button
+                key={idx}
+                onClick={() => { setActiveScene(idx); setZoom(1); }}
+                className={`w-full p-2 rounded-2xl border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
+              >
+                <div className="relative overflow-hidden rounded-xl">
+                  <img src={s.img} className={`w-full h-16 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt="" />
+                  <div className={`absolute inset-0 flex items-center justify-center font-black text-2xl text-white drop-shadow-lg`}>{idx + 1}</div>
+                  {hasAssignment && (
+                    <div className={`absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-black shadow ${isCorrect ? 'bg-green-500' : 'bg-amber-400'}`}>
+                      {isCorrect ? '✓' : '📝'}
+                    </div>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Canvas area — scrollable to fix zoom offset */}
+        {/* CENTER: canvas area */}
         <div className="flex-1 overflow-auto bg-slate-100/50 rounded-[3rem] border-4 border-dashed border-slate-200 shadow-inner flex items-start justify-center p-4">
           <div className="relative inline-block">
             <canvas
@@ -2071,17 +2109,57 @@ const ColoringBook = ({ data, onClose }) => {
               onTouchMove={draw}
               onTouchEnd={stopDrawing}
             />
-
-            {/* Text overlay — инклузивна помош */}
-            {showText && (
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md px-6 py-4 rounded-2xl border-2 border-amber-200 shadow-xl">
-                <div className="flex items-center gap-4">
-                  <span className="bg-amber-400 text-amber-900 w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black shadow shrink-0">{activeScene + 1}</span>
-                  <p className="text-base font-bold text-slate-800 leading-snug italic">"{scene.text}"</p>
+            {/* Assigned caption overlay at bottom of canvas */}
+            {assignedCaptionIdx !== undefined ? (
+              <div className={`absolute bottom-4 left-4 right-4 px-6 py-3 rounded-2xl border-2 shadow-xl backdrop-blur-md ${assignedCaptionIdx === activeScene ? 'bg-green-400/95 border-green-300' : 'bg-amber-400/95 border-amber-300'}`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-lg shrink-0">{assignedCaptionIdx === activeScene ? '✅' : '📝'}</span>
+                  <p className={`text-sm font-bold leading-snug italic ${assignedCaptionIdx === activeScene ? 'text-green-900' : 'text-amber-900'}`}>„{data[assignedCaptionIdx].text}"</p>
                 </div>
+              </div>
+            ) : (
+              <div className="absolute bottom-4 left-4 right-4 bg-slate-800/60 backdrop-blur-md px-6 py-3 rounded-2xl border-2 border-slate-600/30 shadow-xl">
+                <p className="text-center text-white/80 text-sm font-bold">← Избери картичка со текст од десно</p>
               </div>
             )}
           </div>
+        </div>
+
+        {/* RIGHT: caption cards column (shuffled for matching challenge) */}
+        <div className="w-64 flex flex-col gap-2 overflow-y-auto shrink-0">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2 shrink-0">Картички со текст</p>
+          <p className="text-[10px] text-slate-400 px-2 mb-1 shrink-0 leading-snug">Кликни на картичка за да ја постaвиш на тековната слика</p>
+          {shuffledOrder.map((origIdx) => {
+            const s = data[origIdx];
+            const isOnCurrentScene = sceneAssignments[activeScene] === origIdx;
+            const assignedToEntry = Object.entries(sceneAssignments).find(([, v]) => v === origIdx);
+            const assignedSceneNum = assignedToEntry ? parseInt(assignedToEntry[0]) + 1 : null;
+            const isCorrectForSomeScene = origIdx === parseInt(assignedToEntry?.[0]);
+            return (
+              <button
+                key={origIdx}
+                onClick={() => handleCaptionClick(origIdx)}
+                className={`w-full p-3 rounded-2xl border-4 text-left transition-all shadow-sm ${
+                  isOnCurrentScene
+                    ? 'bg-amber-400 border-amber-300 shadow-lg text-amber-900 scale-[1.02]'
+                    : assignedSceneNum
+                      ? isCorrectForSomeScene
+                        ? 'bg-green-50 border-green-300 text-green-800'
+                        : 'bg-slate-50 border-slate-200 text-slate-400'
+                      : 'bg-white border-slate-100 hover:border-indigo-300 hover:shadow text-slate-700'
+                }`}
+              >
+                {assignedSceneNum && (
+                  <div className="flex items-center gap-1 mb-1.5">
+                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${isOnCurrentScene ? 'bg-amber-700 text-white' : isCorrectForSomeScene ? 'bg-green-500 text-white' : 'bg-slate-400 text-white'}`}>
+                      {isOnCurrentScene ? '✓ Оваа слика' : `Слика ${assignedSceneNum}`}
+                    </span>
+                  </div>
+                )}
+                <p className="text-sm font-bold leading-snug">{s.text}</p>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
