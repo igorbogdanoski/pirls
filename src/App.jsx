@@ -1223,12 +1223,12 @@ const inclusiveData = {
       { id: 5, img: './Prekrasnot oktopod/Hronoloska Slagalka/5 Gemini_Generated_Image_x8oyr4x8oyr4x8oy.png', text: "Октоподите се многу пријателски расположени кон своите чувари." }
     ],
     coloring: [
-      { id: 1, img: './Prekrasnot oktopod/Story board and colorin book/1 Gemini_Generated_Image_v7t8k3v7t8k3v7t8.png', text: "Октопод со осум долги пипала." },
-      { id: 2, img: './Prekrasnot oktopod/Story board and colorin book/2 Gemini_Generated_Image_f1t7o0f1t7o0f1t7.png', text: "Бегство со помош на мастило." },
-      { id: 3, img: './Prekrasnot oktopod/Story board and colorin book/3 Gemini_Generated_Image_z78pizz78pizz78p.png', text: "Паметниот октопод Фрида отвора тегла." },
-      { id: 4, img: './Prekrasnot oktopod/Story board and colorin book/4 Gemini_Generated_Image_opk6mxopk6mxopk6.png', text: "Време за игра во аквариумот." },
-      { id: 5, img: './Prekrasnot oktopod/Story board and colorin book/5 Gemini_Generated_Image_h4xz8lh4xz8lh4xz.png', text: "Поздравување со чуварот на аквариумот." },
-      { id: 6, img: './Prekrasnot oktopod/Story board and colorin book/6 Gemini_Generated_Image_jad20zjad20zjad2.png', text: "Различни бои и форми на октоподите." }
+      { id: 1, img: './Prekrasnot oktopod/Story board and colorin book/1 Gemini_Generated_Image_v7t8k3v7t8k3v7t8.png', text: "Октопод со осум долги пипала живее на дното на океанот." },
+      { id: 2, img: './Prekrasnot oktopod/Story board and colorin book/2 Gemini_Generated_Image_f1t7o0f1t7o0f1t7.png', text: "Бегство со помош на темен облак мастило." },
+      { id: 3, img: './Prekrasnot oktopod/Story board and colorin book/3 Gemini_Generated_Image_z78pizz78pizz78p.png', text: "Октоподот мајсторски се крие зад карпите — тоа е неговата суперсила!" },
+      { id: 4, img: './Prekrasnot oktopod/Story board and colorin book/4 Gemini_Generated_Image_opk6mxopk6mxopk6.png', text: "Паметниот октопод Фрида отвора тегла во аквариумот." },
+      { id: 5, img: './Prekrasnot oktopod/Story board and colorin book/5 Gemini_Generated_Image_h4xz8lh4xz8lh4xz.png', text: "Различни видови октоподи си играат со украсни топки." },
+      { id: 6, img: './Prekrasnot oktopod/Story board and colorin book/6 Gemini_Generated_Image_jad20zjad20zjad2.png', text: "Поздравување со чуварот на аквариумот — октоподот е пријателски!" }
     ]
   },
   lynx: {
