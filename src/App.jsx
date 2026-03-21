@@ -2209,6 +2209,7 @@ export default function App() {
   const [highlightMode, setHighlightMode] = useState(false);
   const [showPuzzle, setShowPuzzle] = useState(false);
   const [showColoring, setShowColoring] = useState(false);
+  const [showQuestions, setShowQuestions] = useState(false);
   const [markColor, setMarkColor] = useState('bg-yellow-300');
   const [fontSize, setFontSize] = useState(1.5); // rem
   const [avatarMsg, setAvatarMsg] = useState("");
@@ -2500,183 +2501,206 @@ export default function App() {
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* LEFT: TEXT */}
-        <div className="w-3/5 p-12 overflow-y-auto bg-slate-50/30 border-r-4 border-slate-100" onMouseUp={handleHighlight}>
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col gap-6 mb-10 pb-6 border-b-4 border-indigo-50">
-              <div className="flex items-center justify-between">
-                <h1 className="text-5xl font-black text-slate-900">{currentStory?.title || "digitalPIRLS"}</h1>
-                <div className="flex gap-2">
-                  <button onClick={() => setFontSize(Math.min(2.5, fontSize + 0.1))} className="p-3 bg-white border-2 border-slate-200 rounded-xl hover:bg-slate-50 font-bold" title="Зголеми текст">A+</button>
-                  <button onClick={() => setFontSize(Math.max(1, fontSize - 0.1))} className="p-3 bg-white border-2 border-slate-200 rounded-xl hover:bg-slate-50 font-bold" title="Намали текст">A-</button>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between bg-white p-4 rounded-3xl border-2 border-slate-100 shadow-sm">
-                <div className="flex items-center gap-4">
-                  <button onClick={() => setHighlightMode(!highlightMode)} className={`px-6 py-2 rounded-full font-black text-xs transition-all flex items-center gap-2 ${highlightMode ? 'bg-indigo-600 text-white shadow-lg scale-105' : 'bg-slate-100 text-slate-400 hover:bg-slate-200'}`}>
-                    🖍️ {highlightMode ? 'МАРКЕР: ВКЛУЧЕН' : 'ВКЛУЧИ МАРКЕР'}
-                  </button>
-                  {highlightMode && (
-                    <div className="flex gap-2 animate-in fade-in slide-in-from-left-2">
-                      {['bg-yellow-300', 'bg-green-300', 'bg-blue-300'].map(color => (
-                        <button 
-                          key={color} 
-                          onClick={() => setMarkColor(color)}
-                          className={`w-8 h-8 rounded-full border-2 transition-all ${color} ${markColor === color ? 'border-indigo-600 scale-125' : 'border-transparent hover:scale-110'}`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <button onClick={clearHighlights} className="text-xs font-bold text-slate-400 hover:text-red-500 transition-colors uppercase tracking-widest">
-                  Избриши сè 🗑️
-                </button>
-              </div>
-            </div>
-
-            <div ref={textRef} className="prose prose-2xl max-w-none text-slate-700 space-y-10" style={{ fontSize: `${fontSize}rem`, lineHeight: '1.6' }}>
-              {currentStory?.text.map((item, idx) => {
-                if (item.type === 'p') return (
-                  <p key={idx}>
-                    <TextWithGlossary 
-                      content={item.content} 
-                      glossary={glossaryData} 
-                      onTermClick={(term, def) => setGlossaryTerm({ term, def })} 
-                    />
-                  </p>
-                );
-                if (item.type === 'h2') return <h2 key={idx} className="text-4xl font-black text-indigo-900 mt-16 mb-8">{item.content}</h2>;
-                if (item.type === 'img') return <img key={idx} src={item.src} className="w-full rounded-[3rem] shadow-2xl my-6 border-[12px] border-white" alt={item.alt} />;
-                if (item.type === 'blockquote') return <blockquote key={idx} className="border-l-8 border-indigo-500 pl-8 font-black text-indigo-900 italic my-12">{item.content}</blockquote>;
-                return null;
-              })}
-              {!currentStory && <p className="text-2xl italic text-slate-400">Наскоро: Целосниот текст за оваа приказна е во подготовка...</p>}
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT: INTERACTIVE PANEL */}
-        <div className="w-2/5 flex flex-col bg-white">
-          <div className="p-8 bg-indigo-900 flex items-center gap-6 shadow-2xl relative z-10">
-            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-5xl shadow-xl animate-pulse">🦉</div>
-            <div className="flex-1 bg-white p-6 rounded-[2rem] rounded-tl-none shadow-xl border-4 border-indigo-200 relative group/msg">
-              <p className="text-slate-800 text-xl font-bold">{avatarMsg}</p>
-              {canSpeak && avatarMsg && (
-                <button 
-                  onClick={() => speak(avatarMsg)} 
-                  className="absolute -bottom-4 -right-4 w-12 h-12 bg-indigo-500 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all opacity-0 group-hover/msg:opacity-100"
-                  title="Слушај го советот"
-                >
-                  🔊
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="flex-1 p-10 bg-slate-50 overflow-y-auto">
-            {!currentQuestion && step > 0 && (
-              <div className="h-full flex flex-col items-center justify-center text-center p-10">
-                <div className="text-9xl mb-10">🏆</div>
-                <h2 className="text-5xl font-black text-slate-900 mb-6">БРАВО!</h2>
-                <p className="text-2xl font-bold text-slate-500 mb-12">Успешно ги реши сите предизвици!</p>
-                <button onClick={() => setActiveStory('home')} className="px-12 py-6 bg-emerald-500 text-white rounded-full text-2xl font-black shadow-2xl hover:bg-emerald-600 transition-all">
-                  СЛЕДНА ПРИКАЗНА 🐾
-                </button>
-              </div>
-            )}
-
-            {/* ИНКЛУЗИВЕН МОДУЛ (ПОСТОЈАНО ВИДЛИВ АКО ИМА ПОДАТОЦИ) */}
-            {inclusiveData[activeStory] && (
-              <div className="mb-8 p-8 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[3rem] shadow-2xl border-4 border-white/20 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:scale-110 transition-transform">
-                   <span className="text-8xl">🌟</span>
-                </div>
-                <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-3 relative z-10">
-                  <span className="bg-white/20 p-2 rounded-2xl">✨</span> 
-                  ИНКЛУЗИВНИ АКТИВНОСТИ
-                </h3>
-                <div className="grid grid-cols-2 gap-6 relative z-10">
-                  <button 
-                    onClick={() => setShowPuzzle(true)}
-                    className="flex flex-col items-center gap-4 p-6 bg-white/10 hover:bg-white/20 rounded-[2rem] border-2 border-white/30 backdrop-blur-sm transition-all hover:scale-105"
-                  >
-                    <span className="text-5xl">🧩</span>
-                    <span className="text-sm font-black text-white uppercase tracking-widest text-center leading-tight">Подреди ја<br/>приказната</span>
-                  </button>
-                  <button 
-                    onClick={() => setShowColoring(true)}
-                    className="flex flex-col items-center gap-4 p-6 bg-white/10 hover:bg-white/20 rounded-[2rem] border-2 border-white/30 backdrop-blur-sm transition-all hover:scale-105"
-                  >
-                    <span className="text-5xl">🎨</span>
-                    <span className="text-sm font-black text-white uppercase tracking-widest text-center leading-tight">Дигитална<br/>боенка</span>
-                  </button>
-                </div>
-                <p className="mt-6 text-indigo-100 text-xs font-bold text-center uppercase tracking-widest opacity-60">
-                  Специјално дизајнирано за инклузивно учење
+      {/* FULL WIDTH TEXT */}
+      <div className="flex-1 overflow-y-auto bg-slate-50/30 px-12 py-8" onMouseUp={handleHighlight}>
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-5xl font-black text-slate-900 mb-8">{currentStory?.title || "digitalPIRLS"}</h1>
+          <div ref={textRef} className="prose prose-2xl max-w-none text-slate-700 space-y-10" style={{ fontSize: `${fontSize}rem`, lineHeight: '1.8' }}>
+            {currentStory?.text.map((item, idx) => {
+              if (item.type === 'p') return (
+                <p key={idx}>
+                  <TextWithGlossary
+                    content={item.content}
+                    glossary={glossaryData}
+                    onTermClick={(term, def) => setGlossaryTerm({ term, def })}
+                  />
                 </p>
-              </div>
-            )}
-
-            {currentQuestion && (
-              <div className="bg-white p-8 rounded-[3rem] shadow-xl border-4 border-slate-100">
-                <h3 className="text-2xl font-black text-slate-800 mb-8">{step + 1}. {currentQuestion.q}</h3>
-                {currentQuestion.type === 'mcq' ? (
-                  <div className="space-y-4">
-                    {currentQuestion.options.map((opt) => (
-                      <button 
-                        key={opt}
-                        onClick={() => handleMCQ(opt, currentQuestion.correct)}
-                        className={`w-full p-6 text-left rounded-3xl text-xl font-bold transition-all border-4 ${selectedOpt === opt ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-slate-50 text-slate-700 border-white hover:border-indigo-100 shadow-sm'}`}
-                      >
-                        {selectedOpt === opt ? '✅ ' : '⭕️ '} {opt}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    <textarea 
-                      className="w-full h-48 p-8 bg-slate-50 rounded-[2rem] border-4 border-slate-100 text-xl font-medium focus:ring-4 focus:ring-indigo-200 outline-none"
-                      placeholder="Напиши го твојот одговор овде..."
-                      value={textAns}
-                      onChange={(e) => setTextAns(e.target.value)}
-                    />
-                    <div className="flex gap-4">
-                      <button 
-                        onClick={handleTextSubmit}
-                        className="flex-1 py-6 bg-indigo-600 text-white rounded-[2rem] text-2xl font-black shadow-xl hover:bg-indigo-700 transition-all"
-                      >
-                        ПРАТИ ОДГОВОР 🚀
-                      </button>
-                      {currentQuestion.hint && (
-                        <button 
-                          onClick={() => {
-                            setShowHint(!showHint);
-                            if(!showHint) setAvatarMsg(`💡 ПОМОШ: ${currentQuestion.hint}`);
-                          }}
-                          className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl shadow-lg transition-all border-4 ${showHint ? 'bg-yellow-400 border-yellow-200' : 'bg-white border-indigo-100 hover:border-yellow-400'}`}
-                          title="Побарај помош"
-                        >
-                          💡
-                        </button>
-                      )}
-                      <button 
-                        onClick={() => setShowCanvas(true)}
-                        className="w-24 h-24 bg-white border-4 border-indigo-100 rounded-full flex items-center justify-center text-4xl shadow-lg hover:border-indigo-400 transition-all"
-                        title="Цртај на табла"
-                      >
-                        ✍️
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
+              );
+              if (item.type === 'h2') return <h2 key={idx} className="text-4xl font-black text-indigo-900 mt-16 mb-8">{item.content}</h2>;
+              if (item.type === 'img') return <img key={idx} src={item.src} className="w-full rounded-[3rem] shadow-2xl my-6 border-[12px] border-white" alt={item.alt} />;
+              if (item.type === 'blockquote') return <blockquote key={idx} className="border-l-8 border-indigo-500 pl-8 font-black text-indigo-900 italic my-12">{item.content}</blockquote>;
+              return null;
+            })}
+            {!currentStory && <p className="text-2xl italic text-slate-400">Наскоро: Целосниот текст за оваа приказна е во подготовка...</p>}
           </div>
         </div>
       </div>
+
+      {/* BOTTOM BAR */}
+      <div className="shrink-0 h-20 bg-white border-t-2 border-slate-100 flex items-center justify-between px-8 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+        {/* LEFT: inclusive activities */}
+        <div className="flex items-center gap-3">
+          {inclusiveData[activeStory] && (
+            <>
+              <button
+                onClick={() => setShowPuzzle(true)}
+                className="flex items-center gap-2 px-5 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black rounded-2xl border-2 border-indigo-100 transition-all hover:scale-105 text-sm"
+              >
+                🧩 <span className="hidden sm:inline">Слагалка</span>
+              </button>
+              <button
+                onClick={() => setShowColoring(true)}
+                className="flex items-center gap-2 px-5 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 font-black rounded-2xl border-2 border-rose-100 transition-all hover:scale-105 text-sm"
+              >
+                🎨 <span className="hidden sm:inline">Боенка</span>
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* CENTER: big PIRLS-style questions button */}
+        <button
+          onClick={() => setShowQuestions(true)}
+          className="flex items-center gap-3 px-10 py-4 bg-orange-500 hover:bg-orange-600 text-white font-black rounded-full shadow-lg shadow-orange-200 transition-all hover:scale-105 active:scale-95 text-xl"
+        >
+          📋 <span>Прашања</span>
+          <span className="bg-white/25 px-3 py-1 rounded-full text-base font-black">
+            {Math.min(step + 1, currentStory?.questions?.length ?? 1)}/{currentStory?.questions?.length ?? '?'}
+          </span>
+        </button>
+
+        {/* RIGHT: text tools */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setHighlightMode(!highlightMode)}
+            className={`px-4 py-3 rounded-2xl font-black text-sm transition-all flex items-center gap-2 border-2 ${highlightMode ? 'bg-indigo-600 text-white border-indigo-400 shadow-lg' : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'}`}
+          >
+            🖍️
+          </button>
+          {highlightMode && (
+            <div className="flex gap-2">
+              {['bg-yellow-300', 'bg-green-300', 'bg-blue-300'].map(color => (
+                <button
+                  key={color}
+                  onClick={() => setMarkColor(color)}
+                  className={`w-8 h-8 rounded-full border-2 transition-all ${color} ${markColor === color ? 'border-indigo-600 scale-125' : 'border-transparent hover:scale-110'}`}
+                />
+              ))}
+            </div>
+          )}
+          <button onClick={() => setFontSize(Math.min(2.5, fontSize + 0.1))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Зголеми текст">A+</button>
+          <button onClick={() => setFontSize(Math.max(1, fontSize - 0.1))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Намали текст">A-</button>
+        </div>
+      </div>
+
+      {/* QUESTIONS OVERLAY — slides up from bottom, PIRLS-style */}
+      <AnimatePresence>
+        {showQuestions && (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+            className="fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-[2rem] overflow-hidden shadow-[0_-20px_60px_rgba(0,0,0,0.25)]"
+            style={{ height: '68vh' }}
+          >
+            {/* Orange header bar */}
+            <div className="bg-orange-500 flex items-center justify-between px-8 py-4 shrink-0">
+              <button
+                onClick={() => setShowQuestions(false)}
+                className="flex items-center gap-2 text-white font-black text-lg hover:bg-white/20 px-4 py-2 rounded-2xl transition-all"
+              >
+                ✕ <span className="hidden sm:inline">Назад кон текстот</span>
+              </button>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => { setStep(Math.max(0, step - 1)); setSelectedOpt(null); setTextAns(''); }}
+                  disabled={step === 0}
+                  className="w-12 h-12 bg-white/20 hover:bg-white/40 disabled:opacity-30 text-white font-black text-2xl rounded-2xl flex items-center justify-center transition-all"
+                >←</button>
+                <span className="text-white font-black text-2xl px-2">
+                  {Math.min(step + 1, currentStory?.questions?.length ?? 1)} / {currentStory?.questions?.length ?? '?'}
+                </span>
+                <button
+                  onClick={() => { setStep(Math.min((currentStory?.questions?.length ?? 1) - 1, step + 1)); setSelectedOpt(null); setTextAns(''); }}
+                  disabled={step >= (currentStory?.questions?.length ?? 1) - 1}
+                  className="w-12 h-12 bg-white/20 hover:bg-white/40 disabled:opacity-30 text-white font-black text-2xl rounded-2xl flex items-center justify-center transition-all"
+                >→</button>
+              </div>
+              <div className="w-36" />
+            </div>
+
+            {/* Question content area */}
+            <div className="flex-1 bg-white overflow-y-auto">
+              <div className="max-w-3xl mx-auto p-8">
+
+                {/* Owl feedback banner */}
+                {avatarMsg && (
+                  <div className="flex items-center gap-4 mb-6 p-4 bg-indigo-50 rounded-2xl border-2 border-indigo-100">
+                    <span className="text-3xl shrink-0">🦉</span>
+                    <p className="text-slate-700 font-bold flex-1">{avatarMsg}</p>
+                    {canSpeak && (
+                      <button onClick={() => speak(avatarMsg)} className="shrink-0 w-10 h-10 bg-indigo-500 text-white rounded-xl flex items-center justify-center hover:scale-110 transition-all">🔊</button>
+                    )}
+                  </div>
+                )}
+
+                {/* Completion screen */}
+                {!currentQuestion && step > 0 && (
+                  <div className="flex flex-col items-center justify-center text-center py-10">
+                    <div className="text-8xl mb-6">🏆</div>
+                    <h2 className="text-5xl font-black text-slate-900 mb-4">БРАВО!</h2>
+                    <p className="text-xl font-bold text-slate-500 mb-10">Успешно ги реши сите предизвици!</p>
+                    <button onClick={() => { setShowQuestions(false); setActiveStory('home'); }} className="px-12 py-5 bg-emerald-500 text-white rounded-full text-2xl font-black shadow-2xl hover:bg-emerald-600 transition-all">
+                      СЛЕДНА ПРИКАЗНА 🐾
+                    </button>
+                  </div>
+                )}
+
+                {/* Question */}
+                {currentQuestion && (
+                  <div>
+                    <h3 className="text-2xl font-black text-slate-800 mb-8">{step + 1}. {currentQuestion.q}</h3>
+                    {currentQuestion.type === 'mcq' ? (
+                      <div className="space-y-4">
+                        {currentQuestion.options.map((opt) => (
+                          <button
+                            key={opt}
+                            onClick={() => handleMCQ(opt, currentQuestion.correct)}
+                            className={`w-full p-5 text-left rounded-2xl text-xl font-bold transition-all border-4 ${selectedOpt === opt ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-slate-50 text-slate-700 border-white hover:border-indigo-100 shadow-sm'}`}
+                          >
+                            {selectedOpt === opt ? '✅ ' : '⭕️ '} {opt}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="space-y-5">
+                        <textarea
+                          className="w-full h-40 p-6 bg-slate-50 rounded-2xl border-4 border-slate-100 text-xl font-medium focus:ring-4 focus:ring-indigo-200 outline-none"
+                          placeholder="Напиши го твојот одговор овде..."
+                          value={textAns}
+                          onChange={(e) => setTextAns(e.target.value)}
+                        />
+                        <div className="flex gap-4">
+                          <button
+                            onClick={handleTextSubmit}
+                            className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-xl font-black shadow-xl hover:bg-indigo-700 transition-all"
+                          >
+                            ПРАТИ ОДГОВОР 🚀
+                          </button>
+                          {currentQuestion.hint && (
+                            <button
+                              onClick={() => { setShowHint(!showHint); if(!showHint) setAvatarMsg(`💡 ПОМОШ: ${currentQuestion.hint}`); }}
+                              className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-lg transition-all border-4 ${showHint ? 'bg-yellow-400 border-yellow-200' : 'bg-white border-indigo-100 hover:border-yellow-400'}`}
+                              title="Побарај помош"
+                            >💡</button>
+                          )}
+                          <button
+                            onClick={() => setShowCanvas(true)}
+                            className="w-16 h-16 bg-white border-4 border-indigo-100 rounded-full flex items-center justify-center text-3xl shadow-lg hover:border-indigo-400 transition-all"
+                            title="Цртај на табла"
+                          >✍️</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* MODALS */}
       {showCanvas && (
