@@ -1709,29 +1709,37 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
   return (
     <div className="fixed inset-0 z-[300] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
-        <div className="text-center mb-10">
-          <div className="text-6xl mb-4">📋</div>
-          <h2 className="text-3xl font-black text-slate-900">Командна Табла</h2>
+        <div className="text-center mb-8">
+          <div className="text-6xl mb-4">👩‍🏫</div>
+          <h2 className="text-3xl font-black text-slate-900">Командна Табла — Наставник</h2>
+          <p className="text-slate-500 mt-3 text-base leading-snug">Создај нов час и сподели го кодот со учениците. Ги следиш нивните одговори во живо за време на часот.</p>
         </div>
         <div className="space-y-4">
-          <input value={teacherName} onChange={e => setTeacherName(e.target.value)}
-            placeholder="Вашето име (незадолжително)"
-            className="w-full border-4 border-slate-200 rounded-2xl py-4 px-6 font-bold text-lg focus:outline-none focus:border-indigo-400" />
+          <div>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Ваше ime (незадолжително)</label>
+            <input value={teacherName} onChange={e => setTeacherName(e.target.value)}
+              placeholder="пр. Марија Петровска"
+              className="w-full border-4 border-slate-200 rounded-2xl py-4 px-6 font-bold text-lg focus:outline-none focus:border-indigo-400" />
+          </div>
           <button onClick={handleCreateSession}
-            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3">
+            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-indigo-200">
             🆕 Создади нов час
           </button>
-          <div className="flex items-center gap-4">
+          <p className="text-xs text-slate-400 text-center">↑ Генерира уникатен 6-знаковен код кој го даваш на учениците</p>
+          <div className="flex items-center gap-4 mt-2">
             <div className="flex-1 h-px bg-slate-200" />
-            <span className="text-slate-400 text-sm font-bold">или приклучи се кон постоечки</span>
+            <span className="text-slate-400 text-sm font-bold">или продолжи постоечки час</span>
             <div className="flex-1 h-px bg-slate-200" />
           </div>
-          <div className="flex gap-3">
-            <input value={joinCode} onChange={e => setJoinCode(e.target.value.toUpperCase())}
-              placeholder="КОД НА ЧАС" maxLength={8}
-              className="flex-1 border-4 border-slate-200 rounded-2xl py-4 px-6 font-black text-xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
-            <button onClick={handleJoinSession}
-              className="px-8 py-4 bg-slate-800 text-white rounded-2xl font-black text-lg hover:bg-slate-700 transition-all">Влез</button>
+          <div>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Код на веќе создаден час</label>
+            <div className="flex gap-3">
+              <input value={joinCode} onChange={e => setJoinCode(e.target.value.toUpperCase())}
+                placeholder="пр. KFX7PQ" maxLength={8}
+                className="flex-1 border-4 border-slate-200 rounded-2xl py-4 px-6 font-black text-xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
+              <button onClick={handleJoinSession}
+                className="px-8 py-4 bg-slate-800 text-white rounded-2xl font-black text-lg hover:bg-slate-700 transition-all">Влез</button>
+            </div>
           </div>
           {error && <p className="text-red-500 text-center font-bold">{error}</p>}
         </div>
@@ -1764,29 +1772,36 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
   return (
     <div className="fixed inset-0 z-[300] bg-indigo-950/95 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <div className="text-7xl mb-4">🎓</div>
           <h2 className="text-4xl font-black text-slate-900">Влези во час</h2>
-          <p className="text-slate-500 mt-2 text-lg">Внеси го своето име и кодот од наставникот</p>
+          <p className="text-slate-500 mt-3 text-base leading-snug">Наставникот ти дал 6-знаковен код за часот. Внеси го своето <strong>ime и презиме</strong> и кодот за да се приклучиш.</p>
         </div>
         <div className="space-y-4">
-          <input value={name} onChange={e => setName(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleJoin()}
-            placeholder="Твоето име и презиме"
-            className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
-          <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
-            onKeyDown={e => e.key === 'Enter' && handleJoin()}
-            placeholder="КОД НА ЧАС" maxLength={8}
-            className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-black text-2xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
+          <div>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Твое ime и презиме</label>
+            <input value={name} onChange={e => setName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleJoin()}
+              placeholder="пр. Марко Јованоски"
+              className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
+          </div>
+          <div>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Код на часот (од наставникот)</label>
+            <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
+              onKeyDown={e => e.key === 'Enter' && handleJoin()}
+              placeholder="пр. KFX7PQ" maxLength={8}
+              className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-black text-2xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
+          </div>
           {error && <p className="text-red-500 text-center font-bold">{error}</p>}
           <button onClick={handleJoin} disabled={loading}
-            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 disabled:opacity-60 transition-all">
+            className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 disabled:opacity-60 transition-all shadow-lg shadow-indigo-200">
             {loading ? '⏳ Се поврзува...' : 'Влезам! 🚀'}
           </button>
         </div>
         <button onClick={onSkip} className="w-full mt-4 py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-lg hover:bg-slate-200 transition-all">
           Продолжи без час →
         </button>
+        <p className="text-center text-xs text-slate-300 mt-3">Без час — активностите работат нормално, но наставникот нема да ги гледа твоите одговори</p>
       </div>
     </div>
   );
