@@ -1815,8 +1815,12 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
     const upperCode = code.toUpperCase().trim();
     setLoading(true);
     if (FIREBASE_ENABLED && db) {
-      const snap = await get(ref(db, `pirls_sessions/${upperCode}`)).catch(() => null);
-      if (!snap?.exists()) { setError('Кодот не постои. Прашај го наставникот.'); setLoading(false); return; }
+      try {
+        const snap = await get(ref(db, `pirls_sessions/${upperCode}`));
+        if (!snap?.exists()) { setError('Кодот не постои. Прашај го наставникот.'); setLoading(false); return; }
+      } catch {
+        // Permission error or network issue — allow joining, student data will sync when written
+      }
     }
     setLoading(false);
     onJoin(name.trim(), upperCode);
