@@ -2826,7 +2826,7 @@ export default function App() {
             ) : (
               <button onClick={() => setShowJoinSession(true)}
                 className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-2xl hover:border-indigo-400 transition-all group text-center">
-                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🔗</div>
+                <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🧒</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Влези во час</h2>
                 <p className="text-sm text-slate-500 leading-snug">Внеси го своето <strong>име и презиме</strong> и 6-знаковниот код од наставникот за да се приклучиш во часот.</p>
                 <div className="mt-3">
@@ -2907,6 +2907,37 @@ export default function App() {
           </footer>
 
         </div>
+
+        {/* Modals — must render on home screen too */}
+        {showTeacherLogin && (
+          <TeacherLoginModal
+            onSuccess={(code) => {
+              setSessionCode(code);
+              localStorage.setItem('pirls_session', code);
+              setShowTeacherLogin(false);
+              setShowTeacher(true);
+            }}
+            onClose={() => setShowTeacherLogin(false)}
+          />
+        )}
+        {showTeacher && (
+          <TeacherDashboard
+            sessionCode={sessionCode}
+            onClose={() => { setShowTeacher(false); setSessionCode(''); localStorage.removeItem('pirls_session'); }}
+          />
+        )}
+        {showJoinSession && (
+          <StudentJoinModal
+            onJoin={(name, code) => {
+              setStudentName(name);
+              setSessionCode(code);
+              localStorage.setItem('pirls_student_name', name);
+              localStorage.setItem('pirls_session', code);
+              setShowJoinSession(false);
+            }}
+            onSkip={() => setShowJoinSession(false)}
+          />
+        )}
       </div>
     );
   }
