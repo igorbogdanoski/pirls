@@ -102,6 +102,25 @@ const imgs = {
   }
 };
 
+// ─── SHARED STORIES LIST ─────────────────────────────────────
+const STORIES = [
+  { id: 'chest',      icon: '🗝️',  title: 'Тајната на ковчегот',      color: 'from-amber-50 to-amber-100 border-amber-200' },
+  { id: 'kaja',       icon: '💡',  title: 'Највредниот пронајдок',     color: 'from-yellow-50 to-yellow-100 border-yellow-200' },
+  { id: 'baba',       icon: '🌻',  title: 'Цвеќиња на покривот',      color: 'from-pink-50 to-pink-100 border-pink-200' },
+  { id: 'octopus',    icon: '🐙',  title: 'Прекрасниот октопод',      color: 'from-indigo-50 to-indigo-100 border-indigo-200' },
+  { id: 'watchmaker', icon: '🕰️',  title: 'Тајната на часовничарот',  color: 'from-orange-50 to-orange-100 border-orange-200' },
+  { id: 'kite',       icon: '🪁',  title: 'Змејот на трпението',      color: 'from-sky-50 to-sky-100 border-sky-200' },
+  { id: 'lynx',       icon: '🐾',  title: 'Балканскиот рис',          color: 'from-emerald-50 to-emerald-100 border-emerald-200' },
+  { id: 'shovel',     icon: '⛏️',  title: 'Чичкото со лопатата',      color: 'from-slate-50 to-slate-100 border-slate-200' },
+  { id: 'rabbit',     icon: '🐰',  title: 'Зајакот и земјотресот',    color: 'from-green-50 to-green-100 border-green-200' },
+  { id: 'puffins',    icon: '🐧',  title: 'Морските папагалчиња',     color: 'from-blue-50 to-blue-100 border-blue-200' },
+  { id: 'eagle',      icon: '🦅',  title: 'Летај, Орле, летај',       color: 'from-orange-50 to-orange-100 border-orange-200' },
+  { id: 'pita',       icon: '🥧',  title: 'Пита за непријателот',     color: 'from-red-50 to-red-100 border-red-200' },
+  { id: 'pot',        icon: '🏺',  title: 'Празната саксија',         color: 'from-rose-50 to-rose-100 border-rose-200' },
+  { id: 'lakestar',   icon: '⛵',  title: 'Езерската ѕвезда',         color: 'from-cyan-50 to-cyan-100 border-cyan-200' },
+  { id: 'lambe',      icon: '🐭',  title: 'Дедо Ламбе и глувците',   color: 'from-slate-100 to-slate-200 border-slate-300' },
+];
+
 const glossaryData = {
   "пипала": "Долги, флексибилни органи кај некои животни (како октоподот) кои служат за фаќање, движење или допир.",
   "вшмукување": "Процес на создавање вакуум за да се привлече или прицврсти нешто за површина.",
@@ -1663,6 +1682,7 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
   const [joinCode, setJoinCode] = useState('');
   const [teacherName, setTeacherName] = useState('');
   const [error, setError] = useState('');
+  const [createdCode, setCreatedCode] = useState('');
   const TEACHER_PIN = import.meta.env.VITE_TEACHER_PIN || 'pirls2025';
 
   const handlePinSubmit = () => {
@@ -1677,13 +1697,46 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
         createdAt: Date.now(), teacher: teacherName || 'Наставник', students: {},
       }).catch(() => {});
     }
-    onSuccess(code);
+    setCreatedCode(code);
+    setMode('story');
+  };
+
+  const handlePickStory = async (storyId) => {
+    if (FIREBASE_ENABLED && db && createdCode) {
+      await update(ref(db, `pirls_sessions/${createdCode}`), { assignedStory: storyId }).catch(() => {});
+    }
+    onSuccess(createdCode);
   };
 
   const handleJoinSession = () => {
     if (joinCode.trim().length < 4) { setError('Внесете валиден код'); return; }
     onSuccess(joinCode.toUpperCase().trim());
   };
+
+  if (mode === 'story') return (
+    <div className="fixed inset-0 z-[300] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-[3rem] p-10 shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+        <div className="text-center mb-6 shrink-0">
+          <div className="text-5xl mb-3">📚</div>
+          <h2 className="text-3xl font-black text-slate-900">Која приказна денес?</h2>
+          <p className="text-slate-500 mt-2 text-base">Код на часот: <strong className="text-indigo-600 text-xl tracking-widest font-black">{createdCode}</strong> · Избери ја приказната за учениците</p>
+        </div>
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 overflow-y-auto flex-1 mb-4">
+          {STORIES.map(s => (
+            <button key={s.id} onClick={() => handlePickStory(s.id)}
+              className={`p-5 rounded-[2rem] border-4 bg-gradient-to-b ${s.color} hover:shadow-xl hover:scale-105 transition-all text-center group`}>
+              <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">{s.icon}</div>
+              <p className="text-xs font-black text-slate-800 leading-tight">{s.title}</p>
+            </button>
+          ))}
+        </div>
+        <button onClick={() => onSuccess(createdCode)}
+          className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-lg hover:bg-slate-200 transition-all shrink-0">
+          Продолжи без одредена приказна →
+        </button>
+      </div>
+    </div>
+  );
 
   if (mode === 'pin') return (
     <div className="fixed inset-0 z-[300] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4">
@@ -1867,6 +1920,32 @@ const TeacherDashboard = ({ sessionCode, onClose }) => {
           <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 rounded-2xl font-black transition-all text-sm">📥 CSV</button>
           <button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 text-white w-14 h-14 rounded-2xl font-black text-2xl flex items-center justify-center transition-all">×</button>
         </div>
+      </div>
+
+      {/* STORY SWITCHER — live control */}
+      <div className="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center gap-3 overflow-x-auto shrink-0">
+        <span className="text-slate-400 text-xs font-black uppercase tracking-widest shrink-0">Приказна за час:</span>
+        {STORIES.map(s => {
+          const isActive = sessionData?.assignedStory === s.id;
+          return (
+            <button key={s.id} onClick={async () => {
+              if (!FIREBASE_ENABLED || !db) return;
+              await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: isActive ? null : s.id }).catch(() => {});
+            }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all shrink-0 ${isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}>
+              {s.icon} {s.title}
+            </button>
+          );
+        })}
+        {sessionData?.assignedStory && (
+          <button onClick={async () => {
+            if (!FIREBASE_ENABLED || !db) return;
+            await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: null }).catch(() => {});
+          }}
+            className="px-4 py-2 rounded-xl font-bold text-sm bg-rose-900/60 text-rose-400 hover:bg-rose-800 transition-all shrink-0">
+            ✕ Откажи ограничување
+          </button>
+        )}
       </div>
 
       {/* GRID */}
@@ -2504,6 +2583,15 @@ export default function App() {
   const [showTeacherLogin, setShowTeacherLogin] = useState(false);
   const [showTeacher, setShowTeacher] = useState(false);
   const [showJoinSession, setShowJoinSession] = useState(false);
+  const [assignedStory, setAssignedStory] = useState('');
+
+  // Live-listen to assignedStory so teacher can change it mid-lesson
+  useEffect(() => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode) { setAssignedStory(''); return; }
+    const aRef = ref(db, `pirls_sessions/${sessionCode}/assignedStory`);
+    onValue(aRef, snap => setAssignedStory(snap.val() || ''));
+    return () => off(aRef);
+  }, [sessionCode]);
 
   useEffect(() => {
     const checkVoices = () => {
@@ -2773,38 +2861,42 @@ export default function App() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-            {[
-              { id: 'chest', icon: '🗝️', title: 'Тајната на ковчегот', color: 'from-amber-50 to-amber-100 border-amber-200' },
-              { id: 'kaja', icon: '💡', title: 'Највредниот пронајдок', color: 'from-yellow-50 to-yellow-100 border-yellow-200' },
-              { id: 'baba', icon: '🌻', title: 'Цвеќиња на покривот', color: 'from-pink-50 to-pink-100 border-pink-200' },
-              { id: 'octopus', icon: '🐙', title: 'Прекрасниот октопод', color: 'from-indigo-50 to-indigo-100 border-indigo-200' },
-              { id: 'watchmaker', icon: '🕰️', title: 'Тајната на часовничарот', color: 'from-orange-50 to-orange-100 border-orange-200' },
-              { id: 'kite', icon: '🪁', title: 'Змејот на трпението', color: 'from-sky-50 to-sky-100 border-sky-200' },
-              { id: 'lynx', icon: '🐾', title: 'Балканскиот рис', color: 'from-emerald-50 to-emerald-100 border-emerald-200' },
-              { id: 'shovel', icon: '⛏️', title: 'Чичкото со лопатата', color: 'from-slate-50 to-slate-100 border-slate-200' },
-              { id: 'rabbit', icon: '🐰', title: 'Зајакот и земјотресот', color: 'from-green-50 to-green-100 border-green-200' },
-              { id: 'puffins', icon: '🐧', title: 'Морските папагалчиња', color: 'from-blue-50 to-blue-100 border-blue-200' },
-              { id: 'eagle', icon: '🦅', title: 'Летај, Орле, летај', color: 'from-orange-50 to-orange-100 border-orange-200' },
-              { id: 'pita', icon: '🥧', title: 'Пита за непријателот', color: 'from-red-50 to-red-100 border-red-200' },
-              { id: 'pot', icon: '🏺', title: 'Празната саксија', color: 'from-rose-50 to-rose-100 border-rose-200' },
-              { id: 'lakestar', icon: '⛵', title: 'Езерската ѕвезда', color: 'from-cyan-50 to-cyan-100 border-cyan-200' },
-              { id: 'lambe', icon: '🐭', title: 'Дедо Ламбе и глувците', color: 'from-slate-100 to-slate-200 border-slate-300' }
-            ].map(s => (
-              <button 
-                key={s.id} 
-                onClick={() => setActiveStory(s.id)} 
-                className={`p-10 rounded-[3.5rem] shadow-xl border-4 bg-gradient-to-b ${s.color} hover:-translate-y-3 hover:shadow-2xl transition-all group relative overflow-hidden text-center`}
-              >
-                {completedStories.includes(s.id) && (
-                  <div className="absolute top-4 right-4 text-4xl animate-bounce">🎖️</div>
-                )}
-                <div className="text-8xl mb-6 group-hover:scale-110 transition-transform duration-500 drop-shadow-md">{s.icon}</div>
-                <h2 className="text-2xl font-black text-slate-800 leading-tight">{s.title}</h2>
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">Започни 🚀</span>
-                </div>
-              </button>
-            ))}
+            {STORIES.map(s => {
+              const isAssigned = !!assignedStory && s.id === assignedStory;
+              const isLocked   = !!sessionCode && !!assignedStory && s.id !== assignedStory;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => !isLocked && setActiveStory(s.id)}
+                  disabled={isLocked}
+                  className={[
+                    'p-10 rounded-[3.5rem] shadow-xl border-4 bg-gradient-to-b transition-all group relative overflow-hidden text-center',
+                    s.color,
+                    isAssigned
+                      ? 'ring-4 ring-indigo-500 ring-offset-4 shadow-2xl shadow-indigo-200 scale-[1.04]'
+                      : isLocked
+                        ? 'opacity-20 grayscale cursor-not-allowed'
+                        : 'hover:shadow-2xl hover:-translate-y-1',
+                  ].join(' ')}
+                >
+                  {isAssigned && (
+                    <div className="absolute top-4 left-4 bg-indigo-600 text-white text-xs font-black px-3 py-1.5 rounded-full tracking-widest uppercase">
+                      📌 Денес
+                    </div>
+                  )}
+                  {completedStories.includes(s.id) && !isLocked && (
+                    <div className="absolute top-4 right-4 text-4xl animate-bounce">🎖️</div>
+                  )}
+                  <div className={`text-8xl mb-6 drop-shadow-md transition-transform duration-500 ${!isLocked ? 'group-hover:scale-110' : ''}`}>{s.icon}</div>
+                  <h2 className="text-2xl font-black text-slate-800 leading-tight">{s.title}</h2>
+                  {!isLocked && (
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">Започни 🚀</span>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           <footer className="mt-24 py-8 border-t border-slate-200 w-full text-center">
