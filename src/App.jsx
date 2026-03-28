@@ -2741,15 +2741,17 @@ export default function App() {
   const handleMCQ = (opt, correct) => {
     setSelectedOpt(opt);
     saveAnswer('mcq', opt, opt === correct);
+    const nextStep = step + 1;
+    const totalSteps = currentStory.questions.length;
+    setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
     if (opt === correct) {
       playSound('success');
-      setAvatarMsg("Одлично! Одиме на следното прашање.");
-      const nextStep = step + 1;
-      const totalSteps = currentStory.questions.length;
-      setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
-      setTimeout(() => { setStep(nextStep); setSelectedOpt(null); }, 1500);
+      setAvatarMsg("Точно! Одлично размислување. 🎯");
+      if (canSpeak) speak("Точно! Одлично размислување.");
+      setTimeout(() => { setStep(nextStep); setSelectedOpt(null); setTextAns(''); setShowHint(false); }, 1800);
     } else {
-      setAvatarMsg("Хмм, обиди се повторно. Одговорот е во текстот!");
+      setAvatarMsg(`Не е точно — точниот одговор е означен со зелено. Продолжуваме натаму.`);
+      setTimeout(() => { setStep(nextStep); setSelectedOpt(null); setTextAns(''); setShowHint(false); }, 2500);
     }
   };
 
@@ -3127,8 +3129,8 @@ export default function App() {
                   disabled={step === 0}
                   className="w-12 h-12 bg-white/20 hover:bg-white/40 disabled:opacity-30 text-white font-black text-2xl rounded-2xl flex items-center justify-center transition-all"
                 >←</button>
-                <span className="text-white font-black text-2xl px-2">
-                  {Math.min(step + 1, currentStory?.questions?.length ?? 1)} / {currentStory?.questions?.length ?? '?'}
+                <span className="text-white font-black text-xl px-2">
+                  {Math.min(step + 1, currentStory?.questions?.length ?? 1)} од {currentStory?.questions?.length ?? '?'}
                 </span>
                 <button
                   onClick={() => { setStep(Math.min((currentStory?.questions?.length ?? 1) - 1, step + 1)); setSelectedOpt(null); setTextAns(''); }}
@@ -3163,69 +3165,137 @@ export default function App() {
                 {!currentQuestion && step > 0 && (
                   <div className="flex flex-col items-center justify-center text-center py-10">
                     <div className="text-8xl mb-6">🏆</div>
-                    <h2 className="text-5xl font-black text-slate-900 mb-4">БРАВО!</h2>
-                    <p className="text-xl font-bold text-slate-500 mb-10">Успешно ги реши сите предизвици!</p>
-                    <button onClick={() => { setShowQuestions(false); setActiveStory('home'); }} className="px-12 py-5 bg-emerald-500 text-white rounded-full text-2xl font-black shadow-2xl hover:bg-emerald-600 transition-all">
-                      СЛЕДНА ПРИКАЗНА 🐾
-                    </button>
+                    <h2 className="text-4xl font-black text-slate-900 mb-3 uppercase tracking-tight">Одлична работа!</h2>
+                    <p className="text-lg font-bold text-slate-500 mb-10 max-w-sm leading-relaxed">Успешно ги одговори сите прашања за оваа приказна.</p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <button
+                        onClick={() => { setShowQuestions(false); }}
+                        className="px-10 py-4 bg-indigo-100 text-indigo-700 rounded-2xl text-lg font-black hover:bg-indigo-200 transition-all border-2 border-indigo-200"
+                      >
+                        ← Назад кон текстот
+                      </button>
+                      <button
+                        onClick={() => { setShowQuestions(false); setActiveStory('home'); }}
+                        className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-lg font-black shadow-xl hover:bg-emerald-600 transition-all"
+                      >
+                        Избери нова приказна →
+                      </button>
+                    </div>
                   </div>
                 )}
 
                 {/* Question */}
-                {currentQuestion && (
+                {currentQuestion && (() => {
+                  const letters = ['А', 'Б', 'В', 'Г', 'Д'];
+                  const wordCount = textAns.trim() ? textAns.trim().split(/\s+/).length : 0;
+                  const canSubmit = wordCount >= 3;
+                  return (
                   <div>
-                    <div className="flex items-start gap-3 mb-8">
-                      <h3 className="text-2xl font-black text-slate-800 flex-1">{step + 1}. {currentQuestion.q}</h3>
+                    {/* Question text + listen button */}
+                    <div className="flex items-start gap-3 mb-6">
+                      <h3 className="text-2xl font-black text-slate-800 flex-1 leading-snug">
+                        <span className="text-orange-500 mr-2">{step + 1}.</span>{currentQuestion.q}
+                      </h3>
                       {canSpeak && (
                         <button
                           onClick={() => speak(currentQuestion.q)}
                           className="shrink-0 w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center hover:bg-orange-200 hover:scale-110 transition-all mt-1"
                           title="Слушај го прашањето"
+                          aria-label="Слушај го прашањето"
                         >🔊</button>
                       )}
                     </div>
+
+                    {/* MCQ */}
                     {currentQuestion.type === 'mcq' ? (
-                      <div className="space-y-4" role="radiogroup" aria-label={`Опции за прашање ${step + 1}`}>
-                        {currentQuestion.options.map((opt) => (
-                          <button
-                            key={opt}
-                            onClick={() => handleMCQ(opt, currentQuestion.correct)}
-                            disabled={selectedOpt !== null}
-                            aria-pressed={selectedOpt === opt}
-                            className={`w-full p-5 text-left rounded-2xl text-xl font-bold transition-all border-4 disabled:cursor-not-allowed ${selectedOpt === opt ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-slate-50 text-slate-700 border-white hover:border-indigo-100 shadow-sm disabled:opacity-60'}`}
-                          >
-                            {selectedOpt === opt ? '✅ ' : '⭕️ '} {opt}
-                          </button>
-                        ))}
+                      <div className="space-y-3" role="radiogroup" aria-label={`Опции за прашање ${step + 1}`}>
+                        {currentQuestion.options.map((opt, idx) => {
+                          const isSelected = selectedOpt === opt;
+                          const isCorrect  = opt === currentQuestion.correct;
+                          const answered   = selectedOpt !== null;
+                          let cls = 'bg-white border-slate-200 text-slate-700 hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-md';
+                          if (answered && isCorrect)                cls = 'bg-emerald-500 border-emerald-400 text-white shadow-lg shadow-emerald-200';
+                          else if (answered && isSelected && !isCorrect) cls = 'bg-red-500 border-red-400 text-white shadow-lg shadow-red-200';
+                          else if (answered)                        cls = 'bg-slate-50 border-slate-100 text-slate-300 opacity-50';
+                          return (
+                            <button
+                              key={opt}
+                              onClick={() => handleMCQ(opt, currentQuestion.correct)}
+                              disabled={answered}
+                              aria-pressed={isSelected}
+                              className={`w-full p-4 text-left rounded-2xl text-lg font-bold transition-all duration-300 border-4 flex items-center gap-4 disabled:cursor-not-allowed ${cls}`}
+                            >
+                              <span className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-base shrink-0 transition-all ${
+                                answered && isCorrect        ? 'bg-white/30 text-white' :
+                                answered && isSelected       ? 'bg-white/30 text-white' :
+                                answered                     ? 'bg-slate-200 text-slate-400' :
+                                                               'bg-indigo-100 text-indigo-700'
+                              }`}>
+                                {answered && isCorrect ? '✓' : answered && isSelected && !isCorrect ? '✗' : letters[idx]}
+                              </span>
+                              <span className="flex-1">{opt}</span>
+                            </button>
+                          );
+                        })}
                       </div>
+
                     ) : (
-                      <div className="space-y-5">
-                        <textarea
-                          className="w-full h-40 p-6 bg-slate-50 rounded-2xl border-4 border-slate-100 text-xl font-medium focus:ring-4 focus:ring-indigo-200 outline-none"
-                          placeholder="Напиши го твојот одговор..."
-                          value={textAns}
-                          onChange={(e) => setTextAns(e.target.value)}
-                        />
-                        <div className="flex flex-col sm:flex-row gap-4">
+                      /* Text answer */
+                      <div className="space-y-4">
+                        {/* Textarea */}
+                        <div className="relative">
+                          <textarea
+                            autoFocus
+                            className="w-full min-h-[10rem] p-5 bg-white rounded-2xl border-4 border-indigo-200 focus:border-indigo-500 text-xl font-medium outline-none transition-colors duration-200 resize-none leading-relaxed"
+                            placeholder="Напиши го твојот одговор..."
+                            value={textAns}
+                            onChange={(e) => setTextAns(e.target.value)}
+                            aria-label={`Одговор на прашање ${step + 1}`}
+                            aria-describedby="word-count-hint"
+                          />
+                          {/* Word counter */}
+                          <div id="word-count-hint" className={`absolute bottom-3 right-4 text-sm font-bold transition-colors ${
+                            wordCount === 0 ? 'text-slate-300' :
+                            wordCount < 3   ? 'text-amber-500' :
+                                              'text-emerald-600'
+                          }`}>
+                            {wordCount === 0 ? 'Мин. 3 збора' : `${wordCount} ${wordCount === 1 ? 'збор' : 'зборови'} ${wordCount >= 3 ? '✓' : ''}`}
+                          </div>
+                        </div>
+
+                        {/* Inline hint */}
+                        {currentQuestion.hint && (
+                          <div className={`overflow-hidden transition-all duration-300 ${showHint ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                            <div className="flex items-start gap-3 p-4 bg-amber-50 border-2 border-amber-200 rounded-2xl">
+                              <span className="text-2xl shrink-0">💡</span>
+                              <p className="text-amber-800 font-bold text-base leading-snug">{currentQuestion.hint}</p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Submit row */}
+                        <div className="flex gap-3">
                           <button
                             onClick={handleTextSubmit}
-                            className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:bg-indigo-700 transition-all"
+                            disabled={!canSubmit}
+                            className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-lg font-black shadow-lg hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                           >
-                            ПРАТИ ОДГОВОР 🚀
+                            {canSubmit ? 'ИСПРАТИ ОДГОВОР →' : 'Напиши најмалку 3 збора'}
                           </button>
                           {currentQuestion.hint && (
                             <button
-                              onClick={() => { setShowHint(!showHint); if(!showHint) setAvatarMsg(`💡 ПОМОШ: ${currentQuestion.hint}`); }}
-                              className={`w-full sm:w-16 sm:h-16 h-14 rounded-2xl sm:rounded-full flex items-center justify-center text-2xl sm:text-3xl shadow-lg transition-all border-4 ${showHint ? 'bg-yellow-400 border-yellow-200' : 'bg-white border-indigo-100 hover:border-yellow-400'}`}
-                              title="Побарај помош"
-                              aria-label="Покажи совет за ова прашање"
+                              onClick={() => setShowHint(!showHint)}
+                              className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl border-4 transition-all shrink-0 ${showHint ? 'bg-amber-400 border-amber-300 shadow-lg' : 'bg-white border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
+                              aria-label={showHint ? 'Скриј совет' : 'Покажи совет'}
+                              aria-expanded={showHint}
                             >💡</button>
                           )}
                         </div>
                       </div>
                     )}
                   </div>
-                )}
+                  );
+                })()}
 
               </div>
             </div>
