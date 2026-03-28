@@ -66,19 +66,19 @@ const inclusiveData = {
   },
   baba: {
     puzzle: [
-      { id: 1, img: './baba gun/Hronoloski slagalki/1 Gemini_Generated_Image_cszl5bcszl5bcszl.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот." },
-      { id: 2, img: './baba gun/Hronoloski slagalki/2 Gemini_Generated_Image_bockdcbockdcbock.png', text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот." },
-      { id: 3, img: './baba gun/Hronoloski slagalki/3 Gemini_Generated_Image_xfis2zxfis2zxfis.png', text: "Баба Гун тајно си ги донесе кокошките во својот нов стан." },
-      { id: 4, img: './baba gun/Hronoloski slagalki/4 Gemini_Generated_Image_5gfp4t5gfp4t5gfp.png', text: "Таа си направи прекрасна градина на својот балкон." },
-      { id: 5, img: './baba gun/Hronoloski slagalki/5 Gemini_Generated_Image_c4v4yfc4v4yfc4v4.png', text: "Сега баба Гун е среќна, но се прашува како да ја качи кравата во лифтот!" }
+      { id: 1, img: './baba gun/Hronoloski slagalki/1 Gemini_Generated_Image_cszl5bcszl5bcszl.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот.", textSq: 'Gjyshja Gun jetonte në një shtëpizë të vogël fshati me bar mbi çati.' },
+      { id: 2, img: './baba gun/Hronoloski slagalki/2 Gemini_Generated_Image_bockdcbockdcbock.png', text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот.", textSq: 'Mjeku i tha se duhej të shpërngulej në një ndërtesë të madhe në qytet.' },
+      { id: 3, img: './baba gun/Hronoloski slagalki/3 Gemini_Generated_Image_xfis2zxfis2zxfis.png', text: "Баба Гун тајно си ги донесе кокошките во својот нов стан.", textSq: 'Gjyshja Gun fshehurazi i solli pulat në apartamentin e saj të ri.' },
+      { id: 4, img: './baba gun/Hronoloski slagalki/4 Gemini_Generated_Image_5gfp4t5gfp4t5gfp.png', text: "Таа си направи прекрасна градина на својот балкон.", textSq: 'Ajo bëri një kopsht të mrekullueshëm në ballkonin e saj.' },
+      { id: 5, img: './baba gun/Hronoloski slagalki/5 Gemini_Generated_Image_c4v4yfc4v4yfc4v4.png', text: "Сега баба Гун е среќна, но се прашува како да ја качи кравата во лифтот!", textSq: 'Tani gjyshja Gun është e lumtur, por pyet si ta fusë lopën në ashensor!' }
     ],
     coloring: [
-      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун со нејзините животни пред куќичката во село." },
-      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Докторот ѝ рече да се пресели — баба Гун ги пакува своите работи." },
-      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Баба Гун го разгледува новиот стан и балконот со поглед на градот." },
-      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "Баба Гун тајно ги качува кокошките по скалите во зградата." },
-      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "Баба Гун сади трева и цвеќиња на балконот — исто како во село!" },
-      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Кравата влезе во лифтот — баба Гун не знае што да прави!" }
+      { id: 1, img: './baba gun/Story board and colorin book/1 Gemini_Generated_Image_puhov0puhov0puho.png', text: "Баба Гун со нејзините животни пред куќичката во село.", textSq: 'Gjyshja Gun me kafshët e saj para shtëpizës në fshat.' },
+      { id: 2, img: './baba gun/Story board and colorin book/2 Gemini_Generated_Image_6qunt16qunt16qun.png', text: "Докторот ѝ рече да се пресели — баба Гун ги пакува своите работи.", textSq: 'Mjeku i thotë të shpërngulet — gjyshja Gun i pako gjërat e saj.' },
+      { id: 3, img: './baba gun/Story board and colorin book/3 Gemini_Generated_Image_el9wb5el9wb5el9w.png', text: "Баба Гун го разгледува новиот стан и балконот со поглед на градот.", textSq: 'Gjyshja Gun shikon apartamentin e ri me ballkon me pamje nga qyteti.' },
+      { id: 4, img: './baba gun/Story board and colorin book/4 Gemini_Generated_Image_rtzmsartzmsartzm.png', text: "Баба Гун тајно ги качува кокошките по скалите во зградата.", textSq: 'Gjyshja Gun fshehurazi i ngjit pulat nëpër shkallë.' },
+      { id: 5, img: './baba gun/Story board and colorin book/5 Gemini_Generated_Image_qikdraqikdraqikd.png', text: "Баба Гун сади трева и цвеќиња на балконот — исто како во село!", textSq: 'Gjyshja Gun mbjell bar dhe lule në ballkon — njësoj si në fshat!' },
+      { id: 6, img: './baba gun/Story board and colorin book/6 Gemini_Generated_Image_up56l0up56l0up56.png', text: "Кравата влезе во лифтот — баба Гун не знае што да прави!", textSq: 'Lopa hyn në ashensor — gjyshja Gun nuk di çfarë të bëjë!' }
     ]
   },
   octopus: {
@@ -255,18 +255,18 @@ const inclusiveData = {
   },
   lynx: {
     puzzle: [
-      { id: 1, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_1.png', text: "Балканскиот рис е прекрасна дива мачка која живее во нашите планини." },
-      { id: 2, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_3.png', text: "Научниците користат специјални камери за да го следат движењето на рисовите." },
-      { id: 3, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_5.png', text: "Рисовите се многу вешти ловци и се движат нешумно низ шумата." },
-      { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_8.png', text: "Мајката рис се грижи за своите мали рисчиња во скриени дувла." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_12.png', text: "Мораме да ги заштитиме рисовите затоа што се многу ретки и загрозени." }
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_1.png', text: "Балканскиот рис е прекрасна дива мачка која живее во нашите планини.", textSq: 'Rreqebulli ballkanik është një mace e egër e rrallë që jeton në malet tona.' },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_3.png', text: "Научниците користат специјални камери за да го следат движењето на рисовите.", textSq: 'Shkencëtarët përdorin kamera speciale për të ndjekur lëvizjet e rreqebullit.' },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_5.png', text: "Рисовите се многу вешти ловци и се движат нешумно низ шумата.", textSq: 'Rreqebujt janë gjuetarë shumë të aftë dhe lëvizin pa zhurmë nëpër pyll.' },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_8.png', text: "Мајката рис се грижи за своите мали рисчиња во скриени дувла.", textSq: 'Nëna rreqebull kujdeset për të vegjlit e saj në strofulla të fshehura.' },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_12.png', text: "Мораме да ги заштитиме рисовите затоа што се многу ретки и загрозени.", textSq: 'Duhet të mbrojmë rreqebujt sepse janë shumë të rrallë dhe të rrezikuar.' }
     ],
     coloring: [
-      { id: 1, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_2.png', text: "Рис со карактеристични реси на ушите." },
-      { id: 2, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_4.png', text: "Поставување фото-замка во планината." },
-      { id: 3, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_6.png', text: "Рис како демне во снежната шума." },
-      { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_9.png', text: "Малите рисчиња си играат пред дувлото." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_11.png', text: "Природата каде што живее балканскиот рис." }
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_2.png', text: "Рис со карактеристични реси на ушите.", textSq: 'Rreqebulli me veshë karakteristikë me tufa.' },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_4.png', text: "Поставување фото-замка во планината.", textSq: 'Vendosja e kurthit fotografik në mal.' },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_6.png', text: "Рис како демне во снежната шума.", textSq: 'Rreqebulli duke zgjuar në pyllin me borë.' },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_9.png', text: "Малите рисчиња си играат пред дувлото.", textSq: 'Rreqebujt e vegjël duke luajtur para strofullës.' },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Balkan_Lynx/The_Balkan_Lynx_11.png', text: "Природата каде што живее балканскиот рис.", textSq: 'Natyra ku jeton rreqebulli ballkanik.' }
     ]
   },
   boat: {
@@ -400,76 +400,76 @@ const inclusiveData = {
   },
   chest: {
     puzzle: [
-      { id: 1, img: 'Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко седеше на тремот и му беше многу досадно." },
-      { id: 2, img: 'Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "На таванот пронајде мал дрвен ковчег со цвеќиња." },
-      { id: 3, img: 'Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Дедо му му ги раскажа приказните за предметите во ковчегот." }
+      { id: 1, img: 'Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко седеше на тремот и му беше многу досадно.", textSq: 'Marko ishte i trishtuar që duhej ta kalonte pushimin në fshat.' },
+      { id: 2, img: 'Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "На таванот пронајде мал дрвен ковчег со цвеќиња.", textSq: 'Gjyshi i tij e kërkoi të gjente një orë të vjetër në papafingo.' },
+      { id: 3, img: 'Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Дедо му му ги раскажа приказните за предметите во ковчегот.", textSq: 'Marko gjeti një arkë të vogël druri të gdhendur me lule.' }
     ],
     coloring: [
-      { id: 1, img: 'Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко на тремот." },
-      { id: 2, img: 'Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "Дрвениот ковчег." },
-      { id: 3, img: 'Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Среќните спомени." }
+      { id: 1, img: 'Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко на тремот.", textSq: 'Marko ulet në verandë dhe i mërzitet.' },
+      { id: 2, img: 'Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "Дрвениот ковчег.", textSq: 'Arka e drurit me gdhendje lulesh.' },
+      { id: 3, img: 'Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Среќните спомени.", textSq: 'Kujtimet e lumtura të gjyshit.' }
     ]
   },
   kaja: {
     puzzle: [
-      { id: 1, img: 'Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Каја сакаше да направи робот што чисти." },
-      { id: 2, img: 'Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Дедото ја утеши Каја кога роботот се расипа." },
-      { id: 3, img: 'Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Каја направи паметна хранилка за птиците." }
+      { id: 1, img: 'Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Каја сакаше да направи робот што чисти.", textSq: 'Kaja donte të bënte një robot që pastron.' },
+      { id: 2, img: 'Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Дедото ја утеши Каја кога роботот се расипа.", textSq: 'Gjyshi e ngushëlloi Kajën kur roboti u prish.' },
+      { id: 3, img: 'Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Каја направи паметна хранилка за птиците.", textSq: 'Kaja bëri një ushqyes të mençur për zogjtë.' }
     ],
     coloring: [
-      { id: 1, img: 'Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Лабораторијата на Каја." },
-      { id: 2, img: 'Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Разговор со дедото." },
-      { id: 3, img: 'Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Хранилката за птици." }
+      { id: 1, img: 'Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Лабораторијата на Каја.", textSq: 'Laboratori i Kajës.' },
+      { id: 2, img: 'Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Разговор со дедото.", textSq: 'Bisedë me gjyshin.' },
+      { id: 3, img: 'Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Хранилката за птици.", textSq: 'Ushqyesi për zogjtë.' }
     ]
   },
   watchmaker: {
     puzzle: [
-      { id: 1, img: 'Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Марко се чувствуваше осамено во новиот град." },
-      { id: 2, img: 'Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Кучето на часовничарот го повика Марко на помош." },
-      { id: 3, img: 'Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Марко и часовничарот станаа најдобри пријатели." }
+      { id: 1, img: 'Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Марко се чувствуваше осамено во новиот град.", textSq: 'Marko ndihej i vetmuar në qytetin e ri.' },
+      { id: 2, img: 'Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Кучето на часовничарот го повика Марко на помош.", textSq: 'Qeni i sahatçiut e thirri Markon në ndihmë.' },
+      { id: 3, img: 'Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Марко и часовничарот станаа најдобри пријатели.", textSq: 'Marko dhe sahatçiu u bënë miqtë më të mirë.' }
     ],
     coloring: [
-      { id: 1, img: 'Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Марко пред куќата." },
-      { id: 2, img: 'Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Средба со кучето." },
-      { id: 3, img: 'Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Работилницата за часовници." }
+      { id: 1, img: 'Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Марко пред куќата.", textSq: 'Marko para shtëpisë.' },
+      { id: 2, img: 'Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Средба со кучето.", textSq: 'Takimi me qenin.' },
+      { id: 3, img: 'Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Работилницата за часовници.", textSq: 'Punishja e sahateve.' }
     ]
   },
   pita: {
     puzzle: [
-      { id: 1, img: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Баба и внукот направија вкусна пита." },
-      { id: 2, img: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Тие ја однесоа питата кај стариот сосед." },
-      { id: 3, img: 'Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Заедно уживаа во вечерата и разговорот." },
-      { id: 4, img: 'Gemini_Generated_Image_bn489hbn489hbn48.png', text: "Непријателот стана најдобар пријател." }
+      { id: 1, img: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Баба и внукот направија вкусна пита.", textSq: 'Gjyshja dhe nipi bënë një byrek të shijshëm.' },
+      { id: 2, img: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Тие ја однесоа питата кај стариот сосед.", textSq: 'Ata ia çuan byrekun fqinjit të vjetër.' },
+      { id: 3, img: 'Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Заедно уживаа во вечерата и разговорот.", textSq: 'Bashkë gëzuan darkën dhe bisedën.' },
+      { id: 4, img: 'Gemini_Generated_Image_bn489hbn489hbn48.png', text: "Непријателот стана најдобар пријател.", textSq: 'Armiku u bë miku më i mirë.' }
     ],
     coloring: [
-      { id: 1, img: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Готвење во кујната." },
-      { id: 2, img: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Носење на питата." },
-      { id: 3, img: 'Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Вечера кај соседот." },
-      { id: 4, img: 'Gemini_Generated_Image_bn489hbn489hbn48.png', text: "Ново пријателство." }
+      { id: 1, img: 'Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Готвење во кујната.", textSq: 'Gatim në kuzhinë.' },
+      { id: 2, img: 'Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Носење на питата.", textSq: 'Bartja e byreks.' },
+      { id: 3, img: 'Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Вечера кај соседот.", textSq: 'Darkë te fqinji.' },
+      { id: 4, img: 'Gemini_Generated_Image_bn489hbn489hbn48.png', text: "Ново пријателство.", textSq: 'Miqësi e re.' }
     ]
   },
   shovel: {
     puzzle: [
-      { id: 1, img: 'Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Чичкото со лопатата работеше напорно секој ден." },
-      { id: 2, img: 'Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Децата му помагаа и се смееја заедно." },
-      { id: 3, img: 'Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Чичкото им раскажуваше најубави приказни." }
+      { id: 1, img: 'Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Чичкото со лопатата работеше напорно секој ден.", textSq: 'Xhaxhai me lopata punonte shumë çdo ditë.' },
+      { id: 2, img: 'Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Децата му помагаа и се смееја заедно.", textSq: 'Fëmijët e ndihmonin dhe qeshnin bashkë.' },
+      { id: 3, img: 'Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Чичкото им раскажуваше најубави приказни.", textSq: 'Xhaxhai u tregonte historitë më të bukura.' }
     ],
     coloring: [
-      { id: 1, img: 'Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Работа во дворот." },
-      { id: 2, img: 'Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Радост и смеа." },
-      { id: 3, img: 'Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Време за приказни." }
+      { id: 1, img: 'Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Работа во дворот.", textSq: 'Punë në oborr.' },
+      { id: 2, img: 'Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Радост и смеа.", textSq: 'Gëzim dhe të qeshura.' },
+      { id: 3, img: 'Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Време за приказни.", textSq: 'Koha për histori.' }
     ]
   },
   kite: {
     puzzle: [
-      { id: 1, img: 'Gemini_Generated_Image_ovlkzqovlkzqovlk.png', text: "Змејот беше заплеткан во гранките." },
-      { id: 2, img: 'Gemini_Generated_Image_2fxzxn2fxzxn2fxz.png', text: "Децата со многу трпение го поправаа змејот." },
-      { id: 3, img: 'Gemini_Generated_Image_22q3ph22q3ph22q3.png', text: "Змејот конечно полета високо на небото." }
+      { id: 1, img: 'Gemini_Generated_Image_ovlkzqovlkzqovlk.png', text: "Змејот беше заплеткан во гранките.", textSq: 'Balonja ishte ngatërruar në degë.' },
+      { id: 2, img: 'Gemini_Generated_Image_2fxzxn2fxzxn2fxz.png', text: "Децата со многу трпение го поправаа змејот.", textSq: 'Fëmijët e rregulluan balonën me shumë durim.' },
+      { id: 3, img: 'Gemini_Generated_Image_22q3ph22q3ph22q3.png', text: "Змејот конечно полета високо на небото.", textSq: 'Balonja fluturoi lart në qiell.' }
     ],
     coloring: [
-      { id: 1, img: 'Gemini_Generated_Image_ovlkzqovlkzqovlk.png', text: "Несреќа со змејот." },
-      { id: 2, img: 'Gemini_Generated_Image_2fxzxn2fxzxn2fxz.png', text: "Поправка во работилницата." },
-      { id: 3, img: 'Gemini_Generated_Image_22q3ph22q3ph22q3.png', text: "Лет кон облаците." }
+      { id: 1, img: 'Gemini_Generated_Image_ovlkzqovlkzqovlk.png', text: "Несреќа со змејот.", textSq: 'Aksidenti me balonën.' },
+      { id: 2, img: 'Gemini_Generated_Image_2fxzxn2fxzxn2fxz.png', text: "Поправка во работилницата.", textSq: 'Riparimi në punishte.' },
+      { id: 3, img: 'Gemini_Generated_Image_22q3ph22q3ph22q3.png', text: "Лет кон облаците.", textSq: 'Fluturim drejt reve.' }
     ]
   },
   rabbit: {
@@ -508,39 +508,39 @@ const inclusiveData = {
   // ADD: lakestar ID — maps to The_Lake_Star folder
   lakestar: {
     puzzle: [
-      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_1.png', text: "На небото секоја ноќ светеше една многу посебна ѕвезда." },
-      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_3.png', text: "Една вечер, ѕвездата падна право во мирното езеро." },
-      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_6.png', text: "Сите животни во шумата се собраа да видат што се случи." },
-      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_9.png', text: "Ѕвездата ги претвори сите риби во светлечки суштества." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_12.png', text: "Езерото почна да свети во прекрасни бои на виножитото." },
-      { id: 6, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_15.png', text: "Оттогаш, езерото е чудо кое луѓето доаѓаат да го гледаат." }
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_1.png', text: "На небото секоја ноќ светеше една многу посебна ѕвезда.", textSq: 'Çdo natë në qiell shkëlqente një yll shumë i veçantë.' },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_3.png', text: "Една вечер, ѕвездата падна право во мирното езеро.", textSq: 'Një mbrëmje, ylli ra drejt në liqenin e qetë.' },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_6.png', text: "Сите животни во шумата се собраа да видат што се случи.", textSq: 'Të gjitha kafshët e pyllit u mblodhën të shihnin çfarë ndodhi.' },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_9.png', text: "Ѕвездата ги претвори сите риби во светлечки суштества.", textSq: 'Ylli i ktheu të gjithë peshqit në qenie ndriçuese.' },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_12.png', text: "Езерото почна да свети во прекрасни бои на виножитото.", textSq: 'Liqeni filloi të shkëlqejë në ngjyrat e ylberit.' },
+      { id: 6, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_15.png', text: "Оттогаш, езерото е чудо кое луѓето доаѓаат да го гледаат.", textSq: 'Që atëherë, liqeni është një mrekulli që njerëzit vijnë ta shohin.' }
     ],
     coloring: [
-      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_2.png', text: "Ноќното небо над езерото." },
-      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_4.png', text: "Падот на ѕвездата." },
-      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_7.png', text: "Животните се собираат на брегот." },
-      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_10.png', text: "Магичните светлечки риби." },
-      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_13.png', text: "Светлечкото езеро." }
+      { id: 1, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_2.png', text: "Ноќното небо над езерото.", textSq: 'Qielli i natës mbi liqen.' },
+      { id: 2, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_4.png', text: "Падот на ѕвездата.", textSq: 'Rënia e yllit.' },
+      { id: 3, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_7.png', text: "Животните се собираат на брегот.", textSq: 'Kafshët mblidhen në breg.' },
+      { id: 4, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_10.png', text: "Магичните светлечки риби.", textSq: 'Peshqit magjikë ndriçues në ujë.' },
+      { id: 5, img: './PDF PIRLS Slidedecks/The_Lake_Star/The_Lake_Star_13.png', text: "Светлечкото езеро.", textSq: 'Liqeni ndriçues.' }
     ]
   },
   fossil: {
     puzzle: [
-      { id: 1, img: './Заб приказна/хронолоска слагалка/1. Gemini_Generated_Image_1y5z5e1y5z5e1y5z.png', text: "Луѓето наоѓале огромни фосили во карпите и не знаеле что се тие." },
-      { id: 2, img: './Заб приказна/хронолоска слагалка/2. Gemini_Generated_Image_mo45g6mo45g6mo45.png', text: "Бернар Палиси во Франција проучувал фосили и сфатил дека се остатоци од изумрени суштества." },
-      { id: 3, img: './Заб приказна/хронолоска слагалка/3. Gemini_Generated_Image_sfcb4isfcb4isfcb.png', text: "Мери Анинг во Англија нашла загадочен фосилен заб и го однела на својот сопруг Гидеон Мантел." },
-      { id: 4, img: './Заб приказна/хронолоска слагалка/4. Gemini_Generated_Image_6p7e426p7e426p7e.png', text: "Гидеон Мантел го проучувал забот со лупа и го однел во музеи ширум светот за да открие что е." },
-      { id: 5, img: './Заб приказна/хронолоска слагалка/5. Gemini_Generated_Image_a31784a31784a317.png', text: "Мантел открил дека забот припаѓа на огромен влекач сличен на игуана и му го дал името Игуанодон." },
-      { id: 6, img: './Заб приказна/хронолоска слагалка/6. Gemini_Generated_Image_c5p20ic5p20ic5p2.png', text: "Мантел погрешно нацртал Игуанодон со рог на носот — всушност тоа бил шилец од неговиот палец." },
-      { id: 7, img: './Заб приказна/хронолоска слагалка/7. Gemini_Generated_Image_fd9pplfd9pplfd9p.png', text: "Во 1842 година научникот Ричард Овен го измислил зборот \"диносауриа\" — ужасно голем гуштер." }
+      { id: 1, img: './Заб приказна/хронолоска слагалка/1. Gemini_Generated_Image_1y5z5e1y5z5e1y5z.png', text: "Луѓето наоѓале огромни фосили во карпите и не знаеле что се тие.", textSq: 'Njerëzit gjenin fosile gjigante në shkëmbinj dhe nuk dinin çfarë ishin.' },
+      { id: 2, img: './Заб приказна/хронолоска слагалка/2. Gemini_Generated_Image_mo45g6mo45g6mo45.png', text: "Бернар Палиси во Франција проучувал фосили и сфатил дека се остатоци од изумрени суштества.", textSq: 'Bernard Palissy në Francë studioi fosilet dhe kuptoi se janë mbetje të gjallesave të zhdukura.' },
+      { id: 3, img: './Заб приказна/хронолоска слагалка/3. Gemini_Generated_Image_sfcb4isfcb4isfcb.png', text: "Мери Анинг во Англија нашла загадочен фосилен заб и го однела на својот сопруг Гидеон Мантел.", textSq: 'Mary Anning në Angli gjeti një dhëmb fosil të çuditshëm dhe ia çoi burrit të saj Gideon Mantellit.' },
+      { id: 4, img: './Заб приказна/хронолоска слагалка/4. Gemini_Generated_Image_6p7e426p7e426p7e.png', text: "Гидеон Мантел го проучувал забот со лупа и го однел во музеи ширум светот за да открие что е.", textSq: 'Gideon Mantell e studioi dhëmbin me zmadhues dhe e çoi nëpër muze të botës për të zbuluar çfarë ishte.' },
+      { id: 5, img: './Заб приказна/хронолоска слагалка/5. Gemini_Generated_Image_a31784a31784a317.png', text: "Мантел открил дека забот припаѓа на огромен влекач сличен на игуана и му го дал името Игуанодон.", textSq: 'Mantell zbuloi se dhëmbi i përkiste një zvarranikut të madh si iguana dhe e quajti Iguanodon.' },
+      { id: 6, img: './Заб приказна/хронолоска слагалка/6. Gemini_Generated_Image_c5p20ic5p20ic5p2.png', text: "Мантел погрешно нацртал Игуанодон со рог на носот — всушност тоа бил шилец од неговиот палец.", textSq: 'Mantell gabimisht e vizatoi Iguanodonin me bri në hundë — në fakt ishte gjembi i gishtit të madh.' },
+      { id: 7, img: './Заб приказна/хронолоска слагалка/7. Gemini_Generated_Image_fd9pplfd9pplfd9p.png', text: "Во 1842 година научникот Ричард Овен го измислил зборот \"диносауриа\" — ужасно голем гуштер.", textSq: "Në vitin 1842 shkencëtari Richard Owen shpiku fjaln 'dinosauria' — zvarranik i tmerrëshëm i madh." }
     ],
     coloring: [
-      { id: 1, img: './Заб приказна/coloring book/1. Gemini_Generated_Image_h6a8eeh6a8eeh6a8.png', text: "Фосилни коски во карпа" },
-      { id: 2, img: './Заб приказна/coloring book/2. Gemini_Generated_Image_9lwgnq9lwgnq9lwg.png', text: "Бернар Палиси со фосил" },
-      { id: 3, img: './Заб приказна/coloring book/3. Gemini_Generated_Image_gd57e4gd57e4gd57.png', text: "Мери Анинг наоѓа фосил" },
-      { id: 4, img: './Заб приказна/coloring book/4. Gemini_Generated_Image_gvpk0dgvpk0dgvpk.png', text: "Гидеон Мантел го проучува забот" },
-      { id: 5, img: './Заб приказна/coloring book/5. Gemini_Generated_Image_m8wvlwm8wvlwm8wv.png', text: "Игуанодон — погрешен цртеж со рог" },
-      { id: 6, img: './Заб приказна/coloring book/6. Gemini_Generated_Image_84a3il84a3il84a3.png', text: "Точниот изглед на Игуанодон" },
-      { id: 7, img: './Заб приказна/coloring book/7. Gemini_Generated_Image_awwtbqawwtbqawwt.png', text: "Диносауруси во праисториски свет" }
+      { id: 1, img: './Заб приказна/coloring book/1. Gemini_Generated_Image_h6a8eeh6a8eeh6a8.png', text: "Фосилни коски во карпа", textSq: 'Kocka fosile në shkëmb.' },
+      { id: 2, img: './Заб приказна/coloring book/2. Gemini_Generated_Image_9lwgnq9lwgnq9lwg.png', text: "Бернар Палиси со фосил", textSq: 'Bernard Palissy me fosilin.' },
+      { id: 3, img: './Заб приказна/coloring book/3. Gemini_Generated_Image_gd57e4gd57e4gd57.png', text: "Мери Анинг наоѓа фосил", textSq: 'Mary Anning gjen fosilin.' },
+      { id: 4, img: './Заб приказна/coloring book/4. Gemini_Generated_Image_gvpk0dgvpk0dgvpk.png', text: "Гидеон Мантел го проучува забот", textSq: 'Gideon Mantell studion dhëmbin.' },
+      { id: 5, img: './Заб приказна/coloring book/5. Gemini_Generated_Image_m8wvlwm8wvlwm8wv.png', text: "Игуанодон — погрешен цртеж со рог", textSq: 'Iguanodoni — vizatim i gabuar me bri.' },
+      { id: 6, img: './Заб приказна/coloring book/6. Gemini_Generated_Image_84a3il84a3il84a3.png', text: "Точниот изглед на Игуанодон", textSq: 'Pamja e saktë e Iguanodonit.' },
+      { id: 7, img: './Заб приказна/coloring book/7. Gemini_Generated_Image_awwtbqawwtbqawwt.png', text: "Диносауруси во праисториски свет", textSq: 'Dinosaurët në botën parahistorike.' }
     ]
   },
   lighthouse: {

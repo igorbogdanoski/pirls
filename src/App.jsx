@@ -1288,8 +1288,8 @@ export default function App() {
 
           {/* ── HERO НАСЛОВ ── */}
           <div className="w-full text-center mb-12">
-            <h1 className="text-[5.5rem] sm:text-[7rem] md:text-[8.5rem] font-black text-indigo-950 mb-5 tracking-tighter italic leading-none">
-              Читање со <span className="text-indigo-600 underline decoration-yellow-400 decoration-[10px] underline-offset-8">разбирање</span>
+            <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] font-black text-indigo-950 mb-5 tracking-tighter italic leading-none whitespace-nowrap">
+              Читање со <span className="text-indigo-600 underline decoration-yellow-400 decoration-[6px] underline-offset-6">разбирање</span>
             </h1>
             <div className="flex items-center gap-5 justify-center">
               <div className="h-[2px] w-20 bg-indigo-200 rounded-full"></div>
