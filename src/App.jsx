@@ -2829,12 +2829,26 @@ export default function App() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-200 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl px-8 py-16 flex flex-col items-center">
-          <div className="mb-16 w-full flex items-center gap-6 justify-between">
+        <div className="relative z-10 w-full max-w-7xl px-8 py-12 flex flex-col items-center">
 
-            {/* Left card — Ученик / Влези во час */}
+          {/* ── HERO НАСЛОВ ── */}
+          <div className="w-full text-center mb-12">
+            <h1 className="text-[5.5rem] sm:text-[7rem] md:text-[8.5rem] font-black text-indigo-950 mb-5 tracking-tighter italic leading-none">
+              Читање со <span className="text-indigo-600 underline decoration-yellow-400 decoration-[10px] underline-offset-8">разбирање</span>
+            </h1>
+            <div className="flex items-center gap-5 justify-center">
+              <div className="h-[2px] w-20 bg-indigo-200 rounded-full"></div>
+              <p className="text-lg text-slate-400 font-bold uppercase tracking-[0.35em]">Интерактивна образовна платформа</p>
+              <div className="h-[2px] w-20 bg-indigo-200 rounded-full"></div>
+            </div>
+          </div>
+
+          {/* ── 3 КОЛОНИ: Ученик | Превод-банер | Наставник ── */}
+          <div className="mb-14 w-full grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+
+            {/* Left — Ученик */}
             {sessionCode && studentName ? (
-              <div className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-green-50 to-green-100 border-green-200 text-center">
+              <div className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-green-50 to-green-100 border-green-200 text-center flex flex-col items-center justify-center">
                 <div className="text-6xl mb-4">✅</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{studentName}</h2>
                 <p className="text-sm text-slate-500 leading-snug">Поврзан на час: <strong className="text-green-700">{sessionCode}</strong></p>
@@ -2846,7 +2860,7 @@ export default function App() {
               </div>
             ) : (
               <button onClick={() => setShowJoinSession(true)}
-                className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-2xl hover:border-indigo-400 transition-all group text-center">
+                className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-2xl hover:border-indigo-400 transition-all group text-center flex flex-col items-center justify-center">
                 <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🧒</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Влези во час</h2>
                 <p className="text-sm text-slate-500 leading-snug">Внеси го своето <strong>име и презиме</strong> и 6-знаковниот код од наставникот за да се приклучиш во часот.</p>
@@ -2856,21 +2870,36 @@ export default function App() {
               </button>
             )}
 
-            {/* Center — Title */}
-            <div className="text-center flex-shrink-0">
-              <h1 className="text-8xl font-black text-indigo-950 mb-4 tracking-tighter italic">
-                Читање со <span className="text-indigo-600 underline decoration-yellow-400 decoration-8 underline-offset-8">разбирање</span>
-              </h1>
-              <div className="flex items-center gap-4 justify-center">
-                <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
-                <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Интерактивна образовна платформа</p>
-                <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
+            {/* Center — Превод банер */}
+            <div className="p-8 rounded-[3rem] border-4 border-dashed border-indigo-200 bg-gradient-to-b from-indigo-50 via-white to-amber-50 text-center flex flex-col items-center justify-center gap-4 shadow-lg">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-3xl">🌍</span>
+                <h3 className="text-base font-black text-indigo-900 uppercase tracking-widest">Наскоро достапно</h3>
+              </div>
+              <p className="text-slate-500 font-bold text-sm leading-relaxed">
+                Платформата наскоро ќе биде достапна и на{' '}
+                <span className="text-indigo-700 font-black">албански</span>
+                {' '}и{' '}
+                <span className="text-amber-700 font-black">турски</span>
+                {' '}јазик, во склад со стандардите на IEA.
+              </p>
+              <div className="flex items-center justify-center gap-4 mt-1">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-indigo-100 shadow-sm">
+                  <span className="text-xl">🇦🇱</span>
+                  <span className="font-black text-slate-700 text-sm">Shqip</span>
+                  <span className="text-[10px] text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-amber-100 shadow-sm">
+                  <span className="text-xl">🇹🇷</span>
+                  <span className="font-black text-slate-700 text-sm">Türkçe</span>
+                  <span className="text-[10px] text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
+                </div>
               </div>
             </div>
 
-            {/* Right card — Наставник */}
+            {/* Right — Наставник */}
             <button onClick={() => setShowTeacherLogin(true)}
-              className="flex-1 p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:shadow-2xl hover:border-violet-400 transition-all group text-center">
+              className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:shadow-2xl hover:border-violet-400 transition-all group text-center flex flex-col items-center justify-center">
               <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">👩‍🏫</div>
               <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Наставник</h2>
               <p className="text-sm text-slate-500 leading-snug">Создај час, следи ги учениците во живо и преземи извештај по завршувањето на часот.</p>
@@ -2918,35 +2947,6 @@ export default function App() {
                 </button>
               );
             })}
-          </div>
-
-          {/* Translation announcement banner */}
-          <div className="w-full mt-16 p-8 rounded-[3rem] border-4 border-dashed border-indigo-200 bg-gradient-to-r from-indigo-50 via-white to-amber-50 text-center">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <span className="text-3xl">🌍</span>
-              <h3 className="text-lg font-black text-indigo-900 uppercase tracking-widest">Наскоро достапно</h3>
-              <span className="text-3xl">🌍</span>
-            </div>
-            <p className="text-slate-600 font-bold text-base leading-relaxed max-w-2xl mx-auto">
-              Платформата наскоро ќе биде достапна и на{' '}
-              <span className="text-indigo-700 font-black">албански</span>
-              {' '}и{' '}
-              <span className="text-amber-700 font-black">турски</span>
-              {' '}јазик — со целосен превод на сите приказни и прашања,{' '}
-              во склад со меѓународните стандарди на IEA PIRLS.
-            </p>
-            <div className="flex items-center justify-center gap-8 mt-5">
-              <div className="flex items-center gap-2 px-5 py-2 bg-white rounded-2xl border-2 border-indigo-100 shadow-sm">
-                <span className="text-2xl">🇦🇱</span>
-                <span className="font-black text-slate-700 text-sm">Shqip</span>
-                <span className="text-xs text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
-              </div>
-              <div className="flex items-center gap-2 px-5 py-2 bg-white rounded-2xl border-2 border-amber-100 shadow-sm">
-                <span className="text-2xl">🇹🇷</span>
-                <span className="font-black text-slate-700 text-sm">Türkçe</span>
-                <span className="text-xs text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
-              </div>
-            </div>
           </div>
 
           <footer className="mt-12 py-8 border-t border-slate-200 w-full text-center">
