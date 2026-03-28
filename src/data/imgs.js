@@ -102,6 +102,12 @@ const imgs = {
     candle:  './Светлината на Ирското Море/3. Gemini_Generated_Image_tqa2mutqa2mutqa2.png',
     lantern: './Светлината на Ирското Море/4. Gemini_Generated_Image_qcudr8qcudr8qcud.png',
   },
+  forgotten_garden: {
+    p1: './Тајната на заборавената градина/1. Gemini_Generated_Image_bhirglbhirglbhir.png',
+    p2: './Тајната на заборавената градина/2. Gemini_Generated_Image_ct8ognct8ognct8o.png',
+    p3: './Тајната на заборавената градина/3. Gemini_Generated_Image_umpy9kumpy9kumpy.png',
+    p4: './Тајната на заборавената градина/4. Gemini_Generated_Image_38kc7q38kc7q38kc.png',
+  },
 };
 
 export default imgs;
