@@ -1658,7 +1658,7 @@ const WIPModal = ({ onClose, emoji, title, description }) => (
   <div className="fixed inset-0 z-[120] bg-slate-900/80 backdrop-blur-xl flex items-center justify-center p-8" onClick={onClose}>
     <div className="bg-white rounded-[4rem] shadow-2xl p-16 max-w-lg text-center" onClick={e => e.stopPropagation()}>
       <div className="text-8xl mb-8">{emoji}</div>
-      <h2 className="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tight">Во изработка</h2>
+      <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">Активноста е во подготовка</h2>
       <p className="text-xl text-slate-500 font-bold mb-10 leading-relaxed">{description}</p>
       <div className="flex items-center justify-center gap-3 mb-10">
         <div className="w-3 h-3 bg-indigo-400 rounded-full animate-bounce"></div>
@@ -1686,7 +1686,7 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
   const [teacherName, setTeacherName] = useState('');
   const [error, setError] = useState('');
   const [createdCode, setCreatedCode] = useState('');
-  const TEACHER_PIN = import.meta.env.VITE_TEACHER_PIN || 'pirls2025';
+  const TEACHER_PIN = import.meta.env.VITE_TEACHER_PIN || 'pirls2026';
 
   const handlePinSubmit = () => {
     if (pin === TEACHER_PIN) { setMode('options'); setError(''); }
@@ -1912,7 +1912,7 @@ const TeacherDashboard = ({ sessionCode, onClose }) => {
         <div className="flex items-center gap-5">
           <span className="text-5xl">👩‍🏫</span>
           <div>
-            <h1 className="text-white font-black text-2xl">Командна Табла — Наставник</h1>
+            <h1 className="text-white font-black text-2xl">Преглед на часот — Наставник</h1>
             <p className="text-slate-400 text-sm font-bold">
               {students.filter(([, s]) => now - (s.lastSeen || 0) < 90000).length} активни · {students.length} вкупно
               {!FIREBASE_ENABLED && <span className="ml-3 text-amber-400">⚠️ Firebase не е поврзан — режим на демо</span>}
@@ -2674,7 +2674,7 @@ export default function App() {
     setStep(0);
     setSelectedOpt(null);
     setTextAns("");
-    setProgress(activeStory === 'home' ? 0 : 5);
+    setProgress(0);
     
     const greetings = {
       home: "Добредојде во digitalPIRLS! Избери приказна за да започнеш.",
@@ -2935,13 +2935,13 @@ export default function App() {
                     </div>
                   )}
                   {completedStories.includes(s.id) && !isLocked && (
-                    <div className="absolute top-4 right-4 text-4xl animate-bounce">🎖️</div>
+                    <div className="absolute top-4 right-4 text-4xl animate-pulse">🎖️</div>
                   )}
                   <div className={`text-8xl mb-6 drop-shadow-md transition-transform duration-500 ${!isLocked ? 'group-hover:scale-110' : ''}`}>{s.icon}</div>
                   <h2 className="text-2xl font-black text-slate-800 leading-tight">{s.title}</h2>
                   {!isLocked && (
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">Започни 🚀</span>
+                      <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">Започни →</span>
                     </div>
                   )}
                 </button>
@@ -2997,16 +2997,17 @@ export default function App() {
 
   return (
     <div className="h-screen bg-white flex flex-col font-sans overflow-hidden">
-      <header className="h-20 bg-white border-b-2 border-slate-100 flex items-center justify-between px-4 sm:px-10">
-        <button onClick={() => setActiveStory('home')} className="flex items-center gap-3 text-slate-600 hover:text-indigo-600 font-bold px-5 py-2 rounded-2xl bg-slate-50 transition-all">
-          ⬅️ Назад кон мени
+      <header role="banner" className="h-20 bg-white border-b-2 border-slate-100 flex items-center justify-between px-4 sm:px-10">
+        <button onClick={() => setActiveStory('home')} className="flex items-center gap-2 text-slate-600 hover:text-indigo-600 font-bold px-5 py-2 rounded-2xl bg-slate-50 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          <span className="hidden sm:inline">Назад</span>
         </button>
         <div className="flex items-center gap-6 w-1/2 justify-center">
           <Timer active={activeStory !== 'home' && progress < 100} />
           <div className="flex-1 max-w-xs h-3 bg-slate-100 rounded-full overflow-hidden border">
             <div className="h-full bg-indigo-500 transition-all duration-1000 shadow-lg" style={{ width: `${progress}%` }}></div>
           </div>
-          {progress === 100 && <span className="text-3xl animate-bounce">🎖️</span>}
+          {progress === 100 && <span className="text-3xl animate-pulse">🎖️</span>}
         </div>
         <div className="w-48 text-right font-black text-indigo-900 italic">
           Читање со <span className="text-indigo-600">разбирање</span>
@@ -3014,7 +3015,7 @@ export default function App() {
       </header>
 
       {/* FULL WIDTH TEXT */}
-      <div className="flex-1 overflow-y-auto bg-slate-50/30 px-4 sm:px-8 md:px-12 py-6 sm:py-8" onMouseUp={handleHighlight}>
+      <main className="flex-1 overflow-y-auto bg-slate-50/30 px-4 sm:px-8 md:px-12 py-6 sm:py-8" onMouseUp={handleHighlight}>
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-6 sm:mb-8">{currentStory?.title || "digitalPIRLS"}</h1>
           <div ref={textRef} className="prose prose-2xl max-w-none text-slate-700 space-y-10" style={{ fontSize: `${fontSize}rem`, lineHeight: '1.8' }}>
@@ -3036,7 +3037,7 @@ export default function App() {
             {!currentStory && <p className="text-2xl italic text-slate-400">Наскоро: Целосниот текст за оваа приказна е во подготовка...</p>}
           </div>
         </div>
-      </div>
+      </main>
 
       {/* BOTTOM BAR */}
       <div className="shrink-0 h-20 bg-white border-t-2 border-slate-100 flex items-center justify-between px-8 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
@@ -3067,7 +3068,7 @@ export default function App() {
         >
           📋 <span>Прашања</span>
           <span className="bg-white/25 px-3 py-1 rounded-full text-base font-black">
-            {Math.min(step + 1, currentStory?.questions?.length ?? 1)}/{currentStory?.questions?.length ?? '?'}
+            {Math.min(step + 1, currentStory?.questions?.length ?? 1)} од {currentStory?.questions?.length ?? '?'}
           </span>
         </button>
 
@@ -3201,7 +3202,7 @@ export default function App() {
                       <div className="space-y-5">
                         <textarea
                           className="w-full h-40 p-6 bg-slate-50 rounded-2xl border-4 border-slate-100 text-xl font-medium focus:ring-4 focus:ring-indigo-200 outline-none"
-                          placeholder="Напиши го твојот одговор овде..."
+                          placeholder="Напиши го твојот одговор..."
                           value={textAns}
                           onChange={(e) => setTextAns(e.target.value)}
                         />
