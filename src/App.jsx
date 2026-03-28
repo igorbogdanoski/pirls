@@ -238,13 +238,16 @@ const TextWithGlossary = ({ content, glossary, onTermClick }) => {
     
     if (matchedTermKey) {
       elements.push(
-        <span 
-          key={`match-${i}`} 
+        <button
+          key={`match-${i}`}
+          type="button"
           onClick={() => onTermClick(matchedTermKey, glossary[matchedTermKey])}
-          className="cursor-help border-b-2 border-dashed border-indigo-400 text-indigo-700 font-bold hover:bg-indigo-50 transition-colors px-1 rounded-md inline"
+          onKeyDown={e => e.key === 'Enter' && onTermClick(matchedTermKey, glossary[matchedTermKey])}
+          aria-label={`Погледни го значењето на зборот: ${matchedTermKey}`}
+          className="cursor-help border-b-2 border-dashed border-indigo-400 text-indigo-700 font-bold hover:bg-indigo-50 transition-colors px-1 rounded-md inline focus:outline-none focus:ring-2 focus:ring-indigo-400"
         >
           {word}
-        </span>
+        </button>
       );
     } else {
       elements.push(word);
@@ -2120,13 +2123,14 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
                       {items.indexOf(item) + 1}
                     </div>
                     <div className="w-full h-full relative overflow-hidden rounded-[3rem] bg-slate-100">
-                      <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt="Puzzle" />
+                      <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt={`Слика ${items.indexOf(item) + 1} од слагалката`} />
                     </div>
                     <button
                       onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
                       className="absolute bottom-8 right-8 bg-indigo-500/90 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
                       title="Прочитај дел од приказната"
+                      aria-label="Прочитај дел од приказната"
                     >🔄</button>
                   </div>
 
@@ -2143,6 +2147,7 @@ const ChronologicalPuzzle = ({ data, onClose }) => {
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
                       className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
                       title="Назад кон сликата"
+                      aria-label="Назад кон сликата"
                     >🔄</button>
                   </div>
                 </div>
@@ -2332,7 +2337,10 @@ const ColoringBook = ({ data, onClose }) => {
     }
   };
 
-  const stopDrawing = () => { if (isDrawing) { setIsDrawing(false); setPoints([]); } };
+  const stopDrawing = (e) => {
+    if (e?.type?.startsWith('touch')) e.preventDefault();
+    if (isDrawing) { setIsDrawing(false); setPoints([]); }
+  };
 
   const clearCanvas = () => {
     saveToHistory();
@@ -2390,8 +2398,8 @@ const ColoringBook = ({ data, onClose }) => {
 
           {/* Undo/Redo */}
           <div className="flex gap-1 shrink-0">
-            <button onClick={undo} disabled={history.length <= 1} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати назад">↩️</button>
-            <button onClick={redo} disabled={redoStack.length === 0} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати напред">↪️</button>
+            <button onClick={undo} disabled={history.length <= 1} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати назад" aria-label="Врати назад">↩️</button>
+            <button onClick={redo} disabled={redoStack.length === 0} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати напред" aria-label="Врати напред">↪️</button>
           </div>
 
           <div className="h-10 w-px bg-slate-200 shrink-0" />
@@ -2466,7 +2474,7 @@ const ColoringBook = ({ data, onClose }) => {
                 className={`w-full p-2 rounded-2xl border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
               >
                 <div className="relative overflow-hidden rounded-xl">
-                  <img src={s.img} className={`w-full h-16 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt="" />
+                  <img src={s.img} className={`w-full h-16 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt={`Сцена ${idx + 1}`} />
                   <div className={`absolute inset-0 flex items-center justify-center font-black text-2xl text-white drop-shadow-lg`}>{idx + 1}</div>
                   {hasAssignment && (
                     <div className={`absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-black shadow ${isCorrect ? 'bg-green-500' : 'bg-amber-400'}`}>
@@ -2486,7 +2494,7 @@ const ColoringBook = ({ data, onClose }) => {
               ref={canvasRef}
               width={800}
               height={600}
-              style={{ width: `${800 * zoom}px`, height: `${600 * zoom}px`, display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
+              style={{ width: `${800 * zoom}px`, height: `${600 * zoom}px`, maxWidth: '100%', maxHeight: '60vh', display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
               className="shadow-2xl rounded-2xl bg-white"
               onMouseDown={startDrawing}
               onMouseMove={draw}
@@ -2495,6 +2503,7 @@ const ColoringBook = ({ data, onClose }) => {
               onTouchStart={startDrawing}
               onTouchMove={draw}
               onTouchEnd={stopDrawing}
+              onTouchCancel={stopDrawing}
             />
             {/* Assigned caption overlay at bottom of canvas */}
             {assignedCaptionIdx !== undefined ? (
@@ -2515,7 +2524,7 @@ const ColoringBook = ({ data, onClose }) => {
         {/* RIGHT: caption cards column (shuffled for matching challenge) */}
         <div className="w-64 flex flex-col gap-2 overflow-y-auto shrink-0">
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2 shrink-0">Картички со текст</p>
-          <p className="text-[10px] text-slate-400 px-2 mb-1 shrink-0 leading-snug">Кликни на картичка за да ја постaвиш на тековната слика</p>
+          <p className="text-[10px] text-slate-400 px-2 mb-1 shrink-0 leading-snug">Кликни на картичка за да ја поставиш на тековната слика</p>
           {shuffledOrder.map((origIdx) => {
             const s = data[origIdx];
             const isOnCurrentScene = sceneAssignments[activeScene] === origIdx;
@@ -2561,13 +2570,17 @@ export default function App() {
   const [showColoring, setShowColoring] = useState(false);
   const [showQuestions, setShowQuestions] = useState(false);
   const [markColor, setMarkColor] = useState('bg-yellow-300');
-  const [fontSize, setFontSize] = useState(1.5); // rem
+  const [fontSize, setFontSize] = useState(() => {
+    const saved = localStorage.getItem('pirls_fontSize');
+    return saved ? parseFloat(saved) : 1.5;
+  });
   const [avatarMsg, setAvatarMsg] = useState("");
   const [step, setStep] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
   const [textAns, setTextAns] = useState("");
 
   const [showHint, setShowHint] = useState(false);
+  const [connectionError, setConnectionError] = useState(false);
   const [glossaryTerm, setGlossaryTerm] = useState(null);
   const [completedStories, setCompletedStories] = useState(() => {
     const saved = localStorage.getItem('pirls_badges');
@@ -2598,6 +2611,10 @@ export default function App() {
   }, [sessionCode]);
 
   useEffect(() => {
+    localStorage.setItem('pirls_fontSize', fontSize.toString());
+  }, [fontSize]);
+
+  useEffect(() => {
     const checkVoices = () => {
       const voices = window.speechSynthesis.getVoices();
       setCanSpeak(voices.some(v => v.lang.includes('mk')));
@@ -2626,7 +2643,7 @@ export default function App() {
       utterance.pitch = 1.0;
       window.speechSynthesis.speak(utterance);
     } else {
-      console.warn("Македонски глас не е пронајден на овој уред.");
+      if (import.meta.env.DEV) console.warn("Macedonian voice unavailable on this device.");
       // Можеме да поставиме lang и да се надеваме на најдоброто (некои прелистувачи сами наоѓаат)
       utterance.lang = 'mk-MK';
       utterance.rate = 0.85;
@@ -2687,14 +2704,14 @@ export default function App() {
       lastSeen: Date.now(),
       currentStory: activeStory === 'home' ? null : activeStory,
       currentQuestion: step,
-    }).catch(() => {});
+    }).then(() => setConnectionError(false)).catch(() => setConnectionError(true));
   }, [sessionCode, studentName, activeStory, step]);
 
   const saveAnswer = (type, value, isCorrect) => {
     if (!FIREBASE_ENABLED || !db || !sessionCode || !studentName) return;
     set(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}/answers/${activeStory}_q${step}`), {
       type, question: storyContent[activeStory]?.questions?.[step]?.q || '', value, isCorrect, timestamp: Date.now(),
-    }).catch(() => {});
+    }).then(() => setConnectionError(false)).catch(() => setConnectionError(true));
   };
 
   const handleHighlight = () => {
@@ -2846,7 +2863,7 @@ export default function App() {
               </h1>
               <div className="flex items-center gap-4 justify-center">
                 <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
-                <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Интерактивна платформа</p>
+                <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Читање со разбирање</p>
                 <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
               </div>
             </div>
@@ -2903,7 +2920,36 @@ export default function App() {
             })}
           </div>
 
-          <footer className="mt-24 py-8 border-t border-slate-200 w-full text-center">
+          {/* Translation announcement banner */}
+          <div className="w-full mt-16 p-8 rounded-[3rem] border-4 border-dashed border-indigo-200 bg-gradient-to-r from-indigo-50 via-white to-amber-50 text-center">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <span className="text-3xl">🌍</span>
+              <h3 className="text-lg font-black text-indigo-900 uppercase tracking-widest">Наскоро достапно</h3>
+              <span className="text-3xl">🌍</span>
+            </div>
+            <p className="text-slate-600 font-bold text-base leading-relaxed max-w-2xl mx-auto">
+              Платформата наскоро ќе биде достапна и на{' '}
+              <span className="text-indigo-700 font-black">албански</span>
+              {' '}и{' '}
+              <span className="text-amber-700 font-black">турски</span>
+              {' '}јазик — со целосен превод на сите приказни и прашања,{' '}
+              во склад со меѓународните стандарди на IEA PIRLS.
+            </p>
+            <div className="flex items-center justify-center gap-8 mt-5">
+              <div className="flex items-center gap-2 px-5 py-2 bg-white rounded-2xl border-2 border-indigo-100 shadow-sm">
+                <span className="text-2xl">🇦🇱</span>
+                <span className="font-black text-slate-700 text-sm">Shqip</span>
+                <span className="text-xs text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
+              </div>
+              <div className="flex items-center gap-2 px-5 py-2 bg-white rounded-2xl border-2 border-amber-100 shadow-sm">
+                <span className="text-2xl">🇹🇷</span>
+                <span className="font-black text-slate-700 text-sm">Türkçe</span>
+                <span className="text-xs text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
+              </div>
+            </div>
+          </div>
+
+          <footer className="mt-12 py-8 border-t border-slate-200 w-full text-center">
             <p className="text-slate-400 font-medium">
               Идеја и реализација: <span className="text-indigo-900 font-black text-lg ml-1">Игор Богданоски</span>
             </p>
@@ -2951,7 +2997,7 @@ export default function App() {
 
   return (
     <div className="h-screen bg-white flex flex-col font-sans overflow-hidden">
-      <header className="h-20 bg-white border-b-2 border-slate-100 flex items-center justify-between px-10">
+      <header className="h-20 bg-white border-b-2 border-slate-100 flex items-center justify-between px-4 sm:px-10">
         <button onClick={() => setActiveStory('home')} className="flex items-center gap-3 text-slate-600 hover:text-indigo-600 font-bold px-5 py-2 rounded-2xl bg-slate-50 transition-all">
           ⬅️ Назад кон мени
         </button>
@@ -2968,9 +3014,9 @@ export default function App() {
       </header>
 
       {/* FULL WIDTH TEXT */}
-      <div className="flex-1 overflow-y-auto bg-slate-50/30 px-12 py-8" onMouseUp={handleHighlight}>
+      <div className="flex-1 overflow-y-auto bg-slate-50/30 px-4 sm:px-8 md:px-12 py-6 sm:py-8" onMouseUp={handleHighlight}>
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl font-black text-slate-900 mb-8">{currentStory?.title || "digitalPIRLS"}</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-6 sm:mb-8">{currentStory?.title || "digitalPIRLS"}</h1>
           <div ref={textRef} className="prose prose-2xl max-w-none text-slate-700 space-y-10" style={{ fontSize: `${fontSize}rem`, lineHeight: '1.8' }}>
             {currentStory?.text.map((item, idx) => {
               if (item.type === 'p') return (
@@ -3034,18 +3080,24 @@ export default function App() {
             🖍️
           </button>
           {highlightMode && (
-            <div className="flex gap-2">
-              {['bg-yellow-300', 'bg-green-300', 'bg-blue-300'].map(color => (
+            <div className="flex gap-2" role="group" aria-label="Избери боја за маркирање">
+              {[
+                { color: 'bg-yellow-300', label: 'Жолто маркирање' },
+                { color: 'bg-green-300',  label: 'Зелено маркирање' },
+                { color: 'bg-blue-300',   label: 'Сино маркирање'  },
+              ].map(({ color, label }) => (
                 <button
                   key={color}
                   onClick={() => setMarkColor(color)}
+                  aria-label={label}
+                  aria-pressed={markColor === color}
                   className={`w-8 h-8 rounded-full border-2 transition-all ${color} ${markColor === color ? 'border-indigo-600 scale-125' : 'border-transparent hover:scale-110'}`}
                 />
               ))}
             </div>
           )}
-          <button onClick={() => setFontSize(Math.min(2.5, fontSize + 0.1))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Зголеми текст">A+</button>
-          <button onClick={() => setFontSize(Math.max(1, fontSize - 0.1))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Намали текст">A-</button>
+          <button onClick={() => setFontSize(Math.min(3.5, fontSize + 0.15))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Зголеми текст" aria-label="Зголеми го фонтот">A+</button>
+          <button onClick={() => setFontSize(Math.max(1.125, fontSize - 0.15))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Намали текст" aria-label="Намали го фонтот">A-</button>
         </div>
       </div>
 
@@ -3092,8 +3144,13 @@ export default function App() {
 
                 {/* Owl feedback banner */}
                 {avatarMsg && (
-                  <div className="flex items-center gap-4 mb-6 p-4 bg-indigo-50 rounded-2xl border-2 border-indigo-100">
-                    <span className="text-3xl shrink-0">🦉</span>
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="flex items-center gap-4 mb-6 p-4 bg-indigo-50 rounded-2xl border-2 border-indigo-100"
+                  >
+                    <span className="text-3xl shrink-0" aria-hidden="true">🦉</span>
                     <p className="text-slate-700 font-bold flex-1">{avatarMsg}</p>
                     {canSpeak && (
                       <button onClick={() => speak(avatarMsg)} className="shrink-0 w-10 h-10 bg-indigo-500 text-white rounded-xl flex items-center justify-center hover:scale-110 transition-all">🔊</button>
@@ -3127,12 +3184,14 @@ export default function App() {
                       )}
                     </div>
                     {currentQuestion.type === 'mcq' ? (
-                      <div className="space-y-4">
+                      <div className="space-y-4" role="radiogroup" aria-label={`Опции за прашање ${step + 1}`}>
                         {currentQuestion.options.map((opt) => (
                           <button
                             key={opt}
                             onClick={() => handleMCQ(opt, currentQuestion.correct)}
-                            className={`w-full p-5 text-left rounded-2xl text-xl font-bold transition-all border-4 ${selectedOpt === opt ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-slate-50 text-slate-700 border-white hover:border-indigo-100 shadow-sm'}`}
+                            disabled={selectedOpt !== null}
+                            aria-pressed={selectedOpt === opt}
+                            className={`w-full p-5 text-left rounded-2xl text-xl font-bold transition-all border-4 disabled:cursor-not-allowed ${selectedOpt === opt ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-slate-50 text-slate-700 border-white hover:border-indigo-100 shadow-sm disabled:opacity-60'}`}
                           >
                             {selectedOpt === opt ? '✅ ' : '⭕️ '} {opt}
                           </button>
@@ -3146,18 +3205,19 @@ export default function App() {
                           value={textAns}
                           onChange={(e) => setTextAns(e.target.value)}
                         />
-                        <div className="flex gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4">
                           <button
                             onClick={handleTextSubmit}
-                            className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-xl font-black shadow-xl hover:bg-indigo-700 transition-all"
+                            className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-lg sm:text-xl font-black shadow-xl hover:bg-indigo-700 transition-all"
                           >
                             ПРАТИ ОДГОВОР 🚀
                           </button>
                           {currentQuestion.hint && (
                             <button
                               onClick={() => { setShowHint(!showHint); if(!showHint) setAvatarMsg(`💡 ПОМОШ: ${currentQuestion.hint}`); }}
-                              className={`w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-lg transition-all border-4 ${showHint ? 'bg-yellow-400 border-yellow-200' : 'bg-white border-indigo-100 hover:border-yellow-400'}`}
+                              className={`w-full sm:w-16 sm:h-16 h-14 rounded-2xl sm:rounded-full flex items-center justify-center text-2xl sm:text-3xl shadow-lg transition-all border-4 ${showHint ? 'bg-yellow-400 border-yellow-200' : 'bg-white border-indigo-100 hover:border-yellow-400'}`}
                               title="Побарај помош"
+                              aria-label="Покажи совет за ова прашање"
                             >💡</button>
                           )}
                         </div>
@@ -3196,10 +3256,20 @@ export default function App() {
       )}
       
       {glossaryTerm && (
-        <div className="fixed inset-0 z-[110] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200" onClick={() => setGlossaryTerm(null)}>
-          <div className="bg-white p-10 rounded-[3rem] shadow-2xl max-w-lg border-t-[12px] border-indigo-500 animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 z-[110] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200"
+          onClick={() => setGlossaryTerm(null)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setGlossaryTerm(null); }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="glossary-term-title"
+            className="bg-white p-10 rounded-[3rem] shadow-2xl max-w-lg border-t-[12px] border-indigo-500 animate-in zoom-in-95 duration-200"
+            onClick={e => e.stopPropagation()}
+          >
             <div className="flex justify-between items-start mb-6">
-              <h4 className="text-3xl font-black text-slate-900 uppercase tracking-tight">{glossaryTerm.term}</h4>
+              <h4 id="glossary-term-title" className="text-3xl font-black text-slate-900 uppercase tracking-tight">{glossaryTerm.term}</h4>
               <button onClick={() => setGlossaryTerm(null)} className="text-slate-300 hover:text-slate-600 text-4xl">×</button>
             </div>
             <div className="flex items-center gap-6 mb-8">
@@ -3221,6 +3291,15 @@ export default function App() {
               ЗАТВОРИ
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Connection error toast */}
+      {connectionError && (
+        <div className="fixed bottom-6 right-6 z-[500] flex items-center gap-3 bg-red-500 text-white px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm" role="alert" aria-live="assertive">
+          <span>⚠️</span>
+          <span>Нема интернет врска — одговорите не се синхронизираат</span>
+          <button onClick={() => setConnectionError(false)} className="ml-2 text-white/70 hover:text-white text-lg leading-none" aria-label="Затвори">×</button>
         </div>
       )}
 
