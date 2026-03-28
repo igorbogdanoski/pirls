@@ -2859,11 +2859,11 @@ export default function App() {
             {/* Center — Title */}
             <div className="text-center flex-shrink-0">
               <h1 className="text-8xl font-black text-indigo-950 mb-4 tracking-tighter italic">
-                digital<span className="text-indigo-600 underline decoration-yellow-400 decoration-8 underline-offset-8">PIRLS</span>
+                Читање со <span className="text-indigo-600 underline decoration-yellow-400 decoration-8 underline-offset-8">разбирање</span>
               </h1>
               <div className="flex items-center gap-4 justify-center">
                 <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
-                <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Читање со разбирање</p>
+                <p className="text-xl text-slate-500 font-bold uppercase tracking-[0.3em]">Интерактивна образовна платформа</p>
                 <div className="h-1 w-12 bg-indigo-200 rounded-full"></div>
               </div>
             </div>
@@ -2953,7 +2953,7 @@ export default function App() {
             <p className="text-slate-400 font-medium">
               Идеја и реализација: <span className="text-indigo-900 font-black text-lg ml-1">Игор Богданоски</span>
             </p>
-            <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">digitalPIRLS 2026 • Образовна алатка за ученици</p>
+            <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">Читање со разбирање 2026 • Интерактивна образовна платформа</p>
           </footer>
 
         </div>
@@ -3009,7 +3009,7 @@ export default function App() {
           {progress === 100 && <span className="text-3xl animate-bounce">🎖️</span>}
         </div>
         <div className="w-48 text-right font-black text-indigo-900 italic">
-          digitalPIRLS
+          Читање со <span className="text-indigo-600">разбирање</span>
         </div>
       </header>
 
