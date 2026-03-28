@@ -77,4 +77,4 @@ const glossaryData = {
 
 const STORY_ICONS = { chest:'🗝️', kaja:'💡', baba:'🌻', octopus:'🐙', watchmaker:'🕰️', kite:'🪁', lynx:'🐾', shovel:'⛏️', rabbit:'🐰', puffins:'🐧', eagle:'🦅', pita:'🥧', pot:'🏺', lakestar:'⛵', lambe:'🐭', fossil:'🦕', lighthouse:'🔦', forgotten_garden:'🌷' };
 
-export { STORIES, STORY_ICONS };
+export { STORIES, STORY_ICONS, glossaryData };

@@ -3,7 +3,7 @@ import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { ref, set, update, onValue, off, get } from 'firebase/database';
 import { db, FIREBASE_ENABLED } from './firebase.js';
 import imgs from './data/imgs.js';
-import { STORIES, STORY_ICONS } from './data/stories.js';
+import { STORIES, STORY_ICONS, glossaryData } from './data/stories.js';
 import storyContent from './data/storyContent.js';
 import storyContentSq from './data/storyContentSq.js';
 import inclusiveData from './data/inclusiveData.js';
@@ -175,7 +175,7 @@ const TeacherLoginModal = ({ onSuccess, onClose }) => {
             <button key={s.id} onClick={() => handlePickStory(s.id)}
               className={`p-5 rounded-[2rem] border-4 bg-gradient-to-b ${s.color} hover:shadow-xl hover:scale-105 transition-all text-center group`}>
               <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">{s.icon}</div>
-              <p className="text-xs font-black text-slate-800 leading-tight">{s.title}</p>
+              <p className="text-xs font-black text-slate-800 leading-tight">{lang === 'sq' && s.titleSq ? s.titleSq : s.title}</p>
             </button>
           ))}
         </div>
@@ -1340,29 +1340,29 @@ export default function App() {
               </button>
             )}
 
-            {/* Center — Превод банер */}
-            <div className="p-8 rounded-[3rem] border-4 border-dashed border-indigo-200 bg-gradient-to-b from-indigo-50 via-white to-amber-50 text-center flex flex-col items-center justify-center gap-4 shadow-lg">
+            {/* Center — Двојазична платформа */}
+            <div className="p-8 rounded-[3rem] border-4 border-dashed border-indigo-200 bg-gradient-to-b from-indigo-50 via-white to-green-50 text-center flex flex-col items-center justify-center gap-4 shadow-lg">
               <div className="flex items-center justify-center gap-2">
                 <span className="text-3xl">🌍</span>
-                <h3 className="text-base font-black text-indigo-900 uppercase tracking-widest">Наскоро достапно</h3>
+                <h3 className="text-base font-black text-indigo-900 uppercase tracking-widest">Двојазична платформа</h3>
               </div>
               <p className="text-slate-500 font-bold text-sm leading-relaxed">
-                Платформата наскоро ќе биде достапна и на{' '}
-                <span className="text-indigo-700 font-black">албански</span>
+                Платформата е достапна на{' '}
+                <span className="text-indigo-700 font-black">македонски</span>
                 {' '}и{' '}
-                <span className="text-amber-700 font-black">турски</span>
-                {' '}јазик, во склад со стандардите на IEA.
+                <span className="text-red-700 font-black">албански</span>
+                {' '}јазик. Избери јазик со копчињата горе.
               </p>
               <div className="flex items-center justify-center gap-4 mt-1">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-indigo-100 shadow-sm">
+                  <span className="text-xl">🇲🇰</span>
+                  <span className="font-black text-slate-700 text-sm">Македонски</span>
+                  <span className="text-[10px] text-green-600 font-bold uppercase tracking-wide ml-1">✓ активно</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-red-100 shadow-sm">
                   <span className="text-xl">🇦🇱</span>
                   <span className="font-black text-slate-700 text-sm">Shqip</span>
-                  <span className="text-[10px] text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-amber-100 shadow-sm">
-                  <span className="text-xl">🇹🇷</span>
-                  <span className="font-black text-slate-700 text-sm">Türkçe</span>
-                  <span className="text-[10px] text-amber-600 font-bold uppercase tracking-wide ml-1">наскоро</span>
+                  <span className="text-[10px] text-green-600 font-bold uppercase tracking-wide ml-1">✓ aktiv</span>
                 </div>
               </div>
             </div>
