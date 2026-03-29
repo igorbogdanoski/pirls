@@ -125,7 +125,7 @@ const generateSessionCode = () => {
 
 
 // ─── TEACHER LOGIN MODAL ─────────────────────────────────────
-const TeacherLoginModal = ({ onSuccess, onClose }) => {
+const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
   const [pin, setPin] = useState('');
   const [mode, setMode] = useState('pin');
   const [joinCode, setJoinCode] = useState('');
@@ -1519,6 +1519,7 @@ export default function App() {
           {/* ─── MODALS ─── */}
           {showTeacherLogin && (
             <TeacherLoginModal
+              lang={lang}
               onSuccess={(code) => {
                 setSessionCode(code);
                 localStorage.setItem('pirls_session', code);
@@ -1970,6 +1971,7 @@ export default function App() {
       {/* ── TEACHER LOGIN ── */}
       {showTeacherLogin && (
         <TeacherLoginModal
+          lang={lang}
           onSuccess={(code) => {
             setSessionCode(code);
             localStorage.setItem('pirls_session', code);
