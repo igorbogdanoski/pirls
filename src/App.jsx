@@ -599,6 +599,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
   const [items, setItems] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
   const [flippedIds, setFlippedIds] = useState(new Set());
+  const [fullViewImg, setFullViewImg] = useState(null);
 
   useEffect(() => {
     const shuffled = [...data].filter(item => item.img).sort(() => Math.random() - 0.5);
@@ -634,21 +635,23 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
   const t = {
     mk: {
       title: "ХРОНОЛОШКА СЛАГАЛКА",
-      desc: "Подреди ги сликите во правилен редослед! Кликни на сликата за да го видиш делот од приказната!",
+      desc: "Подреди ги сликите во правилен редослед! Кликни на 🔍 за да ја видиш целата илустрација, или на 🔄 за да го видиш делот од приказната!",
       reset: "Ресетирај 🔄",
       successTitle: "СЕКОЈА ЧЕСТ!",
       successDesc: "Успешно ја раскажа приказната со правилно подредување на сликите!",
       successBtn: "ОДИМЕ ПОНАТАМУ! 🚀",
-      back: "Назад кон сликата"
+      back: "Назад кон сликата",
+      zoom: "Зголеми слика"
     },
     sq: {
       title: "PUZZLE KRONOLOGJIKE",
-      desc: "Renditni fotografitë në rendin e duhur! Klikoni mbi foto për të parë pjesën e tregimit!",
+      desc: "Renditni fotografitë në rendin e duhur! Klikoni mbi 🔍 për të parë ilustrimin e plotë, ose mbi 🔄 për të parë pjesën e tregimit!",
       reset: "Rifillo 🔄",
       successTitle: "ÇDO NDER!",
       successDesc: "Ju e treguat me sukses historinë duke i rregulluar fotografitë në rendin e duhur!",
       successBtn: "VAZHDOJMË TUTJE! 🚀",
-      back: "Kthehu te fotografia"
+      back: "Kthehu te fotografia",
+      zoom: "Zmadho fotografinë"
     }
   }[lang];
 
@@ -661,17 +664,17 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
         .rotate-y-180 { transform: rotateY(180deg); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
       `}</style>
-      <div className="flex justify-between items-center mb-12">
+      <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-6">
-          <div className="w-20 h-20 bg-indigo-500 rounded-3xl flex items-center justify-center text-5xl shadow-lg shadow-indigo-500/20">🧩</div>
+          <div className="w-16 h-16 bg-indigo-500 rounded-3xl flex items-center justify-center text-4xl shadow-lg shadow-indigo-500/20">🧩</div>
           <div>
-            <h2 className="text-5xl font-black text-white uppercase tracking-tighter">{t.title}</h2>
-            <p className="text-indigo-300 text-xl font-bold">{t.desc}</p>
+            <h2 className="text-4xl font-black text-white uppercase tracking-tighter">{t.title}</h2>
+            <p className="text-indigo-300 text-lg font-bold">{t.desc}</p>
           </div>
         </div>
         <div className="flex gap-4">
-          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-8 py-5 rounded-[2rem] font-black uppercase tracking-widest text-sm border-2 border-white/10 transition-all">{t.reset}</button>
-          <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white w-20 h-20 rounded-[2rem] font-black text-4xl border-2 border-white/10 flex items-center justify-center transition-all">×</button>
+          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-6 py-4 rounded-[1.5rem] font-black uppercase tracking-widest text-xs border-2 border-white/10 transition-all">{t.reset}</button>
+          <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white w-16 h-16 rounded-[1.5rem] font-black text-3xl border-2 border-white/10 flex items-center justify-center transition-all">×</button>
         </div>
       </div>
 
@@ -681,7 +684,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
             axis="x" 
             values={items} 
             onReorder={handleReorder}
-            className="flex gap-10 w-max mx-auto py-10"
+            className="flex gap-8 w-max mx-auto py-10"
           >
             {items.map((item) => (
               <Reorder.Item 
@@ -691,42 +694,59 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
                 className="flex-shrink-0 cursor-grab active:cursor-grabbing perspective-1000"
               >
                 <div 
-                  className="relative w-[22rem] h-[32rem] transition-all duration-700 preserve-3d"
+                  className="relative w-[18rem] h-[26rem] transition-all duration-700 preserve-3d"
                   style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
                 >
                   {/* FRONT SIDE: LARGE IMAGE */}
                   <div
-                    className={`absolute inset-0 backface-hidden w-full h-full bg-white rounded-[4rem] shadow-2xl p-5 border-[14px] transition-all duration-300 group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
+                    className={`absolute inset-0 backface-hidden w-full h-full bg-white rounded-[3rem] shadow-2xl p-4 border-[10px] transition-all duration-300 group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
                   >
-                    <div className="absolute -top-6 -left-6 w-20 h-20 bg-indigo-600 text-white rounded-3xl flex items-center justify-center text-4xl font-black shadow-xl z-20">
+                    <div className="absolute -top-4 -left-4 w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black shadow-xl z-20">
                       {items.indexOf(item) + 1}
                     </div>
-                    <div className="w-full h-full relative overflow-hidden rounded-[3rem] bg-slate-100">
+                    <div className="w-full h-full relative overflow-hidden rounded-[2.5rem] bg-slate-100 group">
                       <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt={`Слика ${items.indexOf(item) + 1} од слагалката`} />
+                      
+                      {/* ZOOM OVERLAY */}
+                      <button
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); setFullViewImg(item.img); }}
+                        className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <span className="bg-white/20 backdrop-blur-md p-4 rounded-full text-white text-3xl border-2 border-white/20">🔍</span>
+                      </button>
                     </div>
-                    <button
-                      onPointerDown={(e) => e.stopPropagation()}
-                      onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
-                      className="absolute bottom-8 right-8 bg-indigo-500/90 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
-                      title="Прочитај дел од приказната"
-                      aria-label="Прочитај дел од приказната"
-                    >🔄</button>
+                    
+                    {/* BUTTONS ROW */}
+                    <div className="absolute bottom-6 right-6 flex gap-2">
+                      <button
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); setFullViewImg(item.img); }}
+                        className="bg-indigo-500/90 backdrop-blur-md text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
+                        title={t.zoom}
+                      >🔍</button>
+                      <button
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
+                        className="bg-indigo-500/90 backdrop-blur-md text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
+                        title="Прочитај дел од приказната"
+                      >🔄</button>
+                    </div>
                   </div>
 
                   {/* BACK SIDE: TEXT */}
                   <div
-                    className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[4rem] shadow-2xl p-12 border-[14px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
+                    className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[3rem] shadow-2xl p-8 border-[10px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
                   >
-                    <p className="text-white font-black text-2xl leading-relaxed mb-10">
+                    <p className="text-white font-black text-lg leading-relaxed mb-6">
                       {lang === 'sq' && item.textSq ? item.textSq : item.text}
                     </p>
-                    <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-white text-4xl border-2 border-white/20">📖</div>
+                    <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-white text-2xl border-2 border-white/20">📖</div>
                     <button
                       onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
-                      className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
+                      className="absolute bottom-6 right-6 bg-white/20 backdrop-blur-md text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
                       title={t.back}
-                      aria-label={t.back}
                     >🔄</button>
                   </div>
                 </div>
@@ -737,6 +757,25 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
       </div>
 
       <AnimatePresence>
+        {fullViewImg && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            onClick={() => setFullViewImg(null)}
+            className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-10 cursor-zoom-out"
+          >
+            <motion.img 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              src={fullViewImg} 
+              className="max-w-full max-h-full rounded-3xl shadow-2xl border-8 border-white/10" 
+              alt="Зголемена илустрација"
+            />
+            <button className="absolute top-10 right-10 bg-white/10 hover:bg-white/20 text-white w-16 h-16 rounded-2xl flex items-center justify-center text-4xl border-2 border-white/10 transition-all">×</button>
+          </motion.div>
+        )}
+
         {isCorrect && (
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }} 
