@@ -244,17 +244,22 @@ const inclusiveData = {
   },
   lighthouse: {
     puzzle: [
-      { id: 1, img: '/Светлината на Ирското Море/хронолошка слагалка/1. Gemini_Generated_Image_2figja2figja2fig.png', text: "Лиам се плаши од бури.", textSq: 'Liami ka frikë nga stuhitë.' },
-      { id: 2, img: '/Светлината на Ирското Море/хронолошка слагалка/2. Gemini_Generated_Image_h7baeh7baeh7baeh.png', text: "Дедо му го носи во светилникот.", textSq: 'Gjyshi e çon në far.' },
-      { id: 3, img: '/Светлината на Ирското Море/хронолошка слагалка/3. Gemini_Generated_Image_xe0jvfxe0jvfxe0j.png', text: "Лиам мора сам да се качи.", textSq: 'Liami duhet të ngjitet vetë.' },
-      { id: 4, img: '/Светлината на Ирското Море/хронолошка слагалка/4. Gemini_Generated_Image_tqa2mutqa2mutqa2.png', text: "Тој успева да го запали светлото.", textSq: 'Ai arrin të ndezë dritën.' },
-      { id: 5, img: '/Светлината на Ирското Море/хронолошка слагалка/6. Gemini_Generated_Image_qcudr8qcudr8qcud.png', text: "Татко му се враќа безбедно дома.", textSq: 'Babai kthehet i sigurt në shtëpi.' }
+      { id: 1, img: '/Светлината на Ирското Море/хронолошка слагалка/1. Gemini_Generated_Image_2figja2figja2fig.png', text: "Лиам се плаши од бури и магла.", textSq: 'Liami ka frikë nga stuhitë dhe mjegulla.' },
+      { id: 2, img: '/Светлината на Ирското Море/хронолошка слагалка/2. Gemini_Generated_Image_h7baeh7baeh7baeh.png', text: "Дедо му Фин е чувар на светилникот.", textSq: 'Gjyshi i tij Finni është roja e farit.' },
+      { id: 3, img: '/Светлината на Ирското Море/хронолошка слагалка/3. Gemini_Generated_Image_xe0jvfxe0jvfxe0j.png', text: "Густа магла и невреме го зафатија селото.", textSq: 'Një mjegull e dendur dhe stuhia përfshiu fshatin.' },
+      { id: 4, img: '/Светлината на Ирското Море/хронолошка слагалка/4. Gemini_Generated_Image_tqa2mutqa2mutqa2.png', text: "Дедо му го повреди коленото и не можеше да се искачи.", textSq: 'Gjyshi lëndoi gjurin dhe nuk mund të ngjitej.' },
+      { id: 5, img: '/Светлината на Ирското Море/хронолошка слагалка/5. Gemini_Generated_Image_4nn0ce4nn0ce4nn0.png', text: "Лиам мораше сам да се искачи по тристате скали.", textSq: 'Liami duhej të ngjitej vetë në treqind shkallët.' },
+      { id: 6, img: '/Светлината на Ирското Море/хронолошка слагалка/6. Gemini_Generated_Image_qcudr8qcudr8qcud.png', text: "Тој го запали резервниот фенер и го спаси татко му.", textSq: 'Ai ndezi fenerin rezervë dhe shpëtoi babanë e tij.' },
+      { id: 7, img: '/Светлината на Ирското Море/хронолошка слагалка/7. Gemini_Generated_Image_94kijd94kijd94ki.png', text: "Лиам научи дека храброст е да го направиш правилното и кога се плашиш.", textSq: 'Liami mësoi se guximi është të bësh atë që duhet edhe kur ke frikë.' }
     ],
     coloring: [
       { id: 1, img: '/Светлината на Ирското Море/coloring/1. Gemini_Generated_Image_kfyyflkfyyflkfyy.png', text: "Светилникот дење.", textSq: 'Fari ditën.' },
       { id: 2, img: '/Светлината на Ирското Море/coloring/2. Gemini_Generated_Image_olvqo0olvqo0olvq.png', text: "Бродови во магла.", textSq: 'Anijet në mjegull.' },
       { id: 3, img: '/Светлината на Ирското Море/coloring/3. Gemini_Generated_Image_v81snav81snav81s.png', text: "Внатре во светилникот.", textSq: 'Brenda farit.' },
-      { id: 4, img: '/Светлината на Ирското Море/coloring/4. Gemini_Generated_Image_ju19fyju19fyju19.png', text: "Силниот фенер на светилникот.", textSq: 'Feneri i fortë i farit.' }
+      { id: 4, img: '/Светлината на Ирското Море/coloring/4. Gemini_Generated_Image_ju19fyju19fyju19.png', text: "Силниот фенер на светилникот.", textSq: 'Feneri i fortë i farit.' },
+      { id: 5, img: '/Светлината на Ирското Море/coloring/5. Gemini_Generated_Image_63m11a63m11a63m1.png', text: "Лиам се качува по скалите.", textSq: 'Liami ngjitet shkallëve.' },
+      { id: 6, img: '/Светлината на Ирското Море/coloring/6. Gemini_Generated_Image_iute7riute7riute.png', text: "Запалениот фенер.", textSq: 'Feneri i ndezur.' },
+      { id: 7, img: '/Светлината на Ирското Море/coloring/7. Gemini_Generated_Image_e5v17pe5v17pe5v1.png', text: "Средба со татко му.", textSq: 'Takimi me babanë.' }
     ]
   },
   forgotten_garden: {

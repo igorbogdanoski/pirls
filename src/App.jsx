@@ -631,6 +631,27 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
     setFlippedIds(new Set());
   };
 
+  const t = {
+    mk: {
+      title: "ХРОНОЛОШКА СЛАГАЛКА",
+      desc: "Подреди ги сликите во правилен редослед! Кликни на сликата за да го видиш делот од приказната!",
+      reset: "Ресетирај 🔄",
+      successTitle: "СЕКОЈА ЧЕСТ!",
+      successDesc: "Успешно ја раскажа приказната со правилно подредување на сликите!",
+      successBtn: "ОДИМЕ ПОНАТАМУ! 🚀",
+      back: "Назад кон сликата"
+    },
+    sq: {
+      title: "PUZZLE KRONOLOGJIKE",
+      desc: "Renditni fotografitë në rendin e duhur! Klikoni mbi foto për të parë pjesën e tregimit!",
+      reset: "Rifillo 🔄",
+      successTitle: "ÇDO NDER!",
+      successDesc: "Ju e treguat me sukses historinë duke i rregulluar fotografitë në rendin e duhur!",
+      successBtn: "VAZHDOJMË TUTJE! 🚀",
+      back: "Kthehu te fotografia"
+    }
+  }[lang];
+
   return (
     <div className="fixed inset-0 z-[120] bg-indigo-950/98 backdrop-blur-xl flex flex-col p-8 overflow-hidden">
       <style>{`
@@ -644,12 +665,12 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
         <div className="flex items-center gap-6">
           <div className="w-20 h-20 bg-indigo-500 rounded-3xl flex items-center justify-center text-5xl shadow-lg shadow-indigo-500/20">🧩</div>
           <div>
-            <h2 className="text-5xl font-black text-white uppercase tracking-tighter">ХРОНОЛОШКА СЛАГАЛКА</h2>
-            <p className="text-indigo-300 text-xl font-bold">Подреди ги сликите во правилен редослед! Кликни на сликата за да го видиш делот од приказната!</p>
+            <h2 className="text-5xl font-black text-white uppercase tracking-tighter">{t.title}</h2>
+            <p className="text-indigo-300 text-xl font-bold">{t.desc}</p>
           </div>
         </div>
         <div className="flex gap-4">
-          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-8 py-5 rounded-[2rem] font-black uppercase tracking-widest text-sm border-2 border-white/10 transition-all">Ресетирај 🔄</button>
+          <button onClick={resetPuzzle} className="bg-white/10 hover:bg-white/20 text-white px-8 py-5 rounded-[2rem] font-black uppercase tracking-widest text-sm border-2 border-white/10 transition-all">{t.reset}</button>
           <button onClick={onClose} className="bg-white/10 hover:bg-white/20 text-white w-20 h-20 rounded-[2rem] font-black text-4xl border-2 border-white/10 flex items-center justify-center transition-all">×</button>
         </div>
       </div>
@@ -704,8 +725,8 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
                       onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
                       className="absolute bottom-8 right-8 bg-white/20 backdrop-blur-md text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
-                      title="Назад кон сликата"
-                      aria-label="Назад кон сликата"
+                      title={t.back}
+                      aria-label={t.back}
                     >🔄</button>
                   </div>
                 </div>
@@ -729,13 +750,13 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
               className="bg-white rounded-[4rem] p-16 shadow-[0_30px_100px_rgba(0,0,0,0.5)] border-[12px] border-emerald-400 max-w-4xl"
             >
               <div className="text-[12rem] mb-12 animate-bounce">🏆</div>
-              <h3 className="text-8xl font-black text-slate-900 mb-6 tracking-tighter uppercase">СЕКОЈА ЧЕСТ!</h3>
-              <p className="text-4xl text-slate-600 font-bold mb-16 opacity-90 leading-tight">Успешно ја раскажа приказната со правилно подредување на сликите!</p>
+              <h3 className="text-8xl font-black text-slate-900 mb-6 tracking-tighter uppercase">{t.successTitle}</h3>
+              <p className="text-4xl text-slate-600 font-bold mb-16 opacity-90 leading-tight">{t.successDesc}</p>
               <button 
                 onClick={onClose} 
                 className="px-24 py-10 bg-emerald-500 text-white rounded-full text-5xl font-black shadow-[0_20px_60px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95 transition-all uppercase tracking-widest border-b-8 border-emerald-700"
               >
-                ОДИМЕ ПОНАТАМУ! 🚀
+                {t.successBtn}
               </button>
             </motion.div>
           </motion.div>
