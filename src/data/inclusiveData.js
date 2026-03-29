@@ -280,12 +280,10 @@ const inclusiveData = {
     ]
   },
   forgotten_garden: {
-    puzzleWIP: true,
-    coloringWIP: true,
     puzzle: [
-      { id: 1, img: imgs.forgotten_garden.puzzle[1], text: "Лена пронајде тајна врата во стариот ѕид.", textSq: 'Lena gjeti një derë të fshehtë në murin e vjetër.' },
+      { id: 1, img: imgs.forgotten_garden.puzzle[1], text: "Јана пронајде тајна врата во стариот ѕид.", textSq: 'Jana gjeti një derë të fshehtë në murin e vjetër.' },
       { id: 2, img: imgs.forgotten_garden.puzzle[2], text: "Зад вратата се криеше прекрасна заборавена градина.", textSq: 'Pas derës fshihej një kopsht i mrekullueshëm i harruar.' },
-      { id: 3, img: imgs.forgotten_garden.puzzle[3], text: "Градината беше запуштена, па Лена реши да ја среди.", textSq: 'Kopshti ishte i lënë pas dore, kështu që Lena vendosi ta rregullonte.' },
+      { id: 3, img: imgs.forgotten_garden.puzzle[3], text: "Градината беше запуштена, па Јана реши да ја среди.", textSq: 'Kopshti ishte i lënë pas dore, kështu që Jana vendosi ta rregullonte.' },
       { id: 4, img: imgs.forgotten_garden.puzzle[4], text: "Наскоро, цвеќињата почнаа повторно да цветаат.", textSq: 'Së shpejti, lulet filluan të lulëzonin përsëri.' },
       { id: 5, img: imgs.forgotten_garden.puzzle[5], text: "Птиците и пеперутките се вратија во градината.", textSq: 'Zogjtë dhe fluturat u kthyen në kopsht.' },
       { id: 6, img: imgs.forgotten_garden.puzzle[6], text: "Градината стана омиленото место на сите деца.", textSq: 'Kopshti u bë vendi i preferuar i të gjithë fëmijëve.' },
@@ -294,7 +292,7 @@ const inclusiveData = {
     coloring: [
       { id: 1, img: imgs.forgotten_garden.coloring[1], text: "Стариот клуч на вратата.", textSq: 'Çelësi i vjetër në derë.' },
       { id: 2, img: imgs.forgotten_garden.coloring[2], text: "Фонтаната во центарот на градината.", textSq: 'Shatërvani në qendër të kopshtit.' },
-      { id: 3, img: imgs.forgotten_garden.coloring[3], text: "Лена со канта за полевање.", textSq: 'Lena me një kante për ujitje.' },
+      { id: 3, img: imgs.forgotten_garden.coloring[3], text: "Јана со канта за полевање.", textSq: 'Jana me një kante për ujitje.' },
       { id: 4, img: imgs.forgotten_garden.coloring[4], text: "Рози во полн цуте.", textSq: 'Trëndafila në lulëzim të plotë.' },
       { id: 5, img: imgs.forgotten_garden.coloring[5], text: "Клупа под големото дрво.", textSq: 'Stol nën pemën e madhe.' },
       { id: 6, img: imgs.forgotten_garden.coloring[6], text: "Пеперутки на сонце.", textSq: 'Flutura në diell.' },
