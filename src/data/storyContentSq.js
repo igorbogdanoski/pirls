@@ -257,8 +257,7 @@ const storyContentSq = {
       { id: 11, type: 'text', q: "A mendoni se ishte e lehtë të mashtrohen minjtë? Trego një arsye pse ishte ose pse nuk ishte lehtë.", criteria: ["po", "jo", "besuan", "punë"] },
       { id: 12, type: 'text', q: "Përshkruaj si është Gjergji dhe përmend dy shembuj nga teksti që e tregojnë këtë.", criteria: ["zgjuar", "durueshëm", "inovativ", "paqësor"] },
       { id: 13, type: 'mcq', q: "Cilat fjalë më së miri e sqarojnë këtë tregim?", options: ["A. Serioz dhe pikëllues", "B. I frikshëm dhe emocionues", "C. Qesharak dhe edukativ", "D. Emocionues dhe misterioz"], correct: "C. Qesharak dhe edukativ" },
-      { id: 14, type: 'text', q: "Sqaro se çka e bën këtë tregim të jetë i mahnitshëm (i pabesueshëm).", criteria: ["flasin", "orendi", "ngjitës"] },
-      { id: 15, type: 'text', q: "Cila është këshilla ose morali që na jep tregimi në fjalinë e fundit?", criteria: ["këmbët", "tokë", "përmbys"] }
+      { id: 14, type: 'text', q: "Sqaro se çka e bën këtë tregim të jetë i mahnitshëm (i pabesueshëm).", criteria: ["flasin", "orendi", "ngjitës"] }
     ]
   },
   hiking: {
