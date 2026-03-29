@@ -1,281 +1,302 @@
+import imgs from './imgs.js';
+
 // Puzzle and coloring data — add new story entries here
 const inclusiveData = {
   chest: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко беше тажен што мора да го помине распустот во селото.", textSq: 'Marko ishte i trishtuar që duhej ta kalonte pushimin në fshat.' },
-      { id: 2, img: '/Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "Дедо му го замоли да најде еден стар часовник на таванот.", textSq: 'Gjyshi i tij e kërkoi të gjente një orë të vjetër në papafingo.' },
-      { id: 3, img: '/Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Марко пронајде мал дрвен ковчег со изрезбани цветови.", textSq: 'Marko gjeti një arkë të vogël druri të gdhendur me lule.' }
+      { id: 1, img: imgs.chest.puzzle[1], text: "Марко беше тажен што мора да го помине распустот во селото.", textSq: 'Marko ishte i trishtuar që duhej ta kalonte pushimin në fshat.' },
+      { id: 2, img: imgs.chest.puzzle[2], text: "Дедо му го замоли да најде еден стар часовник на таванот.", textSq: 'Gjyshi i tij e kërkoi të gjente një orë të vjetër në papafingo.' },
+      { id: 3, img: imgs.chest.puzzle[3], text: "Марко пронајде мал дрвен ковчег со изрезбани цветови.", textSq: 'Marko gjeti një arkë të vogël druri të gdhendur me lule.' }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_svlevhsvlevhsvle.png', text: "Марко седи на тремот и му е досадно.", textSq: 'Marko ulet në verandë dhe i mërzitet.' },
-      { id: 2, img: '/Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png', text: "Марко го отвора дрвениот ковчег.", textSq: 'Marko hap arkën e drurit.' },
-      { id: 3, img: '/Gemini_Generated_Image_tidjntidjntidjnt.png', text: "Дедото раскажува за своето најголемо богатство.", textSq: 'Gjyshi tregon për pasurinë e tij më të madhe.' }
-    ]
+      { id: 1, img: imgs.chest.coloring[1], text: "Марко седи на тремот и му е досадно.", textSq: 'Marko ulet në verandë dhe i mërzitet.' },
+      { id: 2, img: imgs.chest.coloring[2], text: "Марко го отвора дрвениот ковчег.", textSq: 'Marko hap arkën e drurit.' },
+      { id: 3, img: imgs.chest.coloring[3], text: "Дедото раскажува за своето најголемо богатство.", textSq: 'Gjyshi tregon për pasurinë e tij më të madhe.' }
+    ],
+    coloringWIP: true
   },
   kaja: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Каја сакаше да биде пронаоѓач и постојано црташе идеи во својата тетратка.", textSq: 'Kaja donte të bëhej një shpikëse dhe vizatonte ide në fletoren e saj.' },
-      { id: 2, img: '/Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Нејзиниот голем робот „Чистомат“ се расипа токму пред натпреварот.", textSq: 'Roboti i saj i madh u prish fill para garës.' },
-      { id: 3, img: '/Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Каја направи едноставна хранилка од пластично шише и дрвени лажици.", textSq: 'Kaja bëri një ushqyes të thjeshtë nga një shishe plastike.' }
+      { id: 1, img: imgs.kaja.puzzle[1], text: "Каја сакаше да биде пронаоѓач и постојано црташе идеи во својата тетратка.", textSq: 'Kaja donte të bëhej një shpikëse dhe vizatonte ide në fletoren e saj.' },
+      { id: 2, img: imgs.kaja.puzzle[2], text: "Нејзиниот голем робот „Чистомат“ се расипа токму пред натпреварот.", textSq: 'Roboti i saj i madh u prish fill para garës.' },
+      { id: 3, img: imgs.kaja.puzzle[3], text: "Каја направи едноставна хранилка од пластично шише и дрвени лажици.", textSq: 'Kaja bëri një ushqyes të thjeshtë nga një shishe plastike.' }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_pa6gs9pa6gs9pa6g.png', text: "Каја работи во својата соба.", textSq: 'Kaja punon në dhomën e saj.' },
-      { id: 2, img: '/Gemini_Generated_Image_mpue84mpue84mpue.png', text: "Разговор со дедото.", textSq: 'Bisedë me gjyshin.' },
-      { id: 3, img: '/Gemini_Generated_Image_irdou7irdou7irdo.png', text: "Хранилката за птици.", textSq: 'Ushqyesi për zogjtë.' }
-    ]
+      { id: 1, img: imgs.kaja.coloring[1], text: "Каја работи во својата соба.", textSq: 'Kaja punon në dhomën e saj.' },
+      { id: 2, img: imgs.kaja.coloring[2], text: "Разговор со дедото.", textSq: 'Bisedë me gjyshin.' },
+      { id: 3, img: imgs.kaja.coloring[3], text: "Хранилката за птици.", textSq: 'Ushqyesi për zogjtë.' }
+    ],
+    coloringWIP: true
   },
   shovel: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Чичкото со лопатата секој ден работеше во својата градина.", textSq: 'Xhaxhai me lopatë punonte çdo ditë në kopshtin e tij.' },
-      { id: 2, img: '/Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Тој најде нешто необично додека копаше.", textSq: 'Ai gjeti diçka të pazakontë ndërsa gërmonte.' },
-      { id: 3, img: '/Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Градината стана место на голема авантура.", textSq: 'Kopshti u bë vend i një aventure të madhe.' }
+      { id: 1, img: imgs.shovel.puzzle[1], text: "Чичкото со лопатата секој ден работеше во својата градина.", textSq: 'Xhaxhai me lopatë punonte çdo ditë në kopshtin e tij.' },
+      { id: 2, img: imgs.shovel.puzzle[2], text: "Тој најде нешто необично додека копаше.", textSq: 'Ai gjeti diçka të pazakontë ndërsa gërmonte.' },
+      { id: 3, img: imgs.shovel.puzzle[3], text: "Градината стана место на голема авантура.", textSq: 'Kopshti u bë vend i një aventure të madhe.' }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_ed1hrfed1hrfed1h.png', text: "Работа во градината.", textSq: 'Punë në kopsht.' },
-      { id: 2, img: '/Gemini_Generated_Image_ntjzjxntjzjxntjz.png', text: "Изненадување под земјата.", textSq: 'Surprizë nën tokë.' },
-      { id: 3, img: '/Gemini_Generated_Image_gem9rdgem9rdgem9.png', text: "Приказни во градината.", textSq: 'Histori në kopsht.' }
-    ]
+      { id: 1, img: imgs.shovel.coloring[1], text: "Работа во градината.", textSq: 'Punë në kopsht.' },
+      { id: 2, img: imgs.shovel.coloring[2], text: "Изненадување под земјата.", textSq: 'Surprizë nën tokë.' },
+      { id: 3, img: imgs.shovel.coloring[3], text: "Приказни во градината.", textSq: 'Histori në kopsht.' }
+    ],
+    coloringWIP: true
   },
   lynx: {
     puzzle: [
-      { id: 1, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_1.png', text: "Балканскиот рис е ретко и загрозено животно.", textSq: 'Rrëqebulli i Ballkanit është një kafshë e rrallë dhe e rrezikuar.' },
-      { id: 2, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_2.png', text: "Научниците користат камери за да ги набљудуваат рисовите.", textSq: 'Shkencëtarët përdorin kamera për të vëzhguar rrëqebujt.' },
-      { id: 3, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_3.png', text: "Рисовите се движат тивко низ густата шума.", textSq: 'Rrëqebujt lëvizin qetësisht nëpër pyllin e dendur.' },
-      { id: 4, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_4.png', text: "Тие имаат карактеристични реси на ушите.", textSq: 'Ata kanë tufa karakteristike në veshë.' },
-      { id: 5, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_5.png', text: "Мораме да ја заштитиме природата за рисовите да преживеат.", textSq: 'Duhet ta mbrojmë natyrën që rrëqebujt të mbijetojnë.' }
+      { id: 1, img: imgs.lynx.puzzle[1], text: "Балканскиот рис е ретко и загрозено животно.", textSq: 'Rrëqebulli i Ballkanit është një kafshë e rrallë dhe e rrezikuar.' },
+      { id: 2, img: imgs.lynx.puzzle[2], text: "Научниците користат камери за да ги набљудуваат рисовите.", textSq: 'Shkencëtarët përdorin kamera për të vëzhguar rrëqebujt.' },
+      { id: 3, img: imgs.lynx.puzzle[3], text: "Рисовите се движат тивко низ густата шума.", textSq: 'Rrëqebujt lëvizin qetësisht nëpër pyllin e dendur.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_6.png', text: "Рис како седи на карпа.", textSq: 'Rrëqebulli i ulur mbi shkëmb.' },
-      { id: 2, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_7.png', text: "Поставување на фото-замка.", textSq: 'Vendosja e foto-kurthit.' },
-      { id: 3, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_8.png', text: "Шумата во зима.", textSq: 'Pylli në dimër.' },
-      { id: 4, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_9.png', text: "Малите рисчиња си играат.", textSq: 'Rrëqebujt e vegjël duke luajtur.' },
-      { id: 5, img: '/storyboard/The_Balkan_Lynx/The_Balkan_Lynx_10.png', text: "Рисот во движење.", textSq: 'Rrëqebulli në lëvizje.' }
-    ]
+      { id: 1, img: imgs.lynx.coloring[1], text: "Рис како седи на карпа.", textSq: 'Rrëqebulli i ulur mbi shkëmb.' },
+      { id: 2, img: imgs.lynx.coloring[2], text: "Поставување на фото-замка.", textSq: 'Vendosja e foto-kurthit.' },
+      { id: 3, img: imgs.lynx.coloring[3], text: "Шумата во зима.", textSq: 'Pylli në dimër.' }
+    ],
+    coloringWIP: true
   },
   baba: {
     puzzle: [
-      { id: 1, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_1.png', text: "Баба Гун живееше во мала селска куќичка со трева на покривот.", textSq: 'Gjyshja Gun jetonte në një shtëpizë të vogël fshati me bar mbi çati.' },
-      { id: 2, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_3.png', text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот.", textSq: 'Mjeku i tha se duhej të shpërngulej në një ndërtesë të madhe në qytet.' },
-      { id: 3, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_6.png', text: "Баба Гун тајно си ги донесе кокошките во својот нов стан.", textSq: 'Gjyshja Gun fshehurazi i solli pulat në apartamentin e saj të ri.' },
-      { id: 4, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_9.png', text: "Таа си направи прекрасна градина на својот балкон.", textSq: 'Ajo bëri një kopsht të mrekullueshëm në ballkonin e saj.' },
-      { id: 5, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_15.png', text: "Сега баба Гун е среќна со своите животни во градот!", textSq: 'Tani gjyshja Gun është e lumtur me kafshët e saj në qytet!' }
+      { id: 1, img: imgs.baba.puzzle[1], text: "Баба Гун живееше во мала селска куќичка со трева на покривот.", textSq: 'Gjyshja Gun jetonte në një shtëpizë të vogël fshati me bar mbi çati.' },
+      { id: 2, img: imgs.baba.puzzle[2], text: "Докторот ѝ рече дека мора да се пресели во голема зграда во градот.", textSq: 'Mjeku i tha se duhej të shpërngulej në një ndërtesë të madhe në qytet.' },
+      { id: 3, img: imgs.baba.puzzle[3], text: "Баба Гун тајно си ги донесе кокошките во својот нов стан.", textSq: 'Gjyshja Gun fshehurazi i solli pulat në apartamentin e saj të ri.' },
+      { id: 4, img: imgs.baba.puzzle[4], text: "Таа си направи прекрасна градина на својот балкон.", textSq: 'Ajo bëri një kopsht të mrekullueshëm në ballkonin e saj.' },
+      { id: 5, img: imgs.baba.puzzle[5], text: "Сега баба Гун е среќна со своите животни во градот!", textSq: 'Tani gjyshja Gun është e lumtur me kafshët e saj në qytet!' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_2.png', text: "Баба Гун пред куќичката во село.", textSq: 'Gjyshja Gun para shtëpizës në fshat.' },
-      { id: 2, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_4.png', text: "Баба Гун ги пакува своите работи.", textSq: 'Gjyshja Gun paketon gjërat e saj.' },
-      { id: 3, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_7.png', text: "Новиот стан во зградата.", textSq: 'Apartamenti i ri në ndërtesë.' },
-      { id: 4, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_10.png', text: "Градината на балконот.", textSq: 'Kopshti në ballkon.' },
-      { id: 5, img: '/storyboard/Baba_Gun_s_City_Farm/Baba_Gun_s_City_Farm_13.png', text: "Животните во градот.", textSq: 'Kafshët në qytet.' }
+      { id: 1, img: imgs.baba.coloring[1], text: "Баба Гун пред куќичката во село.", textSq: 'Gjyshja Gun para shtëpizës në fshat.' },
+      { id: 2, img: imgs.baba.coloring[2], text: "Баба Гун ги пакува своите работи.", textSq: 'Gjyshja Gun paketon gjërat e saj.' },
+      { id: 3, img: imgs.baba.coloring[3], text: "Новиот стан во зградата.", textSq: 'Apartamenti i ri në ndërtesë.' },
+      { id: 4, img: imgs.baba.coloring[4], text: "Градината на балконот.", textSq: 'Kopshti në ballkon.' },
+      { id: 5, img: imgs.baba.coloring[5], text: "Животните во градот.", textSq: 'Kafshët në qytet.' },
+      { id: 6, img: imgs.baba.coloring[6], text: "Среќа во новиот дом.", textSq: 'Lumturi në shtëpinë e re.' }
     ]
   },
   octopus: {
     puzzle: [
-      { id: 1, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_1.png', text: "Октоподот е мајстор за криење и живее на дното на океанот.", textSq: "Oktapodi është mjeshtër i fshehjes dhe jeton në fund të oqeanit." },
-      { id: 2, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_3.png', text: "Кога е во опасност, тој испушта темен облак од мастило.", textSq: "Kur rrezikohet, ai lëshon një re të errët boje." },
-      { id: 3, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_5.png', text: "Октоподите се многу паметни и можат да отвораат тегли.", textSq: "Oktapodët janë shumë të zgjuar dhe mund të hapin kavanoza." },
-      { id: 4, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_8.png', text: "Тие сакаат да си играат со играчки и сложувалки.", textSq: "Ata duan të luajnë me lodra dhe pazëlla." },
-      { id: 5, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_12.png', text: "Октоподите се многу пријателски расположени кон чуварите.", textSq: "Oktapodët janë shumë miqësorë me kujdestarët." }
+      { id: 1, img: imgs.octopus.puzzle[1], text: "Октоподот е мајстор за криење и живее на дното на океанот.", textSq: "Oktapodi është mjeshtër i fshehjes dhe jeton në fund të oqeanit." },
+      { id: 2, img: imgs.octopus.puzzle[2], text: "Кога е во опасност, тој испушта темен облак од мастило.", textSq: "Kur rrezikohet, ai lëshon një re të errët boje." },
+      { id: 3, img: imgs.octopus.puzzle[3], text: "Октоподите се многу паметни и можат да отвораат тегли.", textSq: "Oktapodët janë shumë të zgjuar dhe mund të hapin kavanoza." },
+      { id: 4, img: imgs.octopus.puzzle[4], text: "Тие сакаат да си играат со играчки и сложувалки.", textSq: "Ata duan të luajnë me lodra dhe pazëlla." },
+      { id: 5, img: imgs.octopus.puzzle[5], text: "Има многу видови октоподи.", textSq: "Ka shumë lloje oktapodësh." },
+      { id: 6, img: imgs.octopus.puzzle[6], text: "Октоподите се многу пријателски расположени кон чуварите.", textSq: "Oktapodët janë shumë miqësorë me kujdestarët." },
+      { id: 7, img: imgs.octopus.puzzle[7], text: "Октоподот е навистина прекрасно суштество.", textSq: "Oktapodi është vërtet një krijesë e mrekullueshme." }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_2.png', text: "Октопод во океанот.", textSq: "Oktapodi në oqean." },
-      { id: 2, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_4.png', text: "Бегство со мастило.", textSq: "Ikja me bojë." },
-      { id: 3, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_6.png', text: "Маскирање зад карпите.", textSq: "Maskimi pas shkëmbinjve." },
-      { id: 4, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_9.png', text: "Игра со топки.", textSq: "Lojë me topa." },
-      { id: 5, img: '/storyboard/The_Clever_Octopus/The_Clever_Octopus_11.png', text: "Поздрав со пријателите.", textSq: "Përshëndetje me miqtë." }
+      { id: 1, img: imgs.octopus.coloring[1], text: "Октопод во океанот.", textSq: "Oktapodi në oqean." },
+      { id: 2, img: imgs.octopus.coloring[2], text: "Бегство со мастило.", textSq: "Ikja me bojë." },
+      { id: 3, img: imgs.octopus.coloring[3], text: "Маскирање зад карпите.", textSq: "Maskimi pas shkëmbinjve." },
+      { id: 4, img: imgs.octopus.coloring[4], text: "Игра со топки.", textSq: "Lojë me topa." },
+      { id: 5, img: imgs.octopus.coloring[5], text: "Поздрав со пријателите.", textSq: "Përshëndetje me miqtë." },
+      { id: 6, img: imgs.octopus.coloring[6], text: "Истражување на дното.", textSq: "Eksplorimi i fundit." }
     ]
   },
   watchmaker: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Стариот часовничар живееше сам во својата тивка работилница.", textSq: 'Sahatçiu i vjetër jetonte i vetëm në punishten e tij të qetë.' },
-      { id: 2, img: '/Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Еден ден, едно мало куче се појави пред неговата врата.", textSq: 'Një ditë, një qen i vogël u shfaq para derës së tij.' },
-      { id: 3, img: '/Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Животот во работилницата повторно стана весел и исполнет.", textSq: 'Jeta në punishte u bë përsëri e gëzueshme dhe e plotë.' }
+      { id: 1, img: imgs.watchmaker.puzzle[1], text: "Стариот часовничар живееше сам во својата тивка работилница.", textSq: 'Sahatçiu i vjetër jetonte i vetëm në punishten e tij të qetë.' },
+      { id: 2, img: imgs.watchmaker.puzzle[2], text: "Еден ден, едно мало куче се појави перед неговата врата.", textSq: 'Një ditë, një qen i vogël u shfaq para derës së tij.' },
+      { id: 3, img: imgs.watchmaker.puzzle[3], text: "Животот во работилницата повторно стана весел и исполнет.", textSq: 'Jeta në punishte u bë përsëri e gëzueshme dhe e plotë.' }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_93tlph93tlph93tl.png', text: "Работилница полна со часовници.", textSq: 'Punishtja plot me sahatë.' },
-      { id: 2, img: '/Gemini_Generated_Image_4gmp3n4gmp3n4gmp.png', text: "Часовничарот со малото куче.", textSq: 'Sahatçiu me qenin e vogël.' },
-      { id: 3, img: '/Gemini_Generated_Image_1rt2501rt2501rt2.png', text: "Поправање на часовниците.", textSq: 'Riparimi i sahatëve.' }
-    ]
+      { id: 1, img: imgs.watchmaker.coloring[1], text: "Работилница полна со часовници.", textSq: 'Punishtja plot me sahatë.' },
+      { id: 2, img: imgs.watchmaker.coloring[2], text: "Часовничарот со малото куче.", textSq: 'Sahatçiu me qenin e vogël.' },
+      { id: 3, img: imgs.watchmaker.coloring[3], text: "Поправање на часовниците.", textSq: 'Riparimi i sahatëve.' }
+    ],
+    coloringWIP: true
   },
   kite: {
     puzzle: [
-      { id: 1, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_1.png', text: "Бојан со денови правеше голем, шарен змеј за летање.", textSq: 'Bojani bëri një balonë të madhe dhe me ngjyra për ditë të tëra.' },
-      { id: 2, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_3.png', text: "При првиот обид, змејот веднаш падна на земјата.", textSq: 'Në përpjekjen e parë, balona ra menjëherë në tokë.' },
-      { id: 3, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_5.png', text: "Бојан беше многу лут и сакаше да се откаже.", textSq: 'Bojani ishte shumë i zemëruar dhe donte të dorëzohej.' },
-      { id: 4, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_8.png', text: "Дедо му го научи дека трпението е најважно за успех.", textSq: 'Gjyshi e mësoi se durimi është më i rëndësishmi për sukses.' },
-      { id: 5, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_11.png', text: "На крајот, змејот полета високо кон синото небо.", textSq: 'Në fund, balona fluturoi lart drejt qiellit të kaltër.' }
+      { id: 1, img: imgs.kite.puzzle[1], text: "Бојан со денови правеше голем, шарен змеј за летање.", textSq: 'Bojani bëri një balonë të madhe dhe me ngjyra për ditë të tëra.' },
+      { id: 2, img: imgs.kite.puzzle[2], text: "При првиот обид, змејот веднаш падна на земјата.", textSq: 'Në përpjekjen e parë, balona ra menjëherë në tokë.' },
+      { id: 3, img: imgs.kite.puzzle[3], text: "Бојан беше многу лут и сакаше да се откаже.", textSq: 'Bojani ishte shumë i zemëruar dhe donte të dorëzohej.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_2.png', text: "Бојан во својата работилница.", textSq: 'Bojani në punishten e tij.' },
-      { id: 2, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_4.png', text: "Трчање на ливадата.", textSq: 'Vrapim në livadh.' },
-      { id: 3, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_7.png', text: "Дедото му помага на Бојан.", textSq: 'Gjyshi e ndihmon Bojanin.' },
-      { id: 4, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_10.png', text: "Бојан се смее со змејот.", textSq: 'Bojani qesh me balonën.' },
-      { id: 5, img: '/storyboard/Patience_Takes_Flight/Patience_Takes_Flight_13.png', text: "Шарениот змеј во облаците.", textSq: 'Balona me ngjyra në re.' }
-    ]
+      { id: 1, img: imgs.kite.coloring[1], text: "Бојан во својата работилница.", textSq: 'Bojani në punishten e tij.' },
+      { id: 2, img: imgs.kite.coloring[2], text: "Трчање на ливадата.", textSq: 'Vrapim në livadh.' },
+      { id: 3, img: imgs.kite.coloring[3], text: "Дедото му помага на Бојан.", textSq: 'Gjyshi e ndihmon Bojanin.' }
+    ],
+    coloringWIP: true
   },
   rabbit: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_j12s9rj12s9rj12s.png', text: "Зајакот уживаше во мирното попладне во шумата.", textSq: "Lepuri po shijonte pasditen e qetë në pyll." },
-      { id: 2, img: '/Gemini_Generated_Image_nnfx6onnfx6onnfx.png', text: "Одеднаш, земјата почна силно да се тресе.", textSq: "Papritmas, toka filloi të dridhej fort." },
-      { id: 3, img: '/Gemini_Generated_Image_1hdc6w1hdc6w1hdc.png', text: "Кога тресењето престана, во шумата беше безбедно.", textSq: "Kur dridhja ndaloi, pylli ishte i sigurt." }
+      { id: 1, img: imgs.rabbit.puzzle[1], text: "Зајакот уживаше во мирното попладне во шумата.", textSq: "Lepuri po shijonte pasditen e qetë në pyll." },
+      { id: 2, img: imgs.rabbit.puzzle[2], text: "Одеднаш, земјата почна силно да се тресе.", textSq: "Papritmas, toka filloi të dridhej fort." },
+      { id: 3, img: imgs.rabbit.puzzle[3], text: "Кога тресењето престана, во шумата беше безбедно.", textSq: "Kur dridhja ndaloi, pylli ishte i sigurt." }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_j12s9rj12s9rj12s.png', text: "Зајакот во шумата.", textSq: "Lepuri në pyll." },
-      { id: 2, img: '/Gemini_Generated_Image_nnfx6onnfx6onnfx.png', text: "Лавот го смирува зајакот.", textSq: "Luani e qetëson lepurin." },
-      { id: 3, img: '/Gemini_Generated_Image_1hdc6w1hdc6w1hdc.png', text: "Среќен крај за сите.", textSq: "Fund i lumtur për të gjithë." }
-    ]
+      { id: 1, img: imgs.rabbit.coloring[1], text: "Зајакот во шумата.", textSq: "Lepuri në pyll." },
+      { id: 2, img: imgs.rabbit.coloring[2], text: "Лавот го смирува зајакот.", textSq: "Luani e qetëson lepurin." },
+      { id: 3, img: imgs.rabbit.coloring[3], text: "Среќен крај за сите.", textSq: "Fund i lumtur për të gjithë." }
+    ],
+    coloringWIP: true
   },
   puffins: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_6rliq26rliq26rli.png', text: "Морските папагалчиња се враќаат на островот за да снесат јајца.", textSq: "Papagajtë e detit kthehen në ishull për të bërë vezë." },
-      { id: 2, img: '/Gemini_Generated_Image_3eunt73eunt73eun.png', text: "Родителите им носат риба на малите папагалчиња.", textSq: "Prindërit u sjellin peshk papagajve të vegjël." },
-      { id: 3, img: '/Gemini_Generated_Image_3nal113nal113nal.png', text: "Децата ги спасуваат папагалчињата во текот на ноќта.", textSq: "Fëmijët shpëtojnë papagajtë gjatë natës." },
-      { id: 4, img: '/Gemini_Generated_Image_s0veo8s0veo8s0ve.png', text: "Хана ги пушта папагалчињата слободно во морето.", textSq: "Hana lëshon papagajtë e lirë në det." }
+      { id: 1, img: imgs.puffins.puzzle[1], text: "Морските папагалчиња се враќаат на островот за да снесат јајца.", textSq: "Papagajtë e detit kthehen në ishull për të bërë vezë." },
+      { id: 2, img: imgs.puffins.puzzle[2], text: "Родителите им носат риба на малите папагалчиња.", textSq: "Prindërit u sjellin peshk papagajve të vegjël." },
+      { id: 3, img: imgs.puffins.puzzle[3], text: "Децата ги спасуваат папагалчињата во текот на ноќта.", textSq: "Fëmijët shpëtojnë papagajtë gjatë natës." },
+      { id: 4, img: imgs.puffins.puzzle[4], text: "Хана ги пушта папагалчињата слободно во морето.", textSq: "Hana lëshon papagajtë e lirë në det." }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_6rliq26rliq26rli.png', text: "Папагалчиња на гребенот.", textSq: "Papagajtë në shkëmb." },
-      { id: 2, img: '/Gemini_Generated_Image_3eunt73eunt73eun.png', text: "Клун полн со риби.", textSq: "Sqepi plot me peshq." },
-      { id: 3, img: '/Gemini_Generated_Image_3nal113nal113nal.png', text: "Акција за спасување.", textSq: "Aksioni i shpëtimit." },
-      { id: 4, img: '/Gemini_Generated_Image_s0veo8s0veo8s0ve.png', text: "Лет кон слободата.", textSq: "Fluturim drejt lirisë." }
-    ]
+      { id: 1, img: imgs.puffins.coloring[1], text: "Папагалчиња на гребенот.", textSq: "Papagajtë në shkëmb." },
+      { id: 2, img: imgs.puffins.coloring[2], text: "Клун полн со риби.", textSq: "Sqepi plot me peshq." },
+      { id: 3, img: imgs.puffins.coloring[3], text: "Акција за спасување.", textSq: "Aksioni i shpëtimit." },
+      { id: 4, img: imgs.puffins.coloring[4], text: "Лет кон слободата.", textSq: "Fluturim drejt lirisë." }
+    ],
+    coloringWIP: true
   },
   eagle: {
     puzzle: [
-      { id: 1, img: '/storyboard/Born_to_Soar/Born_to_Soar_1.png', text: "Еден фармер најде мало паднато орле на планината.", textSq: 'Një fermer gjeti një shqiponjë të vogël të rënë në mal.' },
-      { id: 2, img: '/storyboard/Born_to_Soar/Born_to_Soar_4.png', text: "Орелот порасна во дворот заедно со кокошките.", textSq: 'Shqiponja u rrit në oborr bashkë me pulat.' },
-      { id: 3, img: '/storyboard/Born_to_Soar/Born_to_Soar_7.png', text: "Еден човек дојде да му помогне на орелот да полета.", textSq: 'Një burrë erdhi për ta ndihmuar shqiponjën të fluturonte.' },
-      { id: 4, img: '/storyboard/Born_to_Soar/Born_to_Soar_12.png', text: "Тие се искачија на високата планина во зори.", textSq: 'Ata u ngjitën në malin e lartë në agim.' },
-      { id: 5, img: '/storyboard/Born_to_Soar/Born_to_Soar_15.png', text: "Орелот ги рашири крилјата и конечно полета слободно.", textSq: 'Shqiponja hapi krahët dhe më në fund fluturoi e lirë.' }
+      { id: 1, img: imgs.eagle.puzzle[1], text: "Еден фармер најде мало паднато орле на планината.", textSq: 'Një fermer gjeti një shqiponjë të vogël të rënë në mal.' },
+      { id: 2, img: imgs.eagle.puzzle[2], text: "Орелот порасна во дворот заедно со кокошките.", textSq: 'Shqiponja u rrit në oborr bashkë me pulat.' },
+      { id: 3, img: imgs.eagle.puzzle[3], text: "Еден човек дојде да му помогне на орелот да полета.", textSq: 'Një burrë erdhi për ta ndihmuar shqiponjën të fluturonte.' },
+      { id: 4, img: imgs.eagle.puzzle[4], text: "Орелот ги рашири крилјата и конечно полета слободно.", textSq: 'Shqiponja hapi krahët dhe më në fund fluturoi e lirë.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/Born_to_Soar/Born_to_Soar_2.png', text: "Малото орле во гнездото.", textSq: 'Shqiponja e vogël në fole.' },
-      { id: 2, img: '/storyboard/Born_to_Soar/Born_to_Soar_5.png', text: "Орелот јаде со кокошките.", textSq: 'Shqiponja ha me pulat.' },
-      { id: 3, img: '/storyboard/Born_to_Soar/Born_to_Soar_8.png', text: "Обид за полетување од покривот.", textSq: 'Përpjekje për fluturim nga çatia.' },
-      { id: 4, img: '/storyboard/Born_to_Soar/Born_to_Soar_11.png', text: "Патот кон планината.", textSq: 'Rruga drejt malit.' },
-      { id: 5, img: '/storyboard/Born_to_Soar/Born_to_Soar_14.png', text: "Сонцето изгрева зад планината.", textSq: 'Dielli lind pas malit.' }
-    ]
+      { id: 1, img: imgs.eagle.coloring[1], text: "Малото орле во гнездото.", textSq: 'Shqiponja e vogël në fole.' },
+      { id: 2, img: imgs.eagle.coloring[2], text: "Орелот јаде со кокошките.", textSq: 'Shqiponja ha me pulat.' },
+      { id: 3, img: imgs.eagle.coloring[3], text: "Обид за полетување од покривот.", textSq: 'Përpjekje për fluturim nga çatia.' },
+      { id: 4, img: imgs.eagle.coloring[4], text: "Сонцето изгрева зад планината.", textSq: 'Dielli lind pas malit.' }
+    ],
+    coloringWIP: true
   },
   pita: {
     puzzle: [
-      { id: 1, img: '/Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Баба и внукот направија вкусна пита.", textSq: 'Gjyshja dhe nipi bënë një byrek të shijshëm.' },
-      { id: 2, img: '/Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Тие ја однесоа питата кај стариот сосед.", textSq: 'Ata ia çuan byrekun fqinjit të vjetër.' },
-      { id: 3, img: '/Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Заедно уживаа во вечерата и разговорот.", textSq: 'Bashkë gëzuan darkën dhe bisedën.' }
+      { id: 1, img: imgs.pita.puzzle[1], text: "Баба и внукот направија вкусна пита.", textSq: 'Gjyshja dhe nipi bënë një pite të shijshme.' },
+      { id: 2, img: imgs.pita.puzzle[2], text: "Тие ја оставија питата на прозорецот да се излади.", textSq: 'Ata e lanë piten në dritare që të ftohej.' },
+      { id: 3, img: imgs.pita.puzzle[3], text: "Едно животно се обиде да ја украде питата.", textSq: 'Një kafshë u përpoq ta vidhte piten.' },
+      { id: 4, img: imgs.pita.puzzle[4], text: "На крајот сите заедно ја јадеа питата.", textSq: 'Në fund të gjithë së bashku e hëngrën piten.' }
     ],
     coloring: [
-      { id: 1, img: '/Gemini_Generated_Image_cfaajhcfaajhcfaa.png', text: "Готвење во кујната.", textSq: 'Gatim në kuzhinë.' },
-      { id: 2, img: '/Gemini_Generated_Image_akd8v0akd8v0akd8.png', text: "Носење на питата.", textSq: 'Bartja e byreks.' },
-      { id: 3, img: '/Gemini_Generated_Image_mycd13mycd13mycd.png', text: "Вечера кај соседот.", textSq: 'Darkë te fqinji.' }
-    ]
+      { id: 1, img: imgs.pita.coloring[1], text: "Месење на питата.", textSq: 'Zënia e pites.' },
+      { id: 2, img: imgs.pita.coloring[2], text: "Питата на прозорецот.", textSq: 'Pitja në dritare.' },
+      { id: 3, img: imgs.pita.coloring[3], text: "Шумските пријатели.", textSq: 'Miqtë e pyllit.' },
+      { id: 4, img: imgs.pita.coloring[4], text: "Заедничка гозба.", textSq: 'Gosti e përbashkët.' }
+    ],
+    coloringWIP: true
   },
   hiking: {
     puzzle: [
-      { id: 1, img: '/storyboard/Излет/1. Gemini_Generated_Image_dohdk4dohdk4dohd.png', text: "Подготовка за планинарење со ранец и опрема.", textSq: 'Përgatitja për ecje në mal me çantë dhe pajisje.' },
-      { id: 2, img: '/storyboard/Излет/2. Gemini_Generated_Image_arh7tsarh7tsarh7.png', text: "Пешачење по тесните планински патеки.", textSq: 'Ecja nëpër shtigjet e ngushta malore.' },
-      { id: 3, img: '/storyboard/Излет/3. Gemini_Generated_Image_o6ynro6ynro6ynro.png', text: "Прекрасен водопад скриен во шумата.", textSq: 'Ujëvarë e mrekullueshme e fshehur në pyll.' },
-      { id: 4, img: '/storyboard/Излет/4. Gemini_Generated_Image_1tvfzi1tvfzi1tvf.png', text: "Одмор и уживање во природата.", textSq: 'Pushim dhe shijim i natyrës.' }
+      { id: 1, img: imgs.hiking.puzzle[1], text: "Децата се подготвуваа за голем излет во планина.", textSq: 'Fëmijët po përgatiteshin për një udhëtim të madh në mal.' },
+      { id: 2, img: imgs.hiking.puzzle[2], text: "Патот беше стрмен, но тие не се откажуваа.", textSq: 'Rruga ishte e pjerrët, por ata nuk u dorëzuan.' },
+      { id: 3, img: imgs.hiking.puzzle[3], text: "Конечно стигнаа до прекрасниот водопад.", textSq: 'Më në fund arritën te ujëvara e mrekullueshme.' },
+      { id: 4, img: imgs.hiking.puzzle[4], text: "Сите заедно уживаа во природата.", textSq: 'Të gjithë së bashku shijuan natyrën.' },
+      { id: 5, img: imgs.hiking.puzzle[5], text: "Направија многу убави фотографии.", textSq: 'Bënë shumë fotografi të bukura.' },
+      { id: 6, img: imgs.hiking.puzzle[6], text: "Изгрејсонце во планината.", textSq: 'Lindja e diellit në mal.' },
+      { id: 7, img: imgs.hiking.puzzle[7], text: "Враќање дома со убави спомени.", textSq: 'Kthimi në shtëpi me kujtime të bukura.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/Излет/5. Gemini_Generated_Image_w6oeyrw6oeyrw6oe.png', text: "Планински врвови во далечина.", textSq: 'Majat e maleve në largësi.' },
-      { id: 2, img: '/storyboard/Излет/6. Gemini_Generated_Image_5x7tln5x7tln5x7t.png', text: "Животни во шумата.", textSq: 'Kafshët në pyll.' },
-      { id: 3, img: '/storyboard/Излет/7. Gemini_Generated_Image_6fb10g6fb10g6fb1.png', text: "Среќни планинари.", textSq: 'Alpinistë të lumtur.' }
+      { id: 1, img: imgs.hiking.coloring[1], text: "Пакување на ранците.", textSq: 'Paketimi i çantave.' },
+      { id: 2, img: imgs.hiking.coloring[2], text: "Пешачење низ шумата.", textSq: 'Ecuri nëpër pyll.' },
+      { id: 3, img: imgs.hiking.coloring[3], text: "Игра крај водопадот.", textSq: 'Lojë pranë ujëvarës.' },
+      { id: 4, img: imgs.hiking.coloring[4], text: "Одмор на ливадата.", textSq: 'Pushim në livadh.' },
+      { id: 5, img: imgs.hiking.coloring[5], text: "Планински пејзаж.", textSq: 'Peizazh malor.' },
+      { id: 6, img: imgs.hiking.coloring[6], text: "Цвеќиња во планината.", textSq: 'Lule në mal.' },
+      { id: 7, img: imgs.hiking.coloring[7], text: "Шумски животни.", textSq: 'Kafshët e pyllit.' }
     ]
   },
   fossil: {
     puzzle: [
-      { id: 1, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_1.png', text: "Мери Анинг најде необичен фосилен заб во карпите.", textSq: 'Mary Anning gjeti një dhëmb fosil të pazakontë në shkëmbinj.' },
-      { id: 2, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_4.png', text: "Гидеон Мантел го проучуваше забот со големо внимание.", textSq: 'Gideon Mantell e studioi dhëmbin me kujdes të madh.' },
-      { id: 3, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_8.png', text: "Мантел сфати дека забот му припаѓа на Игуанодон.", textSq: 'Mantell kuptoi se dhëmbi i përkiste Iguanodonit.' },
-      { id: 4, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_11.png', text: "Тој прв нацрта како изгледал овој огромен влекач.", textSq: 'Ai vizatoi i pari se si dukej kjo zvarranik gjigant.' },
-      { id: 5, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_14.png', text: "Ричард Овен го измисли зборот диносаурус.", textSq: 'Richard Owen shpiku fjalën dinosaur.' }
+      { id: 1, img: imgs.fossil.puzzle[1], text: "Мина најде необичен камен во својот двор.", textSq: 'Mina gjeti një gur të pazakontë në oborrin e saj.' },
+      { id: 2, img: imgs.fossil.puzzle[2], text: "Таа го однесе каменот кај наставникот по биологија.", textSq: 'Ajo e çoi gurin te mësuesi i biologjisë.' },
+      { id: 3, img: imgs.fossil.puzzle[3], text: "Се покажа дека тоа е многу стар фосил.", textSq: 'Doli se ishte një fosil shumë i vjetër.' },
+      { id: 4, img: imgs.fossil.puzzle[4], text: "Целото училиште беше возбудено за пронајдокот.", textSq: 'E gjithë shkolla ishte e emocionuar për zbulimin.' },
+      { id: 5, img: imgs.fossil.puzzle[5], text: "Направија мала изложба во училницата.", textSq: 'Bënë një ekspozitë të vogël në klasë.' },
+      { id: 6, img: imgs.fossil.puzzle[6], text: "Мина стана вистински млад истражувач.", textSq: 'Mina u bë një kërkuese e vërtetë e re.' },
+      { id: 7, img: imgs.fossil.puzzle[7], text: "Учење за праисторискиот свет.", textSq: 'Mësimi për botën parahistorike.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_2.png', text: "Копање фосили.", textSq: 'Gërmimi i fosileve.' },
-      { id: 2, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_5.png', text: "Забот на Игуанодон.", textSq: 'Dhëmbi i Iguanodonit.' },
-      { id: 3, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_9.png', text: "Истражување во музеј.", textSq: 'Kërkimi në muze.' },
-      { id: 4, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_12.png', text: "Цртање на диносаурусот.", textSq: 'Vizatimi i dinosaurit.' },
-      { id: 5, img: '/storyboard/The_Iguanodon_Discovery/The_Iguanodon_Discovery_15.png', text: "Скелет во музејот.", textSq: 'Skeleti në muze.' }
+      { id: 1, img: imgs.fossil.coloring[1], text: "Мина во градината.", textSq: 'Mina në kopsht.' },
+      { id: 2, img: imgs.fossil.coloring[2], text: "Истражување со лупа.", textSq: 'Hulumtim me thjerrëz.' },
+      { id: 3, img: imgs.fossil.coloring[3], text: "Во училишната лабораторија.", textSq: 'Në laboratorin e shkollës.' },
+      { id: 4, img: imgs.fossil.coloring[4], text: "Фосилот на диносаурус.", textSq: 'Fosili i dinozaurit.' },
+      { id: 5, img: imgs.fossil.coloring[5], text: "Разговор со научници.", textSq: 'Bisedë me shkencëtarët.' },
+      { id: 6, img: imgs.fossil.coloring[6], text: "Цртање на фосилот.", textSq: 'Vizatimi i fosilit.' },
+      { id: 7, img: imgs.fossil.coloring[7], text: "Среќниот пронаоѓач.", textSq: 'Zbuluesi i lumtur.' }
     ]
   },
   pot: {
     puzzle: [
-      { id: 1, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_1.png', text: "Царот им даде на сите деца по едно варено семе.", textSq: 'Perandori u dha të gjithë fëmijëve nga një farë të zier.' },
-      { id: 2, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_4.png', text: "Пинг се грижеше за своето семе секој ден.", textSq: 'Ping u kujdes për farën e tij çdo ditë.' },
-      { id: 3, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_7.png', text: "Ништо не порасна во неговата саксија.", textSq: 'Asgjë nuk u rrit në saksinë e tij.' },
-      { id: 4, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_10.png', text: "Пинг ја однесе празната саксија кај царот.", textSq: 'Ping çoi saksinë e zbrazët te perandori.' },
-      { id: 5, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_13.png', text: "Царот го избра Пинг за нов владетел поради неговата искреност.", textSq: 'Perandori zgjodhi Pingun si sundimtar të ri për ndershmërinë e tij.' }
+      { id: 1, img: imgs.pot.puzzle[1], text: "Царот им даде на сите деца по едно семе да го засадат.", textSq: 'Perandori u dha të gjithë fëmijëve nga një farë për ta mbjellë.' },
+      { id: 2, img: imgs.pot.puzzle[2], text: "Ли го негуваше своето семе со многу љубов, но ништо не растеше.", textSq: 'Li e kujdesej për farën e tij me shumë dashuri, por asgjë nuk rritej.' },
+      { id: 3, img: imgs.pot.puzzle[3], text: "Сите други деца донесоа саксии со прекрасни цветови.", textSq: 'Të gjithë fëmijët e tjerë sollën saksi me lule të mrekullueshme.' },
+      { id: 4, img: imgs.pot.puzzle[4], text: "Ли му ја покажа на царот својата празна саксија.", textSq: 'Li i tregoi perandorit saksine e tij të zbrazët.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_2.png', text: "Децата со своите семиња.", textSq: 'Fëmijët me farat e tyre.' },
-      { id: 2, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_5.png', text: "Пинг ја полева саксијата.", textSq: 'Ping loton saksinë.' },
-      { id: 3, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_8.png', text: "Другите деца со големи цветови.", textSq: 'Fëmijët e tjerë me lule të mëdha.' },
-      { id: 4, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_11.png', text: "Пинг пред царот.", textSq: 'Ping para perandorit.' },
-      { id: 5, img: '/storyboard/The_Empty_Pot/The_Empty_Pot_12.png', text: "Среќниот Пинг со круната.", textSq: 'Ping i lumtur me kurorën.' }
-    ]
+      { id: 1, img: imgs.pot.coloring[1], text: "Ли ја подготвува земјата.", textSq: 'Li përgatit tokën.' },
+      { id: 2, img: imgs.pot.coloring[2], text: "Наводнување на семето.", textSq: 'Ujitja e farës.' },
+      { id: 3, img: imgs.pot.coloring[3], text: "Тажниот Ли со празната саксија.", textSq: 'Li i trishtuar me saksine e zbrazët.' },
+      { id: 4, img: imgs.pot.coloring[4], text: "Царот го избира својот наследник.", textSq: 'Perandori zgjedh pasardhësin e tij.' }
+    ],
+    coloringWIP: true
   },
   lakestar: {
     puzzle: [
-      { id: 1, img: '/storyboard/The_Lake_Star/The_Lake_Star_1.png', text: "Тео најде стара скршена едрилица во трските.", textSq: 'Teo gjeti një varkë me vela të vjetër e të prishur në kallamishte.' },
-      { id: 2, img: '/storyboard/The_Lake_Star/The_Lake_Star_4.png', text: "Тој и дедо му ја поправаа едрилицата со многу труд.", textSq: 'Ai dhe gjyshi e rregulluan varkën me shumë mund.' },
-      { id: 3, img: '/storyboard/The_Lake_Star/The_Lake_Star_7.png', text: "Бојан му се смееше на Тео за неговото старо бродче.", textSq: 'Bojani u tall me Teon për varkën e tij të vjetër.' },
-      { id: 4, img: '/storyboard/The_Lake_Star/The_Lake_Star_10.png', text: "Силниот ветер го заглави бродчето на Бојан во трските.", textSq: 'Era e fortë bllokoi varkën e Bojanit në kallamishte.' },
-      { id: 5, img: '/storyboard/The_Lake_Star/The_Lake_Star_14.png', text: "Езерската ѕвезда го спаси бродчето на Бојан.", textSq: 'Ylli i liqenit shpëtoi varkën e Bojanit.' }
+      { id: 1, img: imgs.lakestar.puzzle[1], text: "Една ноќ, мала ѕвезда падна во езерото.", textSq: 'Një natë, një yll i vogël ra në liqen.' },
+      { id: 2, img: imgs.lakestar.puzzle[2], text: "Животните се обидуваа да ја извлечат од водата.", textSq: 'Kafshët u përpoqën ta nxirrnin nga uji.' },
+      { id: 3, img: imgs.lakestar.puzzle[3], text: "Езерската ѕвезда почна да свети уште посилно.", textSq: 'Ylli i liqenit filloi të shndriste edhe më fort.' },
+      { id: 4, img: imgs.lakestar.puzzle[4], text: "На крајот, ѕвездата се врати на небото.", textSq: 'Në fund, ylli u kthye në qiell.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/The_Lake_Star/The_Lake_Star_2.png', text: "Тео на брегот на езерото.", textSq: 'Teo në bregun e liqenit.' },
-      { id: 2, img: '/storyboard/The_Lake_Star/The_Lake_Star_5.png', text: "Поправање на едрото.", textSq: 'Rregullimi i velës.' },
-      { id: 3, img: '/storyboard/The_Lake_Star/The_Lake_Star_8.png', text: "Средба на пристаништето.", textSq: 'Takimi në port.' },
-      { id: 4, img: '/storyboard/The_Lake_Star/The_Lake_Star_12.png', text: "Пловидба низ брановите.", textSq: 'Lundrim nëpër valë.' },
-      { id: 5, img: '/storyboard/The_Lake_Star/The_Lake_Star_15.png', text: "Среќниот Тео со својот брод.", textSq: 'Teo i lumtur me varkën e tij.' }
-    ]
+      { id: 1, img: imgs.lakestar.coloring[1], text: "Ѕвездена ноќ над езерото.", textSq: 'Natë me yje mbi liqen.' },
+      { id: 2, img: imgs.lakestar.coloring[2], text: "Рибите си играат со ѕвездата.", textSq: 'Peshqit luajnë me yllin.' },
+      { id: 3, img: imgs.lakestar.coloring[3], text: "Бувот ја набљудува сцената.", textSq: 'Bufi vëzhgon skenën.' },
+      { id: 4, img: imgs.lakestar.coloring[4], text: "Магија во природата.", textSq: 'Magji në natyrë.' }
+    ],
+    coloringWIP: true
   },
   lambe: {
     puzzle: [
-      { id: 1, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_1.png', text: "Глувците во куќата на Ламбе беа многу бучни.", textSq: 'Mijët në shtëpinë e Lambes ishin shumë të zhurmshëm.' },
-      { id: 2, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_4.png', text: "Ламбе реши да го залепи целиот мебел за таванот.", textSq: 'Lambe vendosi të ngjitë të gjitha mobiljet në tavan.' },
-      { id: 3, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_6.png', text: "Глувците мислеа дека тие самите стојат наопаку.", textSq: 'Mijët menduan se ata vetë po qëndronin përmbys.' },
-      { id: 4, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_8.png', text: "Тие паднаа од таванот и избегаа од куќата.", textSq: 'Ata ranë nga tavani dhe ikën nga shtëpia.' },
-      { id: 5, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_10.png', text: "Ламбе конечно уживаше во мир и тишина.", textSq: 'Më në fund Lambe shijoi paqen dhe qetësinë.' }
+      { id: 1, img: imgs.lambe.puzzle[1], text: "Дедо Ламбе секој ден им носеше храна на своите пријатели - глувците.", textSq: 'Gjyshi Lambe u sillte ushqim miqve të tij - miuve çdo ditë.' },
+      { id: 2, img: imgs.lambe.puzzle[2], text: "Глувците му помагаа на дедо Ламбе во неговата работилница.", textSq: 'Miuat e ndihmonin gjyshin Lambe në punishten e tij.' },
+      { id: 3, img: imgs.lambe.puzzle[3], text: "Еден ден, тие подготвија големо изненадување.", textSq: 'Një ditë, ata përgatitën një surprizë të madhe.' },
+      { id: 4, img: imgs.lambe.puzzle[4], text: "Сите заедно прославија со многу музика и игра.", textSq: 'Të gjithë së bashku festuan me shumë muzikë dhe valle.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_2.png', text: "Глувците танцуваат.", textSq: 'Mijët duke kërcyer.' },
-      { id: 2, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_5.png', text: "Ламбе со лепилото.", textSq: 'Lambe me ngjitësin.' },
-      { id: 3, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_7.png', text: "Мебелот на таванот.", textSq: 'Mobiljet në tavan.' },
-      { id: 4, img: '/storyboard/The_Lambe_Enigma/The_Lambe_Enigma_9.png', text: "Глувците на подот.", textSq: 'Mijët në dysheme.' }
-    ]
+      { id: 1, img: imgs.lambe.coloring[1], text: "Дедо Ламбе прави играчки.", textSq: 'Gjyshi Lambe bën lodra.' },
+      { id: 2, img: imgs.lambe.coloring[2], text: "Глувците јадат сирење.", textSq: 'Miuat hane djathë.' },
+      { id: 3, img: imgs.lambe.coloring[3], text: "Работилница полна со живот.", textSq: 'Punishte plot jetë.' },
+      { id: 4, img: imgs.lambe.coloring[4], text: "Весела забава.", textSq: 'Festë e gëzueshme.' }
+    ],
+    coloringWIP: true
   },
   lighthouse: {
     puzzle: [
-      { id: 1, img: '/Светлината на Ирското Море/хронолошка слагалка/1. Gemini_Generated_Image_2figja2figja2fig.png', text: "Лиам се плаши од бури и магла.", textSq: 'Liami ka frikë nga stuhitë dhe mjegulla.' },
-      { id: 2, img: '/Светлината на Ирското Море/хронолошка слагалка/2. Gemini_Generated_Image_h7baeh7baeh7baeh.png', text: "Дедо му Фин е чувар на светилникот.", textSq: 'Gjyshi i tij Finni është roja e farit.' },
-      { id: 3, img: '/Светлината на Ирското Море/хронолошка слагалка/3. Gemini_Generated_Image_xe0jvfxe0jvfxe0j.png', text: "Густа магла и невреме го зафатија селото.", textSq: 'Një mjegull e dendur dhe stuhia përfshiu fshatin.' },
-      { id: 4, img: '/Светлината на Ирското Море/хронолошка слагалка/4. Gemini_Generated_Image_tqa2mutqa2mutqa2.png', text: "Дедо му го повреди коленото и не можеше да се искачи.", textSq: 'Gjyshi lëndoi gjurin dhe nuk mund të ngjitej.' },
-      { id: 5, img: '/Светлината на Ирското Море/хронолошка слагалка/5. Gemini_Generated_Image_4nn0ce4nn0ce4nn0.png', text: "Лиам мораше сам да се искачи по тристате скали.", textSq: 'Liami duhej të ngjitej vetë në treqind shkallët.' },
-      { id: 6, img: '/Светлината на Ирското Море/хронолошка слагалка/6. Gemini_Generated_Image_qcudr8qcudr8qcud.png', text: "Тој го запали резервниот фенер и го спаси татко му.", textSq: 'Ai ndezi fenerin rezervë dhe shpëtoi babanë e tij.' },
-      { id: 7, img: '/Светлината на Ирското Море/хронолошка слагалка/7. Gemini_Generated_Image_94kijd94kijd94ki.png', text: "Лиам научи дека храброст е да го направиш правилното и кога се плашиш.", textSq: 'Liami mësoi se guximi është të bësh atë që duhet edhe kur ke frikë.' }
+      { id: 1, img: imgs.lighthouse.puzzle[1], text: "Светилникот ги водеше бродовите низ бурното море.", textSq: 'Fari i udhëhiqte anijet nëpër detin e trazuar.' },
+      { id: 2, img: imgs.lighthouse.puzzle[2], text: "Чуварот на светилникот секој ден се качуваше до врвот.", textSq: 'Rojtari i farit ngjitej në majë çdo ditë.' },
+      { id: 3, img: imgs.lighthouse.puzzle[3], text: "Една ноќ, светлото на светилникот одеднаш згасна.", textSq: 'Një natë, drita e farit u fik papritmas.' },
+      { id: 4, img: imgs.lighthouse.puzzle[4], text: "Сите жители на градот дојдоа да помогнат.", textSq: 'Të gjithë banorët e qytetit erdhën për të ndihmuar.' },
+      { id: 5, img: imgs.lighthouse.puzzle[5], text: "Светилникот повторно почна да свети посилно од кога било.", textSq: 'Fari filloi të shndriste përsëri më fort se kurrë.' },
+      { id: 6, img: imgs.lighthouse.puzzle[6], text: "Бродовите беа безбедни во пристаништето.", textSq: 'Anijet ishin të sigurta në port.' },
+      { id: 7, img: imgs.lighthouse.puzzle[7], text: "Мирна ноќ на морето.", textSq: 'Natë e qetë në det.' }
     ],
     coloring: [
-      { id: 1, img: '/Светлината на Ирското Море/coloring/1. Gemini_Generated_Image_kfyyflkfyyflkfyy.png', text: "Светилникот дење.", textSq: 'Fari ditën.' },
-      { id: 2, img: '/Светлината на Ирското Море/coloring/2. Gemini_Generated_Image_olvqo0olvqo0olvq.png', text: "Бродови во магла.", textSq: 'Anijet në mjegull.' },
-      { id: 3, img: '/Светлината на Ирското Море/coloring/3. Gemini_Generated_Image_v81snav81snav81s.png', text: "Внатре во светилникот.", textSq: 'Brenda farit.' },
-      { id: 4, img: '/Светлината на Ирското Море/coloring/4. Gemini_Generated_Image_ju19fyju19fyju19.png', text: "Силниот фенер на светилникот.", textSq: 'Feneri i fortë i farit.' },
-      { id: 5, img: '/Светлината на Ирското Море/coloring/5. Gemini_Generated_Image_63m11a63m11a63m1.png', text: "Лиам се качува по скалите.", textSq: 'Liami ngjitet shkallëve.' },
-      { id: 6, img: '/Светлината на Ирското Море/coloring/6. Gemini_Generated_Image_iute7riute7riute.png', text: "Запалениот фенер.", textSq: 'Feneri i ndezur.' },
-      { id: 7, img: '/Светлината на Ирското Море/coloring/7. Gemini_Generated_Image_e5v17pe5v17pe5v1.png', text: "Средба со татко му.", textSq: 'Takimi me babanë.' }
+      { id: 1, img: imgs.lighthouse.coloring[1], text: "Бранот удира во карпите.", textSq: 'Vala godet shkëmbinjtë.' },
+      { id: 2, img: imgs.lighthouse.coloring[2], text: "Скалите на светилникот.", textSq: 'Shkallët e farit.' },
+      { id: 3, img: imgs.lighthouse.coloring[3], text: "Чуварот ја чисти леќата.", textSq: 'Rojtari pastron thjerrëzën.' },
+      { id: 4, img: imgs.lighthouse.coloring[4], text: "Галебите летаат околу кулата.", textSq: 'Pulëbardhat fluturojnë rreth kullës.' },
+      { id: 5, img: imgs.lighthouse.coloring[5], text: "Брод во далечината.", textSq: 'Anije në largësi.' },
+      { id: 6, img: imgs.lighthouse.coloring[6], text: "Месечина над морето.", textSq: 'Hëna mbi det.' },
+      { id: 7, img: imgs.lighthouse.coloring[7], text: "Светилникот во зори.", textSq: 'Fari në agim.' }
     ]
   },
   forgotten_garden: {
     puzzle: [
-      { id: 1, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_1.png', text: "Децата најдоа клуч од една заборавена градина.", textSq: 'Fëmijët gjetën çelësin e një kopshti të harruar.' },
-      { id: 2, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_4.png', text: "Тие влегоа внатре и видоа дека сè е исушено.", textSq: 'Ata hyrën brenda dhe panë se gjithçka ishte tharë.' },
-      { id: 3, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_7.png', text: "Заедно почнаа да садат нови цвеќиња и дрвја.", textSq: 'Së bashku filluan të mbjellin lule dhe pemë të reja.' },
-      { id: 4, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_10.png', text: "Градината повторно стана најубавото место во градот.", textSq: 'Kopshti u bë përsëri vendi më i bukur në qytet.' },
-      { id: 5, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_14.png', text: "Сите соседи доаѓаа да уживаат во мирисот на цвеќињата.", textSq: 'Të gjithë fqinjët vinin të shijonin erën e luleve.' }
+      { id: 1, img: imgs.forgotten_garden.puzzle[1], text: "Лена пронајде тајна врата во стариот ѕид.", textSq: 'Lena gjeti një derë të fshehtë në murin e vjetër.' },
+      { id: 2, img: imgs.forgotten_garden.puzzle[2], text: "Зад вратата се криеше прекрасна заборавена градина.", textSq: 'Pas derës fshihej një kopsht i mrekullueshëm i harruar.' },
+      { id: 3, img: imgs.forgotten_garden.puzzle[3], text: "Градината беше запуштена, па Лена реши да ја среди.", textSq: 'Kopshti ishte i lënë pas dore, kështu që Lena vendosi ta rregullonte.' },
+      { id: 4, img: imgs.forgotten_garden.puzzle[4], text: "Наскоро, цвеќињата почнаа повторно да цветаат.", textSq: 'Së shpejti, lulet filluan të lulëzonin përsëri.' },
+      { id: 5, img: imgs.forgotten_garden.puzzle[5], text: "Птиците и пеперутките се вратија во градината.", textSq: 'Zogjtë dhe fluturat u kthyen në kopsht.' },
+      { id: 6, img: imgs.forgotten_garden.puzzle[6], text: "Градината стана омиленото место на сите деца.", textSq: 'Kopshti u bë vendi i preferuar i të gjithë fëmijëve.' },
+      { id: 7, img: imgs.forgotten_garden.puzzle[7], text: "Магијата на природата се врати.", textSq: 'Magjia e natyrës u kthye.' }
     ],
     coloring: [
-      { id: 1, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_2.png', text: "Старата порта на градината.", textSq: 'Porta e vjetër e kopshtit.' },
-      { id: 2, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_5.png', text: "Чистење на сувите гранки.", textSq: 'Pastrimi i degëve të thata.' },
-      { id: 3, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_8.png', text: "Садење рози.", textSq: 'Mbjellja e trëndafilave.' },
-      { id: 4, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_11.png', text: "Игра во градината.", textSq: 'Lojë në kopsht.' },
-      { id: 5, img: '/storyboard/Baba_Gun_s_City_Garden/Baba_Gun_s_City_Garden_15.png', text: "Шарена пролет.", textSq: 'Pranverë me ngjyra.' }
+      { id: 1, img: imgs.forgotten_garden.coloring[1], text: "Стариот клуч на вратата.", textSq: 'Çelësi i vjetër në derë.' },
+      { id: 2, img: imgs.forgotten_garden.coloring[2], text: "Фонтаната во центарот на градината.", textSq: 'Shatërvani në qendër të kopshtit.' },
+      { id: 3, img: imgs.forgotten_garden.coloring[3], text: "Лена со канта за полевање.", textSq: 'Lena me një kante për ujitje.' },
+      { id: 4, img: imgs.forgotten_garden.coloring[4], text: "Рози во полн цуте.", textSq: 'Trëndafila në lulëzim të plotë.' },
+      { id: 5, img: imgs.forgotten_garden.coloring[5], text: "Клупа под големото дрво.", textSq: 'Stol nën pemën e madhe.' },
+      { id: 6, img: imgs.forgotten_garden.coloring[6], text: "Пеперутки на сонце.", textSq: 'Flutura në diell.' },
+      { id: 7, img: imgs.forgotten_garden.coloring[7], text: "Зајдисонце во градината.", textSq: 'Perëndimi i diellit në kopsht.' }
     ]
   }
 };

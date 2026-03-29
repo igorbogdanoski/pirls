@@ -11,22 +11,14 @@
 - Albanian (SQ) текст + прашања за сите 19 приказни ✅
 - PWA (инсталабилна на таблет/мобилен) ✅
 - Firebase реално-временско следење ✅
-- **ColoringBook + ChronologicalPuzzle за сите 19 приказни** (целосно функционални со превод) ✅
-- **Рефакторирање на inclusiveData.js**: Избришани дупликати, користени квалитетни слики од `storyboard/` ✅
+- **ColoringBook + ChronologicalPuzzle за сите 19 приказни** (целосно функционални со превод и точни илустрации) ✅
+- **Рефакторирање на inclusiveData.js**: Избришани дупликати, користени точни илустрации за `forgotten_garden` и `lighthouse` ✅
 
 ---
 
 ## ШТО ОСТАНА ДА СЕ НАПРАВИ
 
-### ПРИОРИТЕТ 1 — Финални слики за `forgotten_garden`
-
-Моментално `forgotten_garden` користи слики од `Baba_Gun_s_City_Garden` како placeholder. Кога ќе бидат готови уникатните слики за оваа приказна, треба да се заменат во:
-1. `public/storyboard/forgotten_garden/` (ако се креира нов фолдер)
-2. `src/data/inclusiveData.js` (ажурирање на патеките)
-
----
-
-### ПРИОРИТЕТ 2 — Линкови во PIRLS_BRO_Paket.md
+### ПРИОРИТЕТ 1 — Линкови во PIRLS_BRO_Paket.md
 
 Во документот `PIRLS_BRO_Paket.md` има placeholder-и:
 - `[ЛИНК_ДО_АПЛИКАЦИЈАТА]` → замени со вистинскиот URL по deploy

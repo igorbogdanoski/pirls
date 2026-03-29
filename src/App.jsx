@@ -9,6 +9,260 @@ import storyContentSq from './data/storyContentSq.js';
 import inclusiveData from './data/inclusiveData.js';
 import { playSound } from './utils/sound.js';
 
+// ── TRANSLATIONS ──────────────────────────────────────────
+const t_full = {
+  mk: {
+    readingWithUnderstanding: "Читање со разбирање",
+    heroTitle_part1: "Читање со ",
+    heroTitle_part2: "разбирање",
+    interactivePlatform: "Интерактивна образовна платформа",
+    bilingualPlatform: "Двојазична платформа",
+    bilingualDesc: "Платформата е достапна на македонски и албански јазик. Избери јазик со копчињата горе.",
+    macedonian: "Македонски",
+    albanian: "Shqip",
+    active: "активно",
+    studentJoin: "Влези во час",
+    studentDesc: "Внеси го своето име и презиме и 6-знаковниот код од наставникот за да се приклучиш во часот.",
+    studentJoined: "Поврзан на час",
+    leaveSession: "Напушти час",
+    teacherLogin: "Наставник",
+    teacherDesc: "Создај час, следи ги учениците во живо и преземи извештај по завршувањето на часот.",
+    enter: "Влези →",
+    join: "Приклучи се →",
+    chooseStory: "Избери приказна за да започнеш",
+    back: "Назад",
+    questions: "Прашања",
+    puzzle: "Слагалка",
+    coloring: "Боенка",
+    markerRemoved: "Маркерот е отстранет.",
+    markedWell: "Одлично маркирано!",
+    allMarkersCleared: "Сите маркери се исчистени.",
+    writeDetailed: "Те молам напиши подетален одговор за да го разберам твоето објаснување. 📝",
+    correct: "Точно! Одлично размислување. 🎯",
+    incorrect: "Не е точно — точниот одговор е означен со зелено. Продолжуваме натаму.",
+    excellent: "ИЗВОНРЕДНО! 🏆 Твојот одговор е на највисоко ниво.",
+    goodStart: "ДОБАР ПОЧЕТОК! ✨",
+    rejected: "Хмм, твојот одговор не ги содржи клучните детали од приказната. 🧐 Прочитај го пак текстот и обиди се да го објасниш одговорот со твои зборови!",
+    answerSaved: "Примено! Твојот одговор е зачуван. ⭐",
+    of: "од",
+    backToText: "Назад кон текстот",
+    excellentWork: "Одлична работа!",
+    completedStoryDesc: "Успешно ги одговори сите прашања за оваа приказна.",
+    chooseNewStory: "Избери нова приказна →",
+    listenQuestion: "Слушај го прашањето",
+    owlFeedback: "🦉",
+    badgesTitle: "ИЗВОНРЕДНО! Ја заврши оваа приказна и освои нов златен медал!",
+    internetError: "⚠️ Нема интернет врска — одговорите не се синхронизираат",
+    close: "Затвори",
+    zoomIn: "Зголеми го фонтот",
+    zoomOut: "Намали го фонтот",
+    albanianWip: "Përkthimi shqip për këtë tregim është në përgatitje. Teksti shfaqet në maqedonisht.",
+    storyWip: "Наскоро: Целосниот текст за оваа приказна е во подготовка...",
+    today: "Денес",
+    start: "Започни →",
+    author: "Идеја и реализација:",
+    footerPlatform: "Читање со разбирање 2026 • Интерактивна образовна платформа",
+    teacherPortal: "Пристап — Наставник",
+    teacherPanel: "Командна Табла — Наставник",
+    teacherPanelDesc: "Создај нов час и сподели го кодот со учениците. Ги следиш нивните одговори во живо за време на часот.",
+    enterPin: "Внесете го PIN кодот",
+    wrongPin: "Погрешен PIN. Обидете се повторно.",
+    cancel: "Откажи",
+    yourName: "Ваше име (незадолжително)",
+    namePlaceholder: "пр. Марија Петровска",
+    whichStory: "Која приказна денес?",
+    classCode: "Код на часот",
+    chooseStoryForStudents: "Избери ја приказната за учениците",
+    continueNoStory: "Продолжи без одредена приказна →",
+    enterValidCode: "Внесете валиден код",
+    placeholderPin: "••••••••",
+    liveLessonView: "Преглед на часот во живо",
+    activeStatus: "Активни",
+    totalStudents: "Вкупно ученици",
+    synchronized: "Синхронизирано",
+    demoMode: "Демо режим",
+    classAccuracy: "Точност на клас",
+    answersCount: "Одговори",
+    studentCodeLabel: "Код за ученици",
+    report: "Извештај",
+    teacherAssignedStory: "Доделена приказна",
+    noAssignedStory: "Нема доделена приказна",
+    storySelection: "Избор на приказна",
+    studentProgress: "Напредок на учениците",
+    lastSeen: "Последен пат виден",
+    ago: "пред",
+    minutesShort: "мин",
+    justNow: "сега",
+    csvStudent: "Ученик",
+    csvStory: "Приказна",
+    csvQuestion: "Прашање",
+    csvAnswer: "Одговор",
+    csvCorrect: "Точно",
+    csvIncorrect: "Неточно",
+    csvType: "Тип",
+    csvTime: "Час",
+    mcqType: "Избор",
+    textType: "Текст",
+    wipTitle: "Активноста е во подготовка",
+    waitingForStudents: "Чекање на ученици...",
+    tellStudentsCode: "Кажете им на учениците да го внесат овој код на нивниот екран:",
+    anonymous: "Анонимен",
+    activeStatusLabel: "Активен",
+    inactiveStatusLabel: "Неактивен",
+    currentActivity: "Моментална активност",
+    questionLabel: "Прашање",
+    stepLabel: "Чекор",
+    viewingHome: "Го разгледува почетниот екран",
+    successRate: "Успешност",
+    answerHistory: "Историја на одговори",
+    live: "Во живо",
+    closeDetails: "Затвори детали",
+    cancelRestriction: "Откажи ограничување",
+    puzzleWIPDesc: "Слагалката за оваа приказна е во изработка...",
+    coloringWIPDesc: "Боенката за оваа приказна е во изработка...",
+    sendAnswer: "Испрати одговор",
+    writeMin3: "Напиши барем 3 збора",
+    showHint: "Покажи помош",
+    hideHint: "Скриј помош",
+    listenExplanation: "Слушај го објаснувањето",
+    orLabel: "или",
+    nameLabel: "Твое име и презиме",
+    errorName: "Внеси го своето име (барем 2 букви)",
+    errorCode: "Внеси го кодот за час",
+    errorNotExist: "Кодот не постои. Прашај го наставникот.",
+    btnJoin: "Влези! 🚀",
+    btnLoading: "⏳ Се поврзува...",
+    btnSkip: "Продолжи без час →",
+    skipDesc: "Без час — активностите работат нормално, но наставникот нема да ги гледа твоите одговори",
+    questionOptionsLabel: "Опции за прашање"
+  },
+  sq: {
+    readingWithUnderstanding: "Lexim me kuptim",
+    heroTitle_part1: "Lexim me ",
+    heroTitle_part2: "kuptim",
+    interactivePlatform: "Platformë edukative interaktive",
+    bilingualPlatform: "Platformë dygjuhëshe",
+    bilingualDesc: "Platforma është e disponueshme në gjuhën maqedonase dhe shqipe. Zgjidhni gjuhën me butonat më lart.",
+    macedonian: "Maqedonisht",
+    albanian: "Shqip",
+    active: "aktive",
+    studentJoin: "Hyni në klasë",
+    studentDesc: "Shkruani emrin dhe mbiemrin tuaj dhe kodin me 6 shifra nga mësuesi për t'u bashkuar me klasën.",
+    studentJoined: "I lidhur në klasë",
+    leaveSession: "Largohu nga klasa",
+    teacherLogin: "Mësuesi",
+    teacherDesc: "Krijoni një klasë, ndiqni nxënësit drejtpërdrejt dhe shkarkoni një raport pas përfundimit të klasës.",
+    enter: "Hyni →",
+    join: "Bashkohu →",
+    chooseStory: "Zgjidh një tregim për të filluar",
+    back: "Mbrapa",
+    questions: "Pyetje",
+    puzzle: "Pazëll",
+    coloring: "Libër ngjyrosje",
+    markerRemoved: "Markuesi u hoq.",
+    markedWell: "Shënuar shkëlqyeshëm!",
+    allMarkersCleared: "Të gjithë markuesit u fshinë.",
+    writeDetailed: "Ju lutemi shkruani një përgjigje më të detajuar që të mund të kuptoj shpjegimin tuaj. 📝",
+    correct: "Saktë! Mendim i shkëlqyer. 🎯",
+    incorrect: "Nuk është e saktë — përgjigja e saktë është shënuar me të gjelbër. Vazhdojmë tutje.",
+    excellent: "E JASHTËZAKONSHME! 🏆 Përgjigja juaj është në nivelion më të lartë.",
+    goodStart: "FILLIM I MIRË! ✨",
+    rejected: "Hmm, përgjigja juaj nuk përmban detajet kryesore të tregimit. 🧐 Lexoni tekstin përsëri dhe provoni të shpjegoni përgjigjen me fjalët tuaja!",
+    answerSaved: "E pranuar! Përgjigja juaj u ruajt. ⭐",
+    of: "nga",
+    backToText: "Kthehu te teksti",
+    excellentWork: "Punë e shkëlqyer!",
+    completedStoryDesc: "Ju u jeni përgjigjur me sukses të gjitha pyetjeve për këtë tregim.",
+    chooseNewStory: "Zgjidhni një tregim të ri →",
+    listenQuestion: "Dëgjoni pyetjen",
+    owlFeedback: "🦉",
+    badgesTitle: "SHKËLQYESHËM! Ju keni përfunduar këtë tregim dhe keni fituar një medalje të re ari!",
+    internetError: "⚠️ Nuk ka lidhje interneti — përgjigjet nuk sinkronizohen",
+    close: "Mbyll",
+    zoomIn: "Rrit tekstin",
+    zoomOut: "Zvogëlo tekstin",
+    albanianWip: "Përkthimi shqip për këtë tregim është në përgatitje. Teksti shfaqet në maqedonisht.",
+    storyWip: "Së shpejti: Teksti i plotë për këtë tregim është në përgatitje...",
+    today: "Sot",
+    start: "Fillo →",
+    author: "Ideja dhe realizimi:",
+    footerPlatform: "Lexim me kuptim 2026 • Platformë edukative interaktive",
+    teacherPortal: "Qasje — Mësuesi",
+    teacherPanel: "Paneli — Mësuesi",
+    teacherPanelDesc: "Krijoni një klasë të re dhe ndani kodin me nxënësit. Ndiqni përgjigjet e tyre drejtpërdrejt.",
+    enterPin: "Shkruani PIN-in",
+    wrongPin: "PIN i gabuar. Provoni përsëri.",
+    cancel: "Anulo",
+    yourName: "Emri juaj (opsionale)",
+    namePlaceholder: "p.sh. Maria Petrovska",
+    whichStory: "Cilin tregim sot?",
+    classCode: "Kodi i klasës",
+    chooseStoryForStudents: "Zgjidhni tregimin për nxënësit",
+    continueNoStory: "Vazhdo pa tregim specifik →",
+    enterValidCode: "Shkruani një kod të vlefshëm",
+    placeholderPin: "••••••••",
+    liveLessonView: "Pamja e klasës drejtpërdrejt",
+    activeStatus: "Aktivë",
+    totalStudents: "Gjithsej nxënës",
+    synchronized: "Sinkronizuar",
+    demoMode: "Regjimi demo",
+    classAccuracy: "Saktësia e klasës",
+    answersCount: "Përgjigje",
+    studentCodeLabel: "Kodi për nxënësit",
+    report: "Raport",
+    teacherAssignedStory: "Tregimi i caktuar",
+    noAssignedStory: "Nuk ka tregim të caktuar",
+    storySelection: "Zgjedhja e tregimit",
+    studentProgress: "Progresi i nxënësve",
+    lastSeen: "Parë për herë të fundit",
+    ago: "para",
+    minutesShort: "min",
+    justNow: "tani",
+    csvStudent: "Nxënës",
+    csvStory: "Tregim",
+    csvQuestion: "Pyetje",
+    csvAnswer: "Përgjigje",
+    csvCorrect: "Saktë",
+    csvIncorrect: "Gabim",
+    csvType: "Lloj",
+    csvTime: "Koha",
+    mcqType: "Zgjedhje",
+    textType: "Tekst",
+    wipTitle: "Aktiviteti është në përgatitje",
+    waitingForStudents: "Duke pritur për nxënës...",
+    tellStudentsCode: "U thuani nxënësve të shkruajnë këtë kod në ekranin e tyre:",
+    anonymous: "Anonim",
+    activeStatusLabel: "Aktiv",
+    inactiveStatusLabel: "Joaktiv",
+    currentActivity: "Aktiviteti aktual",
+    questionLabel: "Pyetje",
+    stepLabel: "Hapi",
+    viewingHome: "Duke shikuar faqen fillestare",
+    successRate: "Shkalla e suksesit",
+    answerHistory: "Historia e përgjigjeve",
+    live: "Drejtpërdrejt",
+    closeDetails: "Mbyll detajet",
+    cancelRestriction: "Anulo kufizimin",
+    puzzleWIPDesc: "Pazëlli për këtë tregim është në përgatitje...",
+    coloringWIPDesc: "Libri i ngjyrosjes për këtë tregim është në përgatitje...",
+    sendAnswer: "Dërgo përgjigjen",
+    writeMin3: "Shkruaj të paktën 3 fjalë",
+    showHint: "Trego ndihmën",
+    hideHint: "Fshih ndihmën",
+    listenExplanation: "Dëgjo shpjegimin",
+    orLabel: "ose",
+    nameLabel: "Emri dhe mbiemri juaj",
+    errorName: "Shkruani emrin tuaj (të paktën 2 shkronja)",
+    errorCode: "Shkruani kodin e klasës",
+    errorNotExist: "Kodi nuk ekziston. Pyetni mësuesin.",
+    btnJoin: "Hyni! 🚀",
+    btnLoading: "⏳ Po lidhet...",
+    btnSkip: "Vazhdo pa klasë →",
+    skipDesc: "Pa klasë — aktivitetet funksionojnë normalisht, por mësuesi nuk do t'i shohë përgjigjet tuaja",
+    questionOptionsLabel: "Opsionet për pyetjen"
+  }
+};
+
 const Timer = ({ active }) => {
   const [seconds, setSeconds] = React.useState(0);
 
@@ -101,21 +355,24 @@ const TextWithGlossary = ({ content, glossary, onTermClick }) => {
 
 
 
-const WIPModal = ({ onClose, emoji, title, description }) => (
-  <div className="fixed inset-0 z-[120] bg-slate-900/80 backdrop-blur-xl flex items-center justify-center p-8" onClick={onClose}>
-    <div className="bg-white rounded-[4rem] shadow-2xl p-16 max-w-lg text-center" onClick={e => e.stopPropagation()}>
-      <div className="text-8xl mb-8">{emoji}</div>
-      <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">Активноста е во подготовка</h2>
-      <p className="text-xl text-slate-500 font-bold mb-10 leading-relaxed">{description}</p>
-      <div className="flex items-center justify-center gap-3 mb-10">
-        <div className="w-3 h-3 bg-indigo-400 rounded-full animate-bounce"></div>
-        <div className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce" style={{animationDelay:'0.1s'}}></div>
-        <div className="w-3 h-3 bg-indigo-600 rounded-full animate-bounce" style={{animationDelay:'0.2s'}}></div>
+const WIPModal = ({ onClose, emoji, title, description, lang = 'mk' }) => {
+  const T = t_full[lang];
+  return (
+    <div className="fixed inset-0 z-[120] bg-slate-900/80 backdrop-blur-xl flex items-center justify-center p-8" onClick={onClose}>
+      <div className="bg-white rounded-[4rem] shadow-2xl p-16 max-w-lg text-center" onClick={e => e.stopPropagation()}>
+        <div className="text-8xl mb-8">{emoji}</div>
+        <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">{T.wipTitle}</h2>
+        <p className="text-xl text-slate-500 font-bold mb-10 leading-relaxed">{description}</p>
+        <div className="flex items-center justify-center gap-3 mb-10">
+          <div className="w-3 h-3 bg-indigo-400 rounded-full animate-bounce"></div>
+          <div className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce" style={{animationDelay:'0.1s'}}></div>
+          <div className="w-3 h-3 bg-indigo-600 rounded-full animate-bounce" style={{animationDelay:'0.2s'}}></div>
+        </div>
+        <button onClick={onClose} className="px-12 py-5 bg-indigo-600 text-white rounded-[2rem] font-black text-lg uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-xl">{T.close}</button>
       </div>
-      <button onClick={onClose} className="px-12 py-5 bg-indigo-600 text-white rounded-[2rem] font-black text-lg uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-xl">Затвори</button>
     </div>
-  </div>
-);
+  );
+};
 
 // ─── HELPERS ────────────────────────────────────────────────
 const generateSessionCode = () => {
@@ -126,6 +383,7 @@ const generateSessionCode = () => {
 
 // ─── TEACHER LOGIN MODAL ─────────────────────────────────────
 const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
+  const T = t_full[lang];
   const [pin, setPin] = useState('');
   const [mode, setMode] = useState('pin');
   const [joinCode, setJoinCode] = useState('');
@@ -136,14 +394,14 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
 
   const handlePinSubmit = () => {
     if (pin === TEACHER_PIN) { setMode('options'); setError(''); }
-    else { setError('Погрешен PIN. Обидете се повторно.'); setPin(''); }
+    else { setError(T.wrongPin); setPin(''); }
   };
 
   const handleCreateSession = async () => {
     const code = generateSessionCode();
     if (FIREBASE_ENABLED && db) {
       await set(ref(db, `pirls_sessions/${code}`), {
-        createdAt: Date.now(), teacher: teacherName || 'Наставник', students: {},
+        createdAt: Date.now(), teacher: teacherName || T.teacherLogin, students: {},
       }).catch(() => {});
     }
     setCreatedCode(code);
@@ -158,7 +416,7 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
   };
 
   const handleJoinSession = () => {
-    if (joinCode.trim().length < 4) { setError('Внесете валиден код'); return; }
+    if (joinCode.trim().length < 4) { setError(T.enterValidCode); return; }
     onSuccess(joinCode.toUpperCase().trim());
   };
 
@@ -167,8 +425,8 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
       <div className="bg-white rounded-[3rem] p-10 shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
         <div className="text-center mb-6 shrink-0">
           <div className="text-5xl mb-3">📚</div>
-          <h2 className="text-3xl font-black text-slate-900">Која приказна денес?</h2>
-          <p className="text-slate-500 mt-2 text-base">Код на часот: <strong className="text-indigo-600 text-xl tracking-widest font-black">{createdCode}</strong> · Избери ја приказната за учениците</p>
+          <h2 className="text-3xl font-black text-slate-900">{T.whichStory}</h2>
+          <p className="text-slate-500 mt-2 text-base">{T.classCode}: <strong className="text-indigo-600 text-xl tracking-widest font-black">{createdCode}</strong> · {T.chooseStoryForStudents}</p>
         </div>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 overflow-y-auto flex-1 mb-4">
           {STORIES.map(s => (
@@ -181,7 +439,7 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
         </div>
         <button onClick={() => onSuccess(createdCode)}
           className="w-full py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-lg hover:bg-slate-200 transition-all shrink-0">
-          Продолжи без одредена приказна →
+          {T.continueNoStory}
         </button>
       </div>
     </div>
@@ -192,17 +450,17 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
       <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-md">
         <div className="text-center mb-10">
           <div className="text-7xl mb-4">👩‍🏫</div>
-          <h2 className="text-4xl font-black text-slate-900">Пристап — Наставник</h2>
-          <p className="text-slate-500 mt-2">Внесете го PIN кодот</p>
+          <h2 className="text-4xl font-black text-slate-900">{T.teacherPortal}</h2>
+          <p className="text-slate-500 mt-2">{T.enterPin}</p>
         </div>
         <input type="password" value={pin} onChange={e => setPin(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handlePinSubmit()}
-          placeholder="••••••••"
+          placeholder={T.placeholderPin}
           className="w-full text-center text-3xl tracking-widest border-4 border-slate-200 rounded-2xl py-5 px-6 font-mono focus:outline-none focus:border-indigo-400 mb-4" />
         {error && <p className="text-red-500 text-center font-bold mb-4">{error}</p>}
         <div className="flex gap-4">
-          <button onClick={onClose} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">Откажи</button>
-          <button onClick={handlePinSubmit} className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-lg hover:bg-indigo-700 transition-all">Влез →</button>
+          <button onClick={onClose} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">{T.cancel}</button>
+          <button onClick={handlePinSubmit} className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-lg hover:bg-indigo-700 transition-all">{T.enter}</button>
         </div>
       </div>
     </div>
@@ -213,39 +471,38 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
       <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">👩‍🏫</div>
-          <h2 className="text-3xl font-black text-slate-900">Командна Табла — Наставник</h2>
-          <p className="text-slate-500 mt-3 text-base leading-snug">Создај нов час и сподели го кодот со учениците. Ги следиш нивните одговори во живо за време на часот.</p>
+          <h2 className="text-3xl font-black text-slate-900">{T.teacherPanel}</h2>
+          <p className="text-slate-500 mt-3 text-base leading-snug">{T.teacherPanelDesc}</p>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Ваше име (незадолжително)</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.yourName}</label>
             <input value={teacherName} onChange={e => setTeacherName(e.target.value)}
-              placeholder="пр. Марија Петровска"
+              placeholder={T.namePlaceholder}
               className="w-full border-4 border-slate-200 rounded-2xl py-4 px-6 font-bold text-lg focus:outline-none focus:border-indigo-400" />
           </div>
           <button onClick={handleCreateSession}
             className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-indigo-200">
-            🆕 Создади нов час
+            🆕 {T.teacherLogin}
           </button>
-          <p className="text-xs text-slate-400 text-center">↑ Генерира уникатен 6-знаковен код кој го даваш на учениците</p>
           <div className="flex items-center gap-4 mt-2">
             <div className="flex-1 h-px bg-slate-200" />
-            <span className="text-slate-400 text-sm font-bold">или продолжи постоечки час</span>
+            <span className="text-slate-400 text-sm font-bold">{T.orLabel}</span>
             <div className="flex-1 h-px bg-slate-200" />
           </div>
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Код на веќе создаден час</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.classCode}</label>
             <div className="flex gap-3">
               <input value={joinCode} onChange={e => setJoinCode(e.target.value.toUpperCase())}
-                placeholder="пр. KFX7PQ" maxLength={8}
+                placeholder="ABCDEF" maxLength={8}
                 className="flex-1 border-4 border-slate-200 rounded-2xl py-4 px-6 font-black text-xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
               <button onClick={handleJoinSession}
-                className="px-8 py-4 bg-slate-800 text-white rounded-2xl font-black text-lg hover:bg-slate-700 transition-all">Влез</button>
+                className="px-8 py-4 bg-slate-800 text-white rounded-2xl font-black text-lg hover:bg-slate-700 transition-all">{T.enter}</button>
             </div>
           </div>
           {error && <p className="text-red-500 text-center font-bold">{error}</p>}
         </div>
-        <button onClick={onClose} className="w-full mt-6 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">Откажи</button>
+        <button onClick={onClose} className="w-full mt-6 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">{T.cancel}</button>
       </div>
     </div>
   );
@@ -253,53 +510,21 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
 
 // ─── STUDENT JOIN MODAL ──────────────────────────────────────
 const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
+  const T = t_full[lang];
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const t = {
-    mk: {
-      title: "Влези во час",
-      desc: <>Наставникот ти дал 6-знаковен код за часот. Внеси го своето <strong>име и презиме</strong> и кодот за да се приклучиш.</>,
-      nameLabel: "Твое име и презиме",
-      namePlaceholder: "пр. Марко Јованоски",
-      codeLabel: "Код на часот (од наставникот)",
-      codePlaceholder: "пр. KFX7PQ",
-      errorName: "Внеси го своето име (барем 2 букви)",
-      errorCode: "Внеси го кодот за час",
-      errorNotExist: "Кодот не постои. Прашај го наставникот.",
-      btnJoin: "Влезам! 🚀",
-      btnLoading: "⏳ Се поврзува...",
-      btnSkip: "Продолжи без час →",
-      skipDesc: "Без час — активностите работат нормално, но наставникот нема да ги гледа твоите одговори"
-    },
-    sq: {
-      title: "Hyni në klasë",
-      desc: <>Mësuesi ju ka dhënë një kod me 6 shifra për klasën. Shkruani <strong>emrin dhe mbiemrin</strong> tuaj dhe kodin për t'u bashkuar.</>,
-      nameLabel: "Emri dhe mbiemri juaj",
-      namePlaceholder: "p.sh. Agon Krasniqi",
-      codeLabel: "Kodi i klasës (nga mësuesi)",
-      codePlaceholder: "p.sh. KFX7PQ",
-      errorName: "Shkruani emrin tuaj (të paktën 2 shkronja)",
-      errorCode: "Shkruani kodin e klasës",
-      errorNotExist: "Kodi nuk ekziston. Pyetni mësuesin.",
-      btnJoin: "Hyni! 🚀",
-      btnLoading: "⏳ Po lidhet...",
-      btnSkip: "Vazhdo pa klasë →",
-      skipDesc: "Pa klasë — aktivitetet funksionojnë normalisht, por mësuesi nuk do t'i shohë përgjigjet tuaja"
-    }
-  }[lang];
-
   const handleJoin = async () => {
-    if (name.trim().length < 2) { setError(t.errorName); return; }
-    if (code.trim().length < 4) { setError(t.errorCode); return; }
+    if (name.trim().length < 2) { setError(T.errorName); return; }
+    if (code.trim().length < 4) { setError(T.errorCode); return; }
     const upperCode = code.toUpperCase().trim();
     setLoading(true);
     if (FIREBASE_ENABLED && db) {
       try {
         const snap = await get(ref(db, `pirls_sessions/${upperCode}`));
-        if (!snap?.exists()) { setError(t.errorNotExist); setLoading(false); return; }
+        if (!snap?.exists()) { setError(T.errorNotExist); setLoading(false); return; }
       } catch {
         // Permission error or network issue — allow joining, student data will sync when written
       }
@@ -313,41 +538,42 @@ const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
       <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="text-7xl mb-4">🎓</div>
-          <h2 className="text-4xl font-black text-slate-900">{t.title}</h2>
-          <p className="text-slate-500 mt-3 text-base leading-snug">{t.desc}</p>
+          <h2 className="text-4xl font-black text-slate-900">{T.studentJoin}</h2>
+          <p className="text-slate-500 mt-3 text-base leading-snug">{T.studentDesc}</p>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{t.nameLabel}</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.nameLabel}</label>
             <input value={name} onChange={e => setName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
-              placeholder={t.namePlaceholder}
+              placeholder={T.namePlaceholder}
               className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
           </div>
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{t.codeLabel}</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.classCode}</label>
             <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
-              placeholder={t.codePlaceholder} maxLength={8}
+              placeholder="ABCDEF" maxLength={8}
               className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-black text-2xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
           </div>
           {error && <p className="text-red-500 text-center font-bold">{error}</p>}
           <button onClick={handleJoin} disabled={loading}
             className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 disabled:opacity-60 transition-all shadow-lg shadow-indigo-200">
-            {loading ? t.btnLoading : t.btnJoin}
+            {loading ? T.btnLoading : T.btnJoin}
           </button>
         </div>
         <button onClick={onSkip} className="w-full mt-4 py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-lg hover:bg-slate-200 transition-all">
-          {t.btnSkip}
+          {T.btnSkip}
         </button>
-        <p className="text-center text-xs text-slate-300 mt-3">{t.skipDesc}</p>
+        <p className="text-center text-xs text-slate-300 mt-3">{T.skipDesc}</p>
       </div>
     </div>
   );
 };
 
 // ─── TEACHER DASHBOARD ───────────────────────────────────────
-const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
+const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
+  const T = t_full[lang];
   const [sessionData, setSessionData] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -371,7 +597,7 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
   const classAccuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
 
   const exportCSV = () => {
-    const rows = [['Ученик', 'Приказна', 'Прашање', 'Одговор', 'Точно', 'Тип', 'Час']];
+    const rows = [[T.csvStudent, T.csvStory, T.csvQuestion, T.csvAnswer, T.csvCorrect, T.csvType, T.csvTime]];
     students.forEach(([, s]) => {
       if (!s.answers) return;
       Object.entries(s.answers).forEach(([key, ans]) => {
@@ -379,9 +605,9 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
         rows.push([
           s.name || '—', parts[0], parseInt(parts[1] || 0) + 1,
           `"${(ans.value || '').replace(/"/g, '""')}"`,
-          ans.isCorrect === true ? 'Точно' : ans.isCorrect === false ? 'Неточно' : '—',
-          ans.type === 'mcq' ? 'Избор' : 'Текст',
-          new Date(ans.timestamp).toLocaleTimeString('mk-MK'),
+          ans.isCorrect === true ? T.csvCorrect : ans.isCorrect === false ? T.csvIncorrect : '—',
+          ans.type === 'mcq' ? T.mcqType : T.textType,
+          new Date(ans.timestamp).toLocaleTimeString(lang === 'mk' ? 'mk-MK' : 'sq-AL'),
         ]);
       });
     });
@@ -400,17 +626,17 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
         <div className="flex items-center gap-6">
           <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-3xl flex items-center justify-center text-4xl shadow-lg shadow-indigo-500/20">👩‍🏫</div>
           <div>
-            <h1 className="text-white font-black text-3xl tracking-tight">Преглед на часот <span className="text-indigo-400 italic">во живо</span></h1>
+            <h1 className="text-white font-black text-3xl tracking-tight">{T.liveLessonView}</h1>
             <div className="flex items-center gap-4 mt-1">
               <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                {activeStudentsCount} Активни
+                {activeStudentsCount} {T.activeStatus}
               </span>
-              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">{students.length} Вкупно ученици</span>
+              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">{students.length} {T.totalStudents}</span>
               {FIREBASE_ENABLED ? (
-                <span className="bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ml-2">Синхронизирано ✅</span>
+                <span className="bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ml-2">{T.synchronized} ✅</span>
               ) : (
-                <span className="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ml-2">Демо режим ⚠️</span>
+                <span className="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ml-2">{T.demoMode} ⚠️</span>
               )}
             </div>
           </div>
@@ -419,23 +645,23 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
         <div className="flex items-center gap-6">
           <div className="grid grid-cols-2 gap-8 mr-6 border-r border-slate-800 pr-8 hidden xl:grid">
             <div className="text-center">
-              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Точност на клас</p>
+              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{T.classAccuracy}</p>
               <p className="text-white text-2xl font-black">{classAccuracy}%</p>
             </div>
             <div className="text-center">
-              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Одговори</p>
+              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">{T.answersCount}</p>
               <p className="text-white text-2xl font-black">{totalAnswers}</p>
             </div>
           </div>
           
           <div className="bg-slate-800/50 rounded-[2.5rem] px-10 py-4 text-center border-2 border-slate-700/50 relative overflow-hidden group hover:border-indigo-500/50 transition-all">
-            <p className="text-indigo-400 text-[10px] font-black uppercase tracking-[0.25em] mb-1 relative z-10">Код за ученици</p>
+            <p className="text-indigo-400 text-[10px] font-black uppercase tracking-[0.25em] mb-1 relative z-10">{T.studentCodeLabel}</p>
             <p className="text-white font-black text-4xl tracking-[0.4em] relative z-10 leading-none">{sessionCode}</p>
             <div className="absolute inset-0 bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
 
           <div className="flex gap-3">
-            <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-black transition-all text-sm uppercase tracking-widest shadow-lg shadow-emerald-900/20">📥 Извештај</button>
+            <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-black transition-all text-sm uppercase tracking-widest shadow-lg shadow-emerald-900/20">📥 {T.report}</button>
             <button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 text-white w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center transition-all border-2 border-slate-700">×</button>
           </div>
         </div>
@@ -445,7 +671,7 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
       <div className="bg-slate-900/50 border-b border-slate-800/50 px-8 py-4 flex items-center gap-4 overflow-x-auto shrink-0 no-scrollbar">
         <div className="flex items-center gap-3 bg-slate-800/40 px-4 py-2 rounded-2xl border border-slate-700/50 shrink-0 mr-2">
           <span className="text-2xl">🎯</span>
-          <span className="text-slate-300 text-xs font-black uppercase tracking-widest shrink-0">Определи приказна:</span>
+          <span className="text-slate-300 text-xs font-black uppercase tracking-widest shrink-0">{T.storySelection}:</span>
         </div>
         {STORIES.map(s => {
           const isActive = sessionData?.assignedStory === s.id;
@@ -466,7 +692,7 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
             await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: null }).catch(() => {});
           }}
             className="px-6 py-3 rounded-2xl font-black text-xs bg-rose-900/40 text-rose-400 border-2 border-rose-900/50 hover:bg-rose-800/50 hover:text-rose-300 transition-all shrink-0 uppercase tracking-widest flex items-center gap-2">
-            ✕ Откажи ограничување
+            ✕ {T.cancelRestriction}
           </button>
         )}
       </div>
@@ -476,8 +702,8 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
         {students.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-slate-600 max-w-2xl mx-auto text-center">
             <div className="text-[12rem] mb-10 animate-pulse">⏳</div>
-            <p className="text-5xl font-black text-white mb-6 tracking-tight">Чекање на ученици...</p>
-            <p className="text-2xl text-slate-500 mb-10 leading-relaxed font-bold">Кажете им на учениците да го внесат овој код на нивниот екран:</p>
+            <p className="text-5xl font-black text-white mb-6 tracking-tight">{T.waitingForStudents}</p>
+            <p className="text-2xl text-slate-500 mb-10 leading-relaxed font-bold">{T.tellStudentsCode}</p>
             <div className="bg-slate-900 rounded-[4rem] px-20 py-10 border-4 border-indigo-500 shadow-2xl shadow-indigo-500/10">
               <p className="text-[10rem] font-black text-indigo-400 tracking-[0.3em] leading-none uppercase">{sessionCode}</p>
             </div>
@@ -507,33 +733,33 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
                       {(s.name || '?').slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-white text-xl font-black truncate tracking-tight">{s.name || 'Анонимен'}</p>
+                      <p className="text-white text-xl font-black truncate tracking-tight">{s.name || T.anonymous}</p>
                       <div className="flex items-center gap-2">
                         <div className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />
-                        <span className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-green-400' : 'text-slate-500'}`}>{isActive ? 'Активен' : 'Неактивен'}</span>
+                        <span className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-green-400' : 'text-slate-500'}`}>{isActive ? T.activeStatusLabel : T.inactiveStatusLabel}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Activity Summary */}
                   <div className="bg-slate-800/40 rounded-3xl p-4 mb-4 border border-slate-700/30 flex-1">
-                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Моментална активност</p>
+                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">{T.currentActivity}</p>
                     {s.currentStory && s.currentStory !== 'home' ? (
                       <div className="flex items-start gap-3">
                         <span className="text-2xl mt-1">{story?.icon || '📖'}</span>
                         <div>
                           <p className="text-white text-sm font-black leading-snug">{lang === 'sq' && story?.titleSq ? story?.titleSq : (story?.title || s.currentStory)}</p>
                           <div className="flex items-center gap-2 mt-1">
-                             <p className="text-indigo-400 text-xs font-black">Прашање {(s.currentQuestion || 0) + 1}</p>
+                             <p className="text-indigo-400 text-xs font-black">{T.questionLabel} {(s.currentQuestion || 0) + 1}</p>
                              <span className="text-slate-700">•</span>
-                             <p className="text-slate-500 text-[10px] font-bold">Чекор {(s.currentQuestion || 0) + 1}/8</p>
+                             <p className="text-slate-500 text-[10px] font-bold">{T.stepLabel} {(s.currentQuestion || 0) + 1}/8</p>
                           </div>
                         </div>
                       </div>
                     ) : (
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">🏠</span>
-                        <p className="text-slate-400 text-sm font-bold italic">Го разгледува почетниот екран</p>
+                        <p className="text-slate-400 text-sm font-bold italic">{T.viewingHome}</p>
                       </div>
                     )}
                   </div>
@@ -543,7 +769,7 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
                     <div className="mb-2 px-1">
                       <div className="flex justify-between text-xs mb-2 items-end">
                         <div className="flex flex-col">
-                           <span className="text-slate-500 text-[9px] font-black uppercase tracking-widest">Успешност</span>
+                           <span className="text-slate-500 text-[9px] font-black uppercase tracking-widest">{T.successRate}</span>
                            <span className={`font-black text-lg leading-none ${pct >= 70 ? 'text-emerald-400' : pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`}>{pct}%</span>
                         </div>
                         <span className="text-slate-400 font-bold text-xs bg-slate-800 px-2 py-1 rounded-lg border border-slate-700">{correct} / {total}</span>
@@ -557,8 +783,8 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
                   {isSelected && s.answers && (
                     <div className="border-t border-slate-800 pt-5 mt-4 space-y-3 max-h-[16rem] overflow-y-auto pr-1 no-scrollbar animate-in fade-in slide-in-from-top-2">
                       <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center justify-between">
-                         <span>Историја на одговори</span>
-                         <span className="text-indigo-500">Во живо →</span>
+                         <span>{T.answerHistory}</span>
+                         <span className="text-indigo-500">{T.live} →</span>
                       </p>
                       {Object.entries(s.answers).reverse().map(([key, ans]) => {
                         const parts = key.split('_q');
@@ -567,10 +793,10 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
                           <div key={key} className={`p-3 rounded-2xl text-xs border border-transparent transition-colors ${ans.isCorrect === true ? 'bg-emerald-500/5 border-emerald-500/20' : ans.isCorrect === false ? 'bg-rose-500/5 border-rose-500/20' : 'bg-slate-800/50 border-slate-700/50'}`}>
                             <div className="flex justify-between items-center mb-1.5">
                               <span className="font-black text-slate-400 uppercase tracking-tighter flex items-center gap-1">
-                                {qStory?.icon || '📖'} П{parseInt(parts[1] || 0) + 1}
+                                {qStory?.icon || '📖'} {T.questionLabel.slice(0, 1)}{parseInt(parts[1] || 0) + 1}
                               </span>
-                              <div className={`px-2 py-0.5 rounded-full font-black text-[9px] uppercase tracking-widest ${ans.isCorrect === true ? 'bg-emerald-500/20 text-emerald-400' : ans.isCorrect === false ? 'bg-rose-500/20 text-rose-400' : 'bg-slate-700 text-slate-400'}`}>
-                                {ans.isCorrect === true ? 'Точно' : ans.isCorrect === false ? 'Неточно' : 'Текстуално'}
+                              <div className={`px-2 py-0.5 rounded-full font-black text-[9px] uppercase tracking-widest ${ans.isCorrect === true ? T.csvCorrect : ans.isCorrect === false ? T.csvIncorrect : T.textType}`}>
+                                {ans.isCorrect === true ? T.csvCorrect : ans.isCorrect === false ? T.csvIncorrect : T.textType}
                               </div>
                             </div>
                             <p className="text-slate-300 font-bold leading-relaxed pr-4 line-clamp-3">{ans.value || '—'}</p>
@@ -582,7 +808,7 @@ const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
                   
                   {isSelected && (
                     <div className="mt-auto pt-4 flex justify-center">
-                       <button className="text-indigo-500 text-[10px] font-black uppercase tracking-widest hover:text-indigo-400 transition-colors">Затвори детали ↑</button>
+                       <button className="text-indigo-500 text-[10px] font-black uppercase tracking-widest hover:text-indigo-400 transition-colors">{T.closeDetails} ↑</button>
                     </div>
                   )}
                 </div>
@@ -641,7 +867,8 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
       successDesc: "Успешно ја раскажа приказната со правилно подредување на сликите!",
       successBtn: "ОДИМЕ ПОНАТАМУ! 🚀",
       back: "Назад кон сликата",
-      zoom: "Зголеми слика"
+      zoom: "Зголеми слика",
+      readPart: "Прочитај дел од приказната"
     },
     sq: {
       title: "PUZZLE KRONOLOGJIKE",
@@ -651,7 +878,8 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
       successDesc: "Ju e treguat me sukses historinë duke i rregulluar fotografitë në rendin e duhur!",
       successBtn: "VAZHDOJMË TUTJE! 🚀",
       back: "Kthehu te fotografia",
-      zoom: "Zmadho fotografinë"
+      zoom: "Zmadho fotografinë",
+      readPart: "Lexo pjesën e tregimit"
     }
   }[lang];
 
@@ -678,82 +906,79 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
-        <div className="w-full overflow-x-auto px-10 pb-20 no-scrollbar">
-          <Reorder.Group 
-            axis="x" 
-            values={items} 
-            onReorder={handleReorder}
-            className="flex gap-8 w-max mx-auto py-10"
-          >
-            {items.map((item) => (
-              <Reorder.Item 
-                key={item.id} 
-                value={item}
-                whileDrag={{ scale: 1.05, rotate: 2, zIndex: 50 }}
-                className="flex-shrink-0 cursor-grab active:cursor-grabbing perspective-1000"
+      <div className="flex-1 w-full overflow-y-auto px-4 pb-20 no-scrollbar">
+        <Reorder.Group 
+          axis="x" 
+          values={items} 
+          onReorder={handleReorder}
+          className="flex flex-wrap gap-6 justify-center max-w-full mx-auto py-6"
+        >
+          {items.map((item) => (
+            <Reorder.Item 
+              key={item.id} 
+              value={item}
+              whileDrag={{ scale: 1.05, rotate: 2, zIndex: 50 }}
+              className="flex-shrink-0 cursor-grab active:cursor-grabbing perspective-1000"
+            >
+              <div 
+                className="relative w-[15rem] h-[22rem] transition-all duration-700 preserve-3d"
+                style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
               >
-                <div 
-                  className="relative w-[18rem] h-[26rem] transition-all duration-700 preserve-3d"
-                  style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
+                {/* FRONT SIDE: LARGE IMAGE */}
+                <div
+                  className={`absolute inset-0 backface-hidden w-full h-full bg-white rounded-[2.5rem] shadow-xl p-3 border-[8px] transition-all duration-300 group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
                 >
-                  {/* FRONT SIDE: LARGE IMAGE */}
-                  <div
-                    className={`absolute inset-0 backface-hidden w-full h-full bg-white rounded-[3rem] shadow-2xl p-4 border-[10px] transition-all duration-300 group ${isCorrect ? 'border-emerald-400' : 'border-white hover:border-indigo-400'}`}
+                  <div className="absolute -top-3 -left-3 w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center text-xl font-black shadow-lg z-20">
+                    {items.indexOf(item) + 1}
+                  </div>
+                  <div 
+                    className="w-full h-full relative overflow-hidden rounded-[2rem] bg-slate-50 group cursor-zoom-in"
+                    onClick={() => setFullViewImg(item.img)}
                   >
-                    <div className="absolute -top-4 -left-4 w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black shadow-xl z-20">
-                      {items.indexOf(item) + 1}
-                    </div>
-                    <div className="w-full h-full relative overflow-hidden rounded-[2.5rem] bg-slate-100 group">
-                      <img src={item.img} className="w-full h-full object-cover pointer-events-none" alt={`Слика ${items.indexOf(item) + 1} од слагалката`} />
-                      
-                      {/* ZOOM OVERLAY */}
-                      <button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={(e) => { e.stopPropagation(); setFullViewImg(item.img); }}
-                        className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <span className="bg-white/20 backdrop-blur-md p-4 rounded-full text-white text-3xl border-2 border-white/20">🔍</span>
-                      </button>
-                    </div>
+                    <img src={item.img} className="w-full h-full object-contain pointer-events-none" alt={`Слика ${items.indexOf(item) + 1} од слагалката`} />
                     
-                    {/* BUTTONS ROW */}
-                    <div className="absolute bottom-6 right-6 flex gap-2">
-                      <button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={(e) => { e.stopPropagation(); setFullViewImg(item.img); }}
-                        className="bg-indigo-500/90 backdrop-blur-md text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
-                        title={t.zoom}
-                      >🔍</button>
-                      <button
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
-                        className="bg-indigo-500/90 backdrop-blur-md text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
-                        title="Прочитај дел од приказната"
-                      >🔄</button>
+                    {/* ZOOM OVERLAY */}
+                    <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="bg-white/40 backdrop-blur-md p-3 rounded-full text-white text-2xl border-2 border-white/20">🔍</span>
                     </div>
                   </div>
-
-                  {/* BACK SIDE: TEXT */}
-                  <div
-                    className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[3rem] shadow-2xl p-8 border-[10px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
-                  >
-                    <p className="text-white font-black text-lg leading-relaxed mb-6">
-                      {lang === 'sq' && item.textSq ? item.textSq : item.text}
-                    </p>
-                    <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center text-white text-2xl border-2 border-white/20">📖</div>
+                  
+                  {/* BUTTONS ROW */}
+                  <div className="absolute bottom-4 right-4 flex gap-2">
+                    <button
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={(e) => { e.stopPropagation(); setFullViewImg(item.img); }}
+                      className="bg-indigo-500/90 backdrop-blur-md text-white w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
+                      title={t.zoom}
+                    >🔍</button>
                     <button
                       onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
-                      className="absolute bottom-6 right-6 bg-white/20 backdrop-blur-md text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
-                      title={t.back}
+                      className="bg-indigo-500/90 backdrop-blur-md text-white w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg border-2 border-white/20 hover:bg-indigo-600 hover:scale-110 transition-all cursor-pointer"
+                      title={t.readPart}
                     >🔄</button>
                   </div>
                 </div>
-              </Reorder.Item>
-            ))}
-          </Reorder.Group>
-        </div>
+
+                {/* BACK SIDE: TEXT */}
+                <div
+                  className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[2.5rem] shadow-xl p-6 border-[8px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
+                >
+                  <p className="text-white font-black text-base leading-snug mb-4 overflow-y-auto max-h-full">
+                    {lang === 'sq' && item.textSq ? item.textSq : item.text}
+                  </p>
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-xl border-2 border-white/20 flex-shrink-0">📖</div>
+                  <button
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
+                    className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-md text-white w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg border-2 border-white/20 hover:bg-white/40 hover:scale-110 transition-all cursor-pointer"
+                    title={t.back}
+                  >🔄</button>
+                </div>
+              </div>
+            </Reorder.Item>
+          ))}
+        </Reorder.Group>
       </div>
 
       <AnimatePresence>
@@ -990,6 +1215,43 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
     win.document.close();
   };
 
+  const t = {
+    mk: {
+      title: "БОЕНКА",
+      brush: "Четка",
+      pencil: "Молив",
+      eraser: "Гума",
+      undo: "Врати назад",
+      redo: "Врати напред",
+      zoom: "Зум",
+      scenes: "Сцени",
+      cards: "Картички со текст",
+      hint: "Кликни на картичка за да ја поставиш на тековната слика",
+      chooseCard: "← Избери картичка со текст",
+      print: "Печати",
+      save: "Сними",
+      clear: "Исчисти",
+      close: "Затвори"
+    },
+    sq: {
+      title: "LIBRI I NGJYROSJES",
+      brush: "Furça",
+      pencil: "Lapsi",
+      eraser: "Goma",
+      undo: "Kthehu prapa",
+      redo: "Shko përpara",
+      zoom: "Zmadhimi",
+      scenes: "Skenat",
+      cards: "Karta me tekst",
+      hint: "Klikoni mbi një kartë për ta vendosur atë në imazhin aktual",
+      chooseCard: "← Zgjidhni një kartë teksti",
+      print: "Printo",
+      save: "Ruaj",
+      clear: "Pastro",
+      close: "Mbyll"
+    }
+  }[lang];
+
   const toolBtn = (type, icon, title) => (
     <button
       onClick={() => setToolType(type)}
@@ -1003,21 +1265,21 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
       {/* TOOLBAR */}
       <div className="flex justify-between items-center mb-6 bg-slate-50 p-4 rounded-[2rem] border-2 border-slate-100 shadow-sm overflow-x-auto no-scrollbar gap-4">
         <div className="flex items-center gap-6 min-w-max">
-          <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter shrink-0">🎨 БОЕНКА</h2>
+          <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter shrink-0">🎨 {t.title}</h2>
 
           <div className="h-10 w-px bg-slate-200 shrink-0" />
 
           {/* Tools */}
           <div className="flex gap-1 bg-white p-1.5 rounded-2xl shadow-inner shrink-0">
-            {toolBtn('brush', '🖌️', 'Четка (меки бои)')}
-            {toolBtn('pencil', '✏️', 'Молив (прецизно)')}
-            {toolBtn('eraser', '🧽', 'Гума')}
+            {toolBtn('brush', '🖌️', t.brush)}
+            {toolBtn('pencil', '✏️', t.pencil)}
+            {toolBtn('eraser', '🧽', t.eraser)}
           </div>
 
           {/* Undo/Redo */}
           <div className="flex gap-1 shrink-0">
-            <button onClick={undo} disabled={history.length <= 1} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати назад" aria-label="Врати назад">↩️</button>
-            <button onClick={redo} disabled={redoStack.length === 0} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title="Врати напред" aria-label="Врати напред">↪️</button>
+            <button onClick={undo} disabled={history.length <= 1} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title={t.undo} aria-label={t.undo}>↩️</button>
+            <button onClick={redo} disabled={redoStack.length === 0} className="w-10 h-10 bg-white border-2 border-slate-200 rounded-xl flex items-center justify-center hover:bg-slate-50 disabled:opacity-30 text-lg" title={t.redo} aria-label={t.redo}>↪️</button>
           </div>
 
           <div className="h-10 w-px bg-slate-200 shrink-0" />
@@ -1039,7 +1301,7 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
           {/* Brush size */}
           <div className="flex flex-col gap-1 min-w-[110px] shrink-0">
             <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              <span>{toolType === 'pencil' ? 'Молив' : 'Четка'}</span>
+              <span>{toolType === 'pencil' ? t.pencil : t.brush}</span>
               <span>{brushSize}px</span>
             </div>
             <input type="range" min="2" max="80" value={brushSize} onChange={e => setBrushSize(+e.target.value)}
@@ -1050,7 +1312,7 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
 
           {/* Zoom */}
           <div className="flex flex-col gap-1 shrink-0">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Зум</span>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">{t.zoom}</span>
             <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200">
               <button onClick={() => setZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100">−</button>
               <span className="text-slate-700 font-mono text-[10px] w-10 text-center font-black">{Math.round(zoom * 100)}%</span>
@@ -1069,19 +1331,19 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
 
         {/* Right actions */}
         <div className="flex gap-3 shrink-0">
-          <button onClick={printCanvas} className="flex items-center gap-2 bg-indigo-50 text-indigo-700 px-5 py-3 rounded-2xl font-black text-sm hover:bg-indigo-100 transition-all border-2 border-indigo-100">🖨️ Печати</button>
-          <button onClick={downloadCanvas} className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-5 py-3 rounded-2xl font-black text-sm hover:bg-emerald-100 transition-all border-2 border-emerald-100">💾 Сними</button>
-          <button onClick={clearCanvas} className="flex items-center gap-2 bg-rose-50 text-rose-600 px-5 py-3 rounded-2xl font-black text-sm hover:bg-rose-100 transition-all border-2 border-rose-100">🗑️ Исчисти</button>
-          <button onClick={onClose} className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-black text-sm hover:bg-slate-800 transition-all shadow-xl">× Затвори</button>
+          <button onClick={printCanvas} className="flex items-center gap-2 bg-indigo-50 text-indigo-700 px-5 py-3 rounded-2xl font-black text-sm hover:bg-indigo-100 transition-all border-2 border-indigo-100">🖨️ {t.print}</button>
+          <button onClick={downloadCanvas} className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-5 py-3 rounded-2xl font-black text-sm hover:bg-emerald-100 transition-all border-2 border-emerald-100">💾 {t.save}</button>
+          <button onClick={clearCanvas} className="flex items-center gap-2 bg-rose-50 text-rose-600 px-5 py-3 rounded-2xl font-black text-sm hover:bg-rose-100 transition-all border-2 border-rose-100">🗑️ {t.clear}</button>
+          <button onClick={onClose} className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-black text-sm hover:bg-slate-800 transition-all shadow-xl">× {t.close}</button>
         </div>
       </div>
 
-      {/* MAIN AREA — 3 columns: scenes | canvas | captions */}
-      <div className="flex-1 flex gap-4 overflow-hidden min-h-0">
+      {/* MAIN AREA — scenes | canvas | captions underneath */}
+      <div className="flex-1 flex gap-6 overflow-hidden min-h-0">
 
-        {/* LEFT: scene thumbnails (no text shown — student matches captions) */}
-        <div className="w-36 space-y-2 overflow-y-auto pr-1 shrink-0">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Сцени</p>
+        {/* LEFT: scene thumbnails */}
+        <div className="w-36 space-y-2 overflow-y-auto pr-1 shrink-0 no-scrollbar">
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">{t.scenes}</p>
           {data.map((s, idx) => {
             const isCorrect = sceneAssignments[idx] === idx;
             const hasAssignment = sceneAssignments[idx] !== undefined;
@@ -1092,7 +1354,7 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
                 className={`w-full p-2 rounded-2xl border-4 transition-all text-left group ${activeScene === idx ? 'bg-indigo-600 border-indigo-400 shadow-xl' : 'bg-white border-slate-100 hover:border-indigo-200 shadow-sm'}`}
               >
                 <div className="relative overflow-hidden rounded-xl">
-                  <img src={s.img} className={`w-full h-16 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt={`Сцена ${idx + 1}`} />
+                  <img src={s.img} className={`w-full h-16 object-cover transition-all ${activeScene === idx ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`} alt={`${t.scenes} ${idx + 1}`} />
                   <div className={`absolute inset-0 flex items-center justify-center font-black text-2xl text-white drop-shadow-lg`}>{idx + 1}</div>
                   {hasAssignment && (
                     <div className={`absolute top-1 right-1 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-black shadow ${isCorrect ? 'bg-green-500' : 'bg-amber-400'}`}>
@@ -1105,75 +1367,82 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
           })}
         </div>
 
-        {/* CENTER: canvas area */}
-        <div className="flex-1 overflow-auto bg-slate-100/50 rounded-[3rem] border-4 border-dashed border-slate-200 shadow-inner flex items-start justify-center p-4">
-          <div className="relative inline-block">
-            <canvas
-              ref={canvasRef}
-              width={800}
-              height={600}
-              style={{ width: `${800 * zoom}px`, height: `${600 * zoom}px`, maxWidth: '100%', maxHeight: '60vh', display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
-              className="shadow-2xl rounded-2xl bg-white"
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={stopDrawing}
-              onMouseLeave={stopDrawing}
-              onTouchStart={startDrawing}
-              onTouchMove={draw}
-              onTouchEnd={stopDrawing}
-              onTouchCancel={stopDrawing}
-            />
-            {/* Assigned caption overlay at bottom of canvas */}
-            {assignedCaptionIdx !== undefined ? (
-              <div className={`absolute bottom-4 left-4 right-4 px-6 py-3 rounded-2xl border-2 shadow-xl backdrop-blur-md ${assignedCaptionIdx === activeScene ? 'bg-green-400/95 border-green-300' : 'bg-amber-400/95 border-amber-300'}`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg shrink-0">{assignedCaptionIdx === activeScene ? '✅' : '📝'}</span>
-                  <p className={`text-sm font-bold leading-snug italic ${assignedCaptionIdx === activeScene ? 'text-green-900' : 'text-amber-900'}`}>„{lang === 'sq' && data[assignedCaptionIdx].textSq ? data[assignedCaptionIdx].textSq : data[assignedCaptionIdx].text}"</p>
-                </div>
-              </div>
-            ) : (
-              <div className="absolute bottom-4 left-4 right-4 bg-slate-800/60 backdrop-blur-md px-6 py-3 rounded-2xl border-2 border-slate-600/30 shadow-xl">
-                <p className="text-center text-white/80 text-sm font-bold">← Избери картичка со текст од десно</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* RIGHT: caption cards column (shuffled for matching challenge) */}
-        <div className="w-64 flex flex-col gap-2 overflow-y-auto shrink-0">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2 shrink-0">Картички со текст</p>
-          <p className="text-[10px] text-slate-400 px-2 mb-1 shrink-0 leading-snug">Кликни на картичка за да ја поставиш на тековната слика</p>
-          {shuffledOrder.map((origIdx) => {
-            const s = data[origIdx];
-            const isOnCurrentScene = sceneAssignments[activeScene] === origIdx;
-            const assignedToEntry = Object.entries(sceneAssignments).find(([, v]) => v === origIdx);
-            const assignedSceneNum = assignedToEntry ? parseInt(assignedToEntry[0]) + 1 : null;
-            const isCorrectForSomeScene = origIdx === parseInt(assignedToEntry?.[0]);
-            return (
-              <button
-                key={origIdx}
-                onClick={() => handleCaptionClick(origIdx)}
-                className={`w-full p-3 rounded-2xl border-4 text-left transition-all shadow-sm ${
-                  isOnCurrentScene
-                    ? 'bg-amber-400 border-amber-300 shadow-lg text-amber-900 scale-[1.02]'
-                    : assignedSceneNum
-                      ? isCorrectForSomeScene
-                        ? 'bg-green-50 border-green-300 text-green-800'
-                        : 'bg-slate-50 border-slate-200 text-slate-400'
-                      : 'bg-white border-slate-100 hover:border-indigo-300 hover:shadow text-slate-700'
-                }`}
-              >
-                {assignedSceneNum && (
-                  <div className="flex items-center gap-1 mb-1.5">
-                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${isOnCurrentScene ? 'bg-amber-700 text-white' : isCorrectForSomeScene ? 'bg-green-500 text-white' : 'bg-slate-400 text-white'}`}>
-                      {isOnCurrentScene ? '✓ Оваа слика' : `Слика ${assignedSceneNum}`}
-                    </span>
+        {/* CENTER & BOTTOM: canvas area with captions underneath */}
+        <div className="flex-1 flex flex-col gap-6 overflow-hidden">
+          {/* Canvas area */}
+          <div className="flex-1 overflow-auto bg-slate-100/50 rounded-[3rem] border-4 border-dashed border-slate-200 shadow-inner flex items-start justify-center p-8">
+            <div className="relative inline-block">
+              <canvas
+                ref={canvasRef}
+                width={800}
+                height={600}
+                style={{ width: `${800 * zoom}px`, height: `${600 * zoom}px`, maxWidth: '100%', maxHeight: '60vh', display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
+                className="shadow-2xl rounded-2xl bg-white"
+                onMouseDown={startDrawing}
+                onMouseMove={draw}
+                onMouseUp={stopDrawing}
+                onMouseLeave={stopDrawing}
+                onTouchStart={startDrawing}
+                onTouchMove={draw}
+                onTouchEnd={stopDrawing}
+                onTouchCancel={stopDrawing}
+              />
+              {/* Assigned caption overlay */}
+              {assignedCaptionIdx !== undefined ? (
+                <div className={`absolute bottom-4 left-4 right-4 px-6 py-3 rounded-2xl border-2 shadow-xl backdrop-blur-md ${assignedCaptionIdx === activeScene ? 'bg-green-400/95 border-green-300' : 'bg-amber-400/95 border-amber-300'}`}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg shrink-0">{assignedCaptionIdx === activeScene ? '✅' : '📝'}</span>
+                    <p className={`text-sm font-bold leading-snug italic ${assignedCaptionIdx === activeScene ? 'text-green-900' : 'text-amber-900'}`}>„{lang === 'sq' && data[assignedCaptionIdx].textSq ? data[assignedCaptionIdx].textSq : data[assignedCaptionIdx].text}"</p>
                   </div>
-                )}
-                <p className="text-sm font-bold leading-snug">{lang === 'sq' && s.textSq ? s.textSq : s.text}</p>
-              </button>
-            );
-          })}
+                </div>
+              ) : (
+                <div className="absolute bottom-4 left-4 right-4 bg-slate-800/60 backdrop-blur-md px-6 py-3 rounded-2xl border-2 border-slate-600/30 shadow-xl">
+                  <p className="text-center text-white/80 text-sm font-bold">← {t.chooseCard}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CAPTIONS ROW (moved from right column to bottom) */}
+          <div className="bg-slate-50 p-6 rounded-[2.5rem] border-2 border-slate-100 shadow-sm shrink-0">
+            <div className="flex items-center justify-between mb-4 px-2">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.cards}</p>
+              <p className="text-[10px] text-slate-400 font-bold">{t.hint}</p>
+            </div>
+            <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+              {shuffledOrder.map((origIdx) => {
+                const s = data[origIdx];
+                const isOnCurrentScene = sceneAssignments[activeScene] === origIdx;
+                const assignedToEntry = Object.entries(sceneAssignments).find(([, v]) => v === origIdx);
+                const assignedSceneNum = assignedToEntry ? parseInt(assignedToEntry[0]) + 1 : null;
+                const isCorrectForSomeScene = origIdx === parseInt(assignedToEntry?.[0]);
+                return (
+                  <button
+                    key={origIdx}
+                    onClick={() => handleCaptionClick(origIdx)}
+                    className={`min-w-[16rem] max-w-[16rem] p-4 rounded-2xl border-4 text-left transition-all shadow-sm shrink-0 ${
+                      isOnCurrentScene
+                        ? 'bg-amber-400 border-amber-300 shadow-lg text-amber-900 scale-[1.02]'
+                        : assignedSceneNum
+                          ? isCorrectForSomeScene
+                            ? 'bg-green-50 border-green-300 text-green-800'
+                            : 'bg-slate-50 border-slate-200 text-slate-400'
+                          : 'bg-white border-slate-100 hover:border-indigo-300 hover:shadow text-slate-700'
+                    }`}
+                  >
+                    {assignedSceneNum && (
+                      <div className="flex items-center gap-1 mb-2">
+                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${isOnCurrentScene ? 'bg-amber-700 text-white' : isCorrectForSomeScene ? 'bg-green-500 text-white' : 'bg-slate-400 text-white'}`}>
+                          {isOnCurrentScene ? (lang === 'sq' ? '✓ Kjo skenë' : '✓ Оваа слика') : `${lang === 'sq' ? 'Skena' : 'Слика'} ${assignedSceneNum}`}
+                        </span>
+                      </div>
+                    )}
+                    <p className="text-xs font-bold leading-snug italic">„{lang === 'sq' && s.textSq ? s.textSq : s.text}"</p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1183,6 +1452,116 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
 export default function App() {
   const [activeStory, setActiveStory] = useState('home');
   const [lang, setLang] = useState(() => localStorage.getItem('pirls_lang') || 'mk');
+
+  // ── TRANSLATIONS ──────────────────────────────────────────
+  const t = {
+    mk: {
+      readingWithUnderstanding: "Читање со разбирање",
+      heroTitle_part1: "Читање со ",
+      heroTitle_part2: "разбирање",
+      interactivePlatform: "Интерактивна образовна платформа",
+      bilingualPlatform: "Двојазична платформа",
+      bilingualDesc: "Платформата е достапна на македонски и албански јазик. Избери јазик со копчињата горе.",
+      macedonian: "Македонски",
+      albanian: "Shqip",
+      active: "активно",
+      studentJoin: "Влези во час",
+      studentDesc: "Внеси го своето име и презиме и 6-знаковниот код од наставникот за да се приклучиш во часот.",
+      studentJoined: "Поврзан на час",
+      leaveSession: "Напушти час",
+      teacherLogin: "Наставник",
+      teacherDesc: "Создај час, следи ги учениците во живо и преземи извештај по завршувањето на часот.",
+      enter: "Влези →",
+      join: "Приклучи се →",
+      chooseStory: "Избери приказна за да започнеш",
+      back: "Назад",
+      questions: "Прашања",
+      puzzle: "Слагалка",
+      coloring: "Боенка",
+      markerRemoved: "Маркерот е отстранет.",
+      markedWell: "Одлично маркирано!",
+      allMarkersCleared: "Сите маркери се исчистени.",
+      writeDetailed: "Те молам напиши подетален одговор за да го разберам твоето објаснување. 📝",
+      correct: "Точно! Одлично размислување. 🎯",
+      incorrect: "Не е точно — точниот одговор е означен со зелено. Продолжуваме натаму.",
+      excellent: "ИЗВОНРЕДНО! 🏆 Твојот одговор е на највисоко ниво.",
+      goodStart: "ДОБАР ПОЧЕТОК! ✨",
+      rejected: "Хмм, твојот одговор не ги содржи клучните детали од приказната. 🧐 Прочитај го пак текстот и обиди се да го објасниш одговорот со твои зборови!",
+      answerSaved: "Примено! Твојот одговор е зачуван. ⭐",
+      of: "од",
+      backToText: "Назад кон текстот",
+      excellentWork: "Одлична работа!",
+      completedStoryDesc: "Успешно ги одговори сите прашања за оваа приказна.",
+      chooseNewStory: "Избери нова приказна →",
+      listenQuestion: "Слушај го прашањето",
+      owlFeedback: "🦉",
+      badgesTitle: "ИЗВОНРЕДНО! Ја заврши оваа приказна и освои нов златен медал!",
+      internetError: "⚠️ Нема интернет врска — одговорите не се синхронизираат",
+      close: "Затвори",
+      zoomIn: "Зголеми го фонтот",
+      zoomOut: "Намали го фонтот",
+      albanianWip: "Përkthimi shqip për këtë tregim është në përgatitje. Teksti shfaqet në maqedonisht.",
+      storyWip: "Наскоро: Целосниот текст за оваа приказна е во подготовка...",
+      today: "Денес",
+      start: "Започни →",
+      author: "Идеја и реализација:",
+      footerPlatform: "Читање со разбирање 2026 • Интерактивна образовна платформа"
+    },
+    sq: {
+      readingWithUnderstanding: "Lexim me kuptim",
+      heroTitle_part1: "Lexim me ",
+      heroTitle_part2: "kuptim",
+      interactivePlatform: "Platformë edukative interaktive",
+      bilingualPlatform: "Platformë dygjuhëshe",
+      bilingualDesc: "Platforma është e disponueshme në gjuhën maqedonase dhe shqipe. Zgjidhni gjuhën me butonat më lart.",
+      macedonian: "Maqedonisht",
+      albanian: "Shqip",
+      active: "aktive",
+      studentJoin: "Hyni në klasë",
+      studentDesc: "Shkruani emrin dhe mbiemrin tuaj dhe kodin me 6 shifra nga mësuesi për t'u bashkuar me klasën.",
+      studentJoined: "I lidhur në klasë",
+      leaveSession: "Largohu nga klasa",
+      teacherLogin: "Mësuesi",
+      teacherDesc: "Krijoni një klasë, ndiqni nxënësit drejtpërdrejt dhe shkarkoni një raport pas përfundimit të klasës.",
+      enter: "Hyni →",
+      join: "Bashkohu →",
+      chooseStory: "Zgjidh një tregim për të filluar",
+      back: "Mbrapa",
+      questions: "Pyetje",
+      puzzle: "Pazëll",
+      coloring: "Libër ngjyrosje",
+      markerRemoved: "Markuesi u hoq.",
+      markedWell: "Shënuar shkëlqyeshëm!",
+      allMarkersCleared: "Të gjithë markuesit u fshinë.",
+      writeDetailed: "Ju lutemi shkruani një përgjigje më të detajuar që të mund të kuptoj shpjegimin tuaj. 📝",
+      correct: "Saktë! Mendim i shkëlqyer. 🎯",
+      incorrect: "Nuk është e saktë — përgjigja e saktë është shënuar me të gjelbër. Vazhdojmë tutje.",
+      excellent: "E JASHTËZAKONSHME! 🏆 Përgjigja juaj është në nivelin më të lartë.",
+      goodStart: "FILLIM I MIRË! ✨",
+      rejected: "Hmm, përgjigja juaj nuk përmban detajet kryesore të tregimit. 🧐 Lexoni tekstin përsëri dhe provoni të shpjegoni përgjigjen me fjalët tuaja!",
+      answerSaved: "E pranuar! Përgjigja juaj u ruajt. ⭐",
+      of: "nga",
+      backToText: "Kthehu te teksti",
+      excellentWork: "Punë e shkëlqyer!",
+      completedStoryDesc: "Ju u jeni përgjigjur me sukses të gjitha pyetjeve për këtë tregim.",
+      chooseNewStory: "Zgjidhni një tregim të ri →",
+      listenQuestion: "Dëgjoni pyetjen",
+      owlFeedback: "🦉",
+      badgesTitle: "SHKËLQYESHËM! Ju keni përfunduar këtë tregim dhe keni fituar një medalje të re ari!",
+      internetError: "⚠️ Nuk ka lidhje interneti — përgjigjet nuk sinkronizohen",
+      close: "Mbyll",
+      zoomIn: "Rrit tekstin",
+      zoomOut: "Zvogëlo tekstin",
+      albanianWip: "Përkthimi shqip për këtë tregim është në përgatitje. Teksti shfaqet në maqedonisht.",
+      storyWip: "Së shpejti: Teksti i plotë për këtë tregim është në përgatitje...",
+      today: "Sot",
+      start: "Fillo →",
+      author: "Ideja dhe realizimi:",
+      footerPlatform: "Lexim me kuptim 2026 • Platformë edukative interaktive"
+    }
+  };
+  const T = t[lang];
+
   const [progress, setProgress] = useState(0);
   const [highlightMode, setHighlightMode] = useState(false);
   const [showPuzzle, setShowPuzzle] = useState(false);
@@ -1290,7 +1669,7 @@ export default function App() {
       const newBadges = [...completedStories, activeStory];
       setCompletedStories(newBadges);
       localStorage.setItem('pirls_badges', JSON.stringify(newBadges));
-      setAvatarMsg("🏆 ИЗВОНРЕДНО! Ја заврши оваа приказна и освои нов златен медал!");
+      setAvatarMsg(T.badgesTitle);
       
       // EXPERT: Trigger Confetti for story completion
       if (window.confetti) {
@@ -1311,25 +1690,48 @@ export default function App() {
     setProgress(0);
     
     const greetings = {
-      home: "Добредојде во digitalPIRLS! Избери приказна за да започнеш.",
-      chest: "Марко мисли дека е досадно во селото. Ајде да му покажеме дека греши!",
-      kaja: "Каја е вистински пронаоѓач. Ајде да видиме што измислила!",
-      baba: "Баба Гун има интересна идеја за нејзиниот покрив!",
-      octopus: "Нурни длабоко! Октоподот нè чека во океанот.",
-      watchmaker: "Секој механизам заслужува втора шанса.",
-      kite: "Трпението е клучот до успехот.",
-      lynx: "Балканскиот рис е нашиот шумски дух.",
-      shovel: "Едно ново пријателство се раѓа во дворот.",
-      rabbit: "Понекогаш стравот е само плод што паѓа од дрво.",
-      puffins: "Ајде да им помогнеме на морските папагалчиња да го најдат патот до морето!",
-      eagle: "Ти не си кокошка, ти си орел. Летај слободно!",
-      pita: "Најбрзиот начин да се ослободиш од непријателот е да го направиш пријател.",
-      fossil: "Мистеријата на џиновскиот заб нè носи во времето на диносаурусите!",
-      lighthouse: "Лијам мора да го запали светилникот за да го спаси татко му. Ајде да му помогнеме!",
-      forgotten_garden: "Јана мисли дека дворот е катастрофа. Но дедо Никола знае нешто — ајде да откриеме!",
-      lambe: "Трпението и итрината се посилни од секој проблем!"
+      mk: {
+        home: "Добредојде во digitalPIRLS! Избери приказна за да започнеш.",
+        chest: "Марко мисли дека е досадно во селото. Ајде да му покажеме дека греши!",
+        kaja: "Каја е вистински пронаоѓач. Ајде да видиме што измислила!",
+        baba: "Баба Гун има интересна идеја за нејзиниот покрив!",
+        octopus: "Нурни длабоко! Октоподот нè чека во океанот.",
+        watchmaker: "Секој механизам заслужува втора шанса.",
+        kite: "Трпението е клучот до успехот.",
+        lynx: "Балканскиот рис е нашиот шумски дух.",
+        shovel: "Едно ново пријателство се раѓа во дворот.",
+        rabbit: "Понекогаш стравот е само плод што паѓа од дрво.",
+        puffins: "Ајде да им помогнеме на морските папагалчиња да го најдат патот до морето!",
+        eagle: "Ти не си кокошка, ти си орел. Летај слободно!",
+        pita: "Најбрзиот начин да се ослободиш од непријателот е да го направиш пријател.",
+        fossil: "Мистеријата на џиновскиот заб нè носи во времето на диносаурусите!",
+        lighthouse: "Лијам мора да го запали светилникот за да го спаси татко му. Ајде да му помогнеме!",
+        forgotten_garden: "Јана мисли дека дворот е катастрофа. Но дедо Никола знае нешто — ајде да откриеме!",
+        lambe: "Трпението и итрината се посилни од секој проблем!",
+        fallback: "Прочитај го текстот внимателно!"
+      },
+      sq: {
+        home: "Mirësevini në digitalPIRLS! Zgjidhni një tregim për të filluar.",
+        chest: "Marko mendon se është e mërzitshme në fshat. Le t'i tregojmë se e ka gabim!",
+        kaja: "Kaja është një shpikëse e vërtetë. Le të shohim se çfarë ka shpikur!",
+        baba: "Gjyshja Gun ka një ide interesante për çatinë e saj!",
+        octopus: "Zhytu thellë! Oktapodi na pret në oqean.",
+        watchmaker: "Çdo mekanizëm meriton një shans të dytë.",
+        kite: "Durimi është çelësi i suksesit.",
+        lynx: "Rrëqebulli i Ballkanit është shpirti i pyllit tonë.",
+        shovel: "Një miqësi e re lind në oborr.",
+        rabbit: "Ndonjëherë frika është vetëm një frut që bie nga pema.",
+        puffins: "Le t'i ndihmojmë papagajtë e detit të gjejnë rrugën drejt detit!",
+        eagle: "Ti nuk je pulë, ti je shqiponjë. Fluturo e lirë!",
+        pita: "Mënyra më e shpejtë për të shpëtuar nga armiku është ta bësh atë mik.",
+        fossil: "Misteri i dhëmbit gjigant na dërgon në kohën e dinozaurëve!",
+        lighthouse: "Liam duhet të ndezë farin për të shpëtuar babanë e tij. Le ta ndihmojmë!",
+        forgotten_garden: "Jana mendon se oborri është një katastrofë. Por gjyshi Nikolla di diçka — le ta zbulojmë!",
+        lambe: "Durimi dhe zgjuarsia janë më të forta se çdo problem!",
+        fallback: "Lexoni tekstin me kujdes!"
+      }
     };
-    setAvatarMsg(greetings[activeStory] || "Прочитај го текстот внимателно!");
+    setAvatarMsg(greetings[lang][activeStory] || greetings[lang].fallback);
   }, [activeStory]);
 
   // ── Firebase: sync student presence whenever story/step changes ──
@@ -1363,7 +1765,7 @@ export default function App() {
         e.target.replaceWith(document.createTextNode(text));
         setAvatarMsg("Маркерот е отстранет.");
       };
-      try { range.surroundContents(mark); setAvatarMsg("Одлично маркирано!"); } catch(e) {}
+      try { range.surroundContents(mark); setAvatarMsg(T.markedWell); } catch(e) {}
       sel.removeAllRanges();
     }
   };
@@ -1371,7 +1773,7 @@ export default function App() {
   const clearHighlights = () => {
     const marks = textRef.current?.querySelectorAll('mark');
     marks?.forEach(m => m.replaceWith(document.createTextNode(m.innerText)));
-    setAvatarMsg("Сите маркери се исчистени.");
+    setAvatarMsg(T.allMarkersCleared);
   };
 
   const handleMCQ = (opt, correct) => {
@@ -1382,11 +1784,11 @@ export default function App() {
     setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
     if (opt === correct) {
       playSound('success');
-      setAvatarMsg("Точно! Одлично размислување. 🎯");
-      if (canSpeak) speak("Точно! Одлично размислување.");
+      setAvatarMsg(T.correct);
+      if (canSpeak && lang === 'mk') speak(T.correct);
       setTimeout(() => { setStep(nextStep); setSelectedOpt(null); setTextAns(''); setShowHint(false); }, 1800);
     } else {
-      setAvatarMsg(`Не е точно — точниот одговор е означен со зелено. Продолжуваме натаму.`);
+      setAvatarMsg(T.incorrect);
       setTimeout(() => { setStep(nextStep); setSelectedOpt(null); setTextAns(''); setShowHint(false); }, 2500);
     }
   };
@@ -1395,7 +1797,7 @@ export default function App() {
     const ansToProcess = customAns || textAns;
     const trimmedAns = ansToProcess.trim().toLowerCase();
     if (trimmedAns.length < 6) {
-      setAvatarMsg("Те молам напиши подетален одговор за да го разберам твоето објаснување. 📝");
+      setAvatarMsg(T.writeDetailed);
       return;
     }
 
@@ -1410,8 +1812,8 @@ export default function App() {
       if (foundKeywords.length >= 2 && wordCount >= 3) {
         // FULL SUCCESS - EXPERT LEVEL
         playSound('success');
-        setAvatarMsg(`ИЗВОНРЕДНО! 🏆 Твојот одговор е на највисоко ниво и ги содржи клучните детали: ${foundKeywords.join(', ')}.`);
-        if (canSpeak) speak("Извонредно! Твојот одговор е на највисоко ниво.");
+        setAvatarMsg(T.excellent);
+        if (canSpeak && lang === 'mk') speak(T.excellent);
         
         const nextStep = step + 1;
         const totalSteps = currentStory.questions.length;
@@ -1425,8 +1827,8 @@ export default function App() {
       } else if (foundKeywords.length === 1 && wordCount >= 2) {
         // PARTIAL SUCCESS
         playSound('success');
-        setAvatarMsg(`ДОБАР ПОЧЕТОК! ✨ Го спомнавте „${foundKeywords[0]}“, но обидете се следниот пат да додадете уште еден детаљ за целосен поен.`);
-        if (canSpeak) speak(`Добар почеток. Го спомнавте ${foundKeywords[0]}, но обидете се да додадете уште детали.`);
+        setAvatarMsg(T.goodStart);
+        if (canSpeak && lang === 'mk') speak(T.goodStart);
         
         const nextStep = step + 1;
         const totalSteps = currentStory.questions.length;
@@ -1439,14 +1841,14 @@ export default function App() {
         }, 4000);
       } else {
         // REJECTED - NO MEANING OR WRONG ANSWER
-        setAvatarMsg("Хмм, твојот одговор не ги содржи клучните детали од приказната. 🧐 Прочитај го пак текстот и обиди се да го објасниш одговорот со твои зборови!");
-        if (canSpeak) speak("Твојот одговор не ги содржи клучните детали. Обиди се повторно.");
+        setAvatarMsg(T.rejected);
+        if (canSpeak && lang === 'mk') speak(T.rejected);
       }
     } else {
       // Fallback for generic text questions
       saveAnswer('text', ansToProcess.trim(), null);
       playSound('success');
-      setAvatarMsg("Примено! Твојот одговор е зачуван. ⭐");
+      setAvatarMsg(T.answerSaved);
       const nextStep = step + 1;
       const totalSteps = currentStory.questions.length;
       setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
@@ -1472,11 +1874,11 @@ export default function App() {
           {/* ── HERO НАСЛОВ ── */}
           <div className="w-full text-center mb-12">
             <h1 className="text-[2.8rem] sm:text-[3.5rem] md:text-[4.2rem] font-black text-indigo-950 mb-5 tracking-tighter italic leading-none whitespace-nowrap">
-              Читање со <span className="text-indigo-600 underline decoration-yellow-400 decoration-[6px] underline-offset-6">разбирање</span>
+              {T.heroTitle_part1}<span className="text-indigo-600 underline decoration-yellow-400 decoration-[6px] underline-offset-6">{T.heroTitle_part2}</span>
             </h1>
             <div className="flex items-center gap-5 justify-center">
               <div className="h-[2px] w-20 bg-indigo-200 rounded-full"></div>
-              <p className="text-lg text-slate-400 font-bold uppercase tracking-[0.35em]">Интерактивна образовна платформа</p>
+              <p className="text-lg text-slate-400 font-bold uppercase tracking-[0.35em]">{T.heroSubtitle || T.interactivePlatform}</p>
               <div className="h-[2px] w-20 bg-indigo-200 rounded-full"></div>
             </div>
             {/* Јазичен toggle */}
@@ -1485,7 +1887,7 @@ export default function App() {
                 onClick={() => setLang('mk')}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${lang === 'mk' ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg' : 'bg-white text-slate-500 border-slate-200 hover:border-indigo-300'}`}
               >
-                <span className="text-lg">🇲🇰</span> МК
+                <span className="text-lg">🇲🇰</span> MK
               </button>
               <button
                 onClick={() => setLang('sq')}
@@ -1504,21 +1906,21 @@ export default function App() {
               <div className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-green-50 to-green-100 border-green-200 text-center flex flex-col items-center justify-center">
                 <div className="text-6xl mb-4">✅</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{studentName}</h2>
-                <p className="text-sm text-slate-500 leading-snug">Поврзан на час: <strong className="text-green-700">{sessionCode}</strong></p>
+                <p className="text-sm text-slate-500 leading-snug">{T.studentJoined}: <strong className="text-green-700">{sessionCode}</strong></p>
                 <button
                   onClick={() => { setSessionCode(''); setStudentName(''); localStorage.removeItem('pirls_session'); localStorage.removeItem('pirls_student_name'); }}
                   className="mt-4 text-xs text-red-400 hover:text-red-600 font-bold transition-all underline">
-                  Напушти час
+                  {T.leaveSession}
                 </button>
               </div>
             ) : (
               <button onClick={() => setShowJoinSession(true)}
                 className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-2xl hover:border-indigo-400 transition-all group text-center flex flex-col items-center justify-center">
                 <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🧒</div>
-                <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Влези во час</h2>
-                <p className="text-sm text-slate-500 leading-snug">Внеси го своето <strong>име и презиме</strong> и 6-знаковниот код од наставникот за да се приклучиш во часот.</p>
+                <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{T.studentJoin}</h2>
+                <p className="text-sm text-slate-500 leading-snug">{T.studentDesc}</p>
                 <div className="mt-3">
-                  <span className="text-indigo-600 font-black text-xs tracking-widest uppercase italic">Приклучи се →</span>
+                  <span className="text-indigo-600 font-black text-xs tracking-widest uppercase italic">{T.join}</span>
                 </div>
               </button>
             )}
@@ -1527,25 +1929,21 @@ export default function App() {
             <div className="p-8 rounded-[3rem] border-4 border-dashed border-indigo-200 bg-gradient-to-b from-indigo-50 via-white to-green-50 text-center flex flex-col items-center justify-center gap-4 shadow-lg">
               <div className="flex items-center justify-center gap-2">
                 <span className="text-3xl">🌍</span>
-                <h3 className="text-base font-black text-indigo-900 uppercase tracking-widest">Двојазична платформа</h3>
+                <h3 className="text-base font-black text-indigo-900 uppercase tracking-widest">{T.bilingualPlatform}</h3>
               </div>
               <p className="text-slate-500 font-bold text-sm leading-relaxed">
-                Платформата е достапна на{' '}
-                <span className="text-indigo-700 font-black">македонски</span>
-                {' '}и{' '}
-                <span className="text-red-700 font-black">албански</span>
-                {' '}јазик. Избери јазик со копчињата горе.
+                {T.bilingualDesc}
               </p>
               <div className="flex items-center justify-center gap-4 mt-1">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-indigo-100 shadow-sm">
                   <span className="text-xl">🇲🇰</span>
-                  <span className="font-black text-slate-700 text-sm">Македонски</span>
-                  <span className="text-[10px] text-green-600 font-bold uppercase tracking-wide ml-1">✓ активно</span>
+                  <span className="font-black text-slate-700 text-sm">{t.mk.macedonian}</span>
+                  <span className="text-[10px] text-green-600 font-bold uppercase tracking-wide ml-1">✓ {t.mk.active}</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl border-2 border-red-100 shadow-sm">
                   <span className="text-xl">🇦🇱</span>
-                  <span className="font-black text-slate-700 text-sm">Shqip</span>
-                  <span className="text-[10px] text-green-600 font-bold uppercase tracking-wide ml-1">✓ aktiv</span>
+                  <span className="font-black text-slate-700 text-sm">{t.sq.albanian}</span>
+                  <span className="text-[10px] text-green-600 font-bold uppercase tracking-wide ml-1">✓ {t.sq.active}</span>
                 </div>
               </div>
             </div>
@@ -1554,10 +1952,10 @@ export default function App() {
             <button onClick={() => setShowTeacherLogin(true)}
               className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:shadow-2xl hover:border-violet-400 transition-all group text-center flex flex-col items-center justify-center">
               <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">👩‍🏫</div>
-              <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">Наставник</h2>
-              <p className="text-sm text-slate-500 leading-snug">Создај час, следи ги учениците во живо и преземи извештај по завршувањето на часот.</p>
+              <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{T.teacherLogin}</h2>
+              <p className="text-sm text-slate-500 leading-snug">{T.teacherDesc}</p>
               <div className="mt-3">
-                <span className="text-violet-600 font-black text-xs tracking-widest uppercase italic">Влези →</span>
+                <span className="text-violet-600 font-black text-xs tracking-widest uppercase italic">{T.enter}</span>
               </div>
             </button>
 
@@ -1584,7 +1982,7 @@ export default function App() {
                 >
                   {isAssigned && (
                     <div className="absolute top-4 left-4 bg-indigo-600 text-white text-xs font-black px-3 py-1.5 rounded-full tracking-widest uppercase">
-                      📌 Денес
+                      📌 {T.today}
                     </div>
                   )}
                   {completedStories.includes(s.id) && !isLocked && (
@@ -1594,7 +1992,7 @@ export default function App() {
                   <h2 className="text-2xl font-black text-slate-800 leading-tight">{lang === 'sq' && s.titleSq ? s.titleSq : s.title}</h2>
                   {!isLocked && (
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">Започни →</span>
+                      <span className="text-indigo-600 font-black text-sm tracking-widest uppercase italic">{T.start}</span>
                     </div>
                   )}
                 </button>
@@ -1604,9 +2002,9 @@ export default function App() {
 
           <footer className="mt-12 py-8 border-t border-slate-200 w-full text-center">
             <p className="text-slate-400 font-medium">
-              Идеја и реализација: <span className="text-indigo-900 font-black text-lg ml-1">Игор Богданоски</span>
+              {T.author} <span className="text-indigo-900 font-black text-lg ml-1">Игор Богданоски</span>
             </p>
-            <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">Читање со разбирање 2026 • Интерактивна образовна платформа</p>
+            <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">{T.footerPlatform}</p>
           </footer>
 
           {/* ─── MODALS ─── */}
@@ -1655,7 +2053,7 @@ export default function App() {
       <header role="banner" className="h-20 bg-white border-b-2 border-slate-100 flex items-center justify-between px-4 sm:px-10">
         <button onClick={() => setActiveStory('home')} className="flex items-center gap-2 text-slate-600 hover:text-indigo-600 font-bold px-5 py-2 rounded-2xl bg-slate-50 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          <span className="hidden sm:inline">Назад</span>
+          <span className="hidden sm:inline">{T.back}</span>
         </button>
         <div className="flex items-center gap-6 w-1/2 justify-center">
           <Timer active={activeStory !== 'home' && progress < 100} />
@@ -1670,20 +2068,20 @@ export default function App() {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setLang('mk')}
-                title="Македонски"
+                title={t.mk.macedonian}
                 className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all border-2 ${lang === 'mk' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-400 border-slate-200 hover:border-indigo-300'}`}
               >🇲🇰 МК</button>
               {storyContentSq[activeStory] && (
                 <button
                   onClick={() => setLang('sq')}
-                  title="Shqip"
+                  title={t.sq.albanian}
                   className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all border-2 ${lang === 'sq' ? 'bg-red-600 text-white border-red-600' : 'bg-white text-slate-400 border-slate-200 hover:border-red-300'}`}
                 >🇦🇱 SQ</button>
               )}
             </div>
           )}
           <span className="font-black text-indigo-900 italic hidden sm:block">
-            Читање со <span className="text-indigo-600">разбирање</span>
+            {T.heroTitle_part1}<span className="text-indigo-600">{T.heroTitle_part2}</span>
           </span>
         </div>
       </header>
@@ -1711,10 +2109,10 @@ export default function App() {
             {lang === 'sq' && !storyContentSq[activeStory] && currentStory && (
               <div className="bg-amber-50 border-2 border-amber-200 rounded-3xl p-6 mb-6 flex items-center gap-4">
                 <span className="text-3xl">🇦🇱</span>
-                <p className="text-amber-800 font-bold">Përkthimi shqip për këtë tregim është në përgatitje. Teksti shfaqet në maqedonisht.</p>
+                <p className="text-amber-800 font-bold">{T.albanianWip}</p>
               </div>
             )}
-            {!currentStory && <p className="text-2xl italic text-slate-400">Наскоро: Целосниот текст за оваа приказна е во подготовка...</p>}
+            {!currentStory && <p className="text-2xl italic text-slate-400">{T.storyWip}</p>}
           </div>
         </div>
       </main>
@@ -1729,13 +2127,13 @@ export default function App() {
                 onClick={() => setShowPuzzle(true)}
                 className="flex items-center gap-2 px-5 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black rounded-2xl border-2 border-indigo-100 transition-all hover:scale-105 text-sm"
               >
-                🧩 <span className="hidden sm:inline">Слагалка</span>
+                🧩 <span className="hidden sm:inline">{T.puzzle}</span>
               </button>
               <button
                 onClick={() => setShowColoring(true)}
                 className="flex items-center gap-2 px-5 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 font-black rounded-2xl border-2 border-rose-100 transition-all hover:scale-105 text-sm"
               >
-                🎨 <span className="hidden sm:inline">Боенка</span>
+                🎨 <span className="hidden sm:inline">{T.coloring}</span>
               </button>
             </>
           )}
@@ -1746,9 +2144,9 @@ export default function App() {
           onClick={() => setShowQuestions(true)}
           className="flex items-center gap-3 px-10 py-4 bg-orange-500 hover:bg-orange-600 text-white font-black rounded-full shadow-lg shadow-orange-200 transition-all hover:scale-105 active:scale-95 text-xl"
         >
-          📋 <span>Прашања</span>
+          📋 <span>{T.questions}</span>
           <span className="bg-white/25 px-3 py-1 rounded-full text-base font-black">
-            {Math.min(step + 1, currentStory?.questions?.length ?? 1)} од {currentStory?.questions?.length ?? '?'}
+            {Math.min(step + 1, currentStory?.questions?.length ?? 1)} {T.of} {currentStory?.questions?.length ?? '?'}
           </span>
         </button>
 
@@ -1761,24 +2159,24 @@ export default function App() {
             🖍️
           </button>
           {highlightMode && (
-            <div className="flex gap-2" role="group" aria-label="Избери боја за маркирање">
+            <div className="flex gap-2" role="group" aria-label={lang === 'sq' ? "Zgjidh ngjyrën" : "Избери боја за маркирање"}>
               {[
-                { color: 'bg-yellow-300', label: 'Жолто маркирање' },
-                { color: 'bg-green-300',  label: 'Зелено маркирање' },
-                { color: 'bg-blue-300',   label: 'Сино маркирање'  },
-              ].map(({ color, label }) => (
+                { color: 'bg-yellow-300', label: t.mk.markYellow, labelSq: t.sq.markYellow },
+                { color: 'bg-green-300',  label: t.mk.markGreen,  labelSq: t.sq.markGreen  },
+                { color: 'bg-blue-300',   label: t.mk.markBlue,   labelSq: t.sq.markBlue   },
+              ].map(({ color, label, labelSq }) => (
                 <button
                   key={color}
                   onClick={() => setMarkColor(color)}
-                  aria-label={label}
+                  aria-label={lang === 'sq' ? labelSq : label}
                   aria-pressed={markColor === color}
                   className={`w-8 h-8 rounded-full border-2 transition-all ${color} ${markColor === color ? 'border-indigo-600 scale-125' : 'border-transparent hover:scale-110'}`}
                 />
               ))}
             </div>
           )}
-          <button onClick={() => setFontSize(Math.min(3.5, fontSize + 0.15))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Зголеми текст" aria-label="Зголеми го фонтот">A+</button>
-          <button onClick={() => setFontSize(Math.max(1.125, fontSize - 0.15))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title="Намали текст" aria-label="Намали го фонтот">A-</button>
+          <button onClick={() => setFontSize(Math.min(3.5, fontSize + 0.15))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title={T.zoomIn} aria-label={T.zoomIn}>A+</button>
+          <button onClick={() => setFontSize(Math.max(1.125, fontSize - 0.15))} className="w-10 h-10 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 font-black text-sm" title={T.zoomOut} aria-label={T.zoomOut}>A-</button>
         </div>
       </div>
 
@@ -1799,7 +2197,7 @@ export default function App() {
                 onClick={() => setShowQuestions(false)}
                 className="flex items-center gap-2 text-white font-black text-lg hover:bg-white/20 px-4 py-2 rounded-2xl transition-all"
               >
-                ✕ <span className="hidden sm:inline">Назад кон текстот</span>
+                ✕ <span className="hidden sm:inline">{T.backToText}</span>
               </button>
               <div className="flex items-center gap-4">
                 <button
@@ -1808,7 +2206,7 @@ export default function App() {
                   className="w-12 h-12 bg-white/20 hover:bg-white/40 disabled:opacity-30 text-white font-black text-2xl rounded-2xl flex items-center justify-center transition-all"
                 >←</button>
                 <span className="text-white font-black text-xl px-2">
-                  {Math.min(step + 1, currentStory?.questions?.length ?? 1)} од {currentStory?.questions?.length ?? '?'}
+                  {Math.min(step + 1, currentStory?.questions?.length ?? 1)} {T.of} {currentStory?.questions?.length ?? '?'}
                 </span>
                 <button
                   onClick={() => { setStep(Math.min((currentStory?.questions?.length ?? 1) - 1, step + 1)); setSelectedOpt(null); setTextAns(''); }}
@@ -1843,20 +2241,20 @@ export default function App() {
                 {!currentQuestion && step > 0 && (
                   <div className="flex flex-col items-center justify-center text-center py-10">
                     <div className="text-8xl mb-6">🏆</div>
-                    <h2 className="text-4xl font-black text-slate-900 mb-3 uppercase tracking-tight">Одлична работа!</h2>
-                    <p className="text-lg font-bold text-slate-500 mb-10 max-w-sm leading-relaxed">Успешно ги одговори сите прашања за оваа приказна.</p>
+                    <h2 className="text-4xl font-black text-slate-900 mb-3 uppercase tracking-tight">{T.excellentWork}</h2>
+                    <p className="text-lg font-bold text-slate-500 mb-10 max-w-sm leading-relaxed">{T.completedStoryDesc}</p>
                     <div className="flex flex-col sm:flex-row gap-4">
                       <button
                         onClick={() => { setShowQuestions(false); }}
                         className="px-10 py-4 bg-indigo-100 text-indigo-700 rounded-2xl text-lg font-black hover:bg-indigo-200 transition-all border-2 border-indigo-200"
                       >
-                        ← Назад кон текстот
+                        ← {T.backToText}
                       </button>
                       <button
                         onClick={() => { setShowQuestions(false); setActiveStory('home'); }}
                         className="px-10 py-4 bg-emerald-500 text-white rounded-2xl text-lg font-black shadow-xl hover:bg-emerald-600 transition-all"
                       >
-                        Избери нова приказна →
+                        {T.chooseNewStory}
                       </button>
                     </div>
                   </div>
@@ -1878,15 +2276,15 @@ export default function App() {
                         <button
                           onClick={() => speak(currentQuestion.q)}
                           className="shrink-0 w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center hover:bg-orange-200 hover:scale-110 transition-all mt-1"
-                          title="Слушај го прашањето"
-                          aria-label="Слушај го прашањето"
+                          title={T.listenQuestion}
+                          aria-label={T.listenQuestion}
                         >🔊</button>
                       )}
                     </div>
 
                     {/* MCQ */}
                     {currentQuestion.type === 'mcq' ? (
-                      <div className="space-y-3" role="radiogroup" aria-label={`Опции за прашање ${step + 1}`}>
+                      <div className="space-y-3" role="radiogroup" aria-label={`${T.questionOptionsLabel} ${step + 1}`}>
                         {currentQuestion.options.map((opt, idx) => {
                           const isSelected = selectedOpt === opt;
                           const isCorrect  = opt === currentQuestion.correct;
@@ -1925,10 +2323,10 @@ export default function App() {
                           <textarea
                             autoFocus
                             className="w-full min-h-[10rem] p-5 bg-white rounded-2xl border-4 border-indigo-200 focus:border-indigo-500 text-xl font-medium outline-none transition-colors duration-200 resize-none leading-relaxed"
-                            placeholder={lang === 'sq' ? "Shkruaj përgjigjen tënde..." : "Напиши го твојот одговор..."}
+                            placeholder={T.textPlaceholder}
                             value={textAns}
                             onChange={(e) => setTextAns(e.target.value)}
-                            aria-label={`Одговор на прашање ${step + 1}`}
+                            aria-label={lang === 'sq' ? `Përgjigjja e pyetjes ${step + 1}` : `Одговор на прашање ${step + 1}`}
                             aria-describedby="word-count-hint"
                           />
                           {/* Word counter */}
@@ -1937,9 +2335,9 @@ export default function App() {
                             wordCount < 3   ? 'text-amber-500' :
                                               'text-emerald-600'
                           }`}>
-                            {lang === 'sq'
-                              ? (wordCount === 0 ? 'Min. 3 fjalë' : `${wordCount} ${wordCount === 1 ? 'fjalë' : 'fjalë'} ${wordCount >= 3 ? '✓' : ''}`)
-                              : (wordCount === 0 ? 'Мин. 3 збора' : `${wordCount} ${wordCount === 1 ? 'збор' : 'зборови'} ${wordCount >= 3 ? '✓' : ''}`)
+                            {wordCount === 0 
+                              ? T.min3words 
+                              : `${wordCount} ${wordCount === 1 ? T.word : T.words} ${wordCount >= 3 ? '✓' : ''}`
                             }
                           </div>
                         </div>
@@ -1961,16 +2359,13 @@ export default function App() {
                             disabled={!canSubmit}
                             className="flex-1 py-5 bg-indigo-600 text-white rounded-2xl text-lg font-black shadow-lg hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                           >
-                            {lang === 'sq'
-                              ? (canSubmit ? 'DËRGO PËRGJIGJEN →' : 'Shkruaj të paktën 3 fjalë')
-                              : (canSubmit ? 'ИСПРАТИ ОДГОВОР →' : 'Напиши најмалку 3 збора')
-                            }
+                            {canSubmit ? `${T.sendAnswer} →` : T.writeMin3}
                           </button>
                           {currentQuestion.hint && (
                             <button
                               onClick={() => setShowHint(!showHint)}
                               className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl border-4 transition-all shrink-0 ${showHint ? 'bg-amber-400 border-amber-300 shadow-lg' : 'bg-white border-slate-200 hover:border-amber-300 hover:bg-amber-50'}`}
-                              aria-label={showHint ? 'Скриј совет' : 'Покажи совет'}
+                              aria-label={showHint ? T.hideHint : T.showHint}
                               aria-expanded={showHint}
                             >💡</button>
                           )}
@@ -1990,23 +2385,25 @@ export default function App() {
       {/* MODALS */}
       {/* Модални прозорци за инклузивни активности */}
       {showPuzzle && (
-        inclusiveData[activeStory]?.puzzle
+        (inclusiveData[activeStory]?.puzzle && !inclusiveData[activeStory]?.puzzleWIP)
           ? <ChronologicalPuzzle data={inclusiveData[activeStory].puzzle} onClose={() => setShowPuzzle(false)} lang={lang} />
           : <WIPModal
               onClose={() => setShowPuzzle(false)}
               emoji="🧩"
-              title="Хронолошка слагалка"
-              description="Сликите за оваа приказна се во подготовка. Наскоро достапно!"
+              title={T.puzzle}
+              description={T.puzzleWIPDesc}
+              lang={lang}
             />
       )}
       {showColoring && (
-        inclusiveData[activeStory]?.coloring
+        (inclusiveData[activeStory]?.coloring && !inclusiveData[activeStory]?.coloringWIP)
           ? <ColoringBook data={inclusiveData[activeStory].coloring} onClose={() => setShowColoring(false)} lang={lang} />
           : <WIPModal
               onClose={() => setShowColoring(false)}
               emoji="🎨"
-              title="Дигитална боенка"
-              description={"Боенката со линеарт илустрации е во подготовка.\nНаскоро достапно!"}
+              title={T.coloring}
+              description={T.coloringWIPDesc}
+              lang={lang}
             />
       )}
       
@@ -2036,14 +2433,14 @@ export default function App() {
                  <button 
                    onClick={() => speak(glossaryTerm.def)}
                    className="w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg hover:scale-110 active:scale-95 transition-all"
-                   title="Слушај го објаснувањето"
+                   title={T.listenExplanation}
                  >
                    🔊
                  </button>
                )}
             </div>
             <button onClick={() => setGlossaryTerm(null)} className="w-full py-5 bg-slate-100 text-slate-600 rounded-3xl font-black text-xl hover:bg-slate-200 transition-all uppercase tracking-widest">
-              ЗАТВОРИ
+              {T.close}
             </button>
           </div>
         </div>
@@ -2053,8 +2450,8 @@ export default function App() {
       {connectionError && (
         <div className="fixed bottom-6 right-6 z-[500] flex items-center gap-3 bg-red-500 text-white px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm" role="alert" aria-live="assertive">
           <span>⚠️</span>
-          <span>Нема интернет врска — одговорите не се синхронизираат</span>
-          <button onClick={() => setConnectionError(false)} className="ml-2 text-white/70 hover:text-white text-lg leading-none" aria-label="Затвори">×</button>
+          <span>{T.internetError}</span>
+          <button onClick={() => setConnectionError(false)} className="ml-2 text-white/70 hover:text-white text-lg leading-none" aria-label={T.close}>×</button>
         </div>
       )}
 
