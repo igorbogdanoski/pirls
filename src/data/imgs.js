@@ -231,10 +231,12 @@ const imgs = {
     }
   },
   fossil: {
-    1: '/Заб приказна/1. Gemini_Generated_Image_mo45g6mo45g6mo45.png',
-    2: '/Заб приказна/2. Gemini_Generated_Image_6p7e426p7e426p7e.png',
-    3: '/Заб приказна/3. Gemini_Generated_Image_a31784a31784a317.png',
-    4: '/Заб приказна/4. Gemini_Generated_Image_c5p20ic5p20ic5p2.png',
+    1: '/Заб приказна/1. Gemini_Generated_Image_4wuxj4wuxj4wuxj4.png',
+    2: '/Заб приказна/2. Gemini_Generated_Image_mo45g6mo45g6mo45.png',
+    3: '/Заб приказна/3. Gemini_Generated_Image_6p7e426p7e426p7e.png',
+    4: '/Заб приказна/4b.png',
+    5: '/Заб приказна/5. Gemini_Generated_Image_c5p20ic5p20ic5p2.png',
+    6: '/Заб приказна/6. Gemini_Generated_Image_fd9pplfd9pplfd9p.png',
     puzzle: {
       1: '/Заб приказна/хронолоска слагалка/1. Gemini_Generated_Image_1y5z5e1y5z5e1y5z.png',
       2: '/Заб приказна/хронолоска слагалка/2. Gemini_Generated_Image_mo45g6mo45g6mo45.png',
