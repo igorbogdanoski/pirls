@@ -280,6 +280,8 @@ const inclusiveData = {
     ]
   },
   forgotten_garden: {
+    puzzleWIP: true,
+    coloringWIP: true,
     puzzle: [
       { id: 1, img: imgs.forgotten_garden.puzzle[1], text: "Лена пронајде тајна врата во стариот ѕид.", textSq: 'Lena gjeti një derë të fshehtë në murin e vjetër.' },
       { id: 2, img: imgs.forgotten_garden.puzzle[2], text: "Зад вратата се криеше прекрасна заборавена градина.", textSq: 'Pas derës fshihej një kopsht i mrekullueshëm i harruar.' },

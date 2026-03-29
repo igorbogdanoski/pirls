@@ -317,7 +317,9 @@ const TextWithGlossary = ({ content, glossary, onTermClick }) => {
     // 2. Стем-совпаѓање: делат заеднички префикс ≥5 знаци (пр. "тропски"/"тропска")
     const matchedTermKey = terms.find(term => {
       const t = term.toLowerCase();
-      if (wordLower.includes(t)) return true;
+      // Only match if exact or starts with the term and has a short suffix (max 3 chars)
+      // This prevents matching "рис" inside "пристаништето" (starts with "при-")
+      if (wordLower === t || (t.length >= 3 && wordLower.startsWith(t) && wordLower.length - t.length <= 3)) return true;
       if (t.length >= 5 && wordLower.length >= 5) {
         const stemLen = Math.min(t.length, wordLower.length) - 2;
         if (stemLen >= 4 && t.slice(0, stemLen) === wordLower.slice(0, stemLen)) return true;
@@ -921,7 +923,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
               className="flex-shrink-0 cursor-grab active:cursor-grabbing perspective-1000"
             >
               <div 
-                className="relative w-[15rem] h-[22rem] transition-all duration-700 preserve-3d"
+                className="relative w-[11rem] h-[16rem] transition-all duration-700 preserve-3d"
                 style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
               >
                 {/* FRONT SIDE: LARGE IMAGE */}
@@ -964,7 +966,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
                 <div
                   className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[2.5rem] shadow-xl p-6 border-[8px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
                 >
-                  <p className="text-white font-black text-base leading-snug mb-4 overflow-y-auto max-h-full">
+                  <p className="text-white font-black text-sm leading-snug mb-4 overflow-y-auto max-h-full">
                     {lang === 'sq' && item.textSq ? item.textSq : item.text}
                   </p>
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-xl border-2 border-white/20 flex-shrink-0">📖</div>
@@ -2097,7 +2099,13 @@ export default function App() {
                   <TextWithGlossary
                     content={item.content}
                     glossary={glossaryData}
-                    onTermClick={(term, def) => setGlossaryTerm({ term, def })}
+                    onTermClick={(term, entry) => {
+                      if (typeof entry === 'string') {
+                        setGlossaryTerm({ term, def: entry });
+                      } else {
+                        setGlossaryTerm({ term, ...entry });
+                      }
+                    }}
                   />
                 </p>
               );
@@ -2424,6 +2432,17 @@ export default function App() {
               <h4 id="glossary-term-title" className="text-3xl font-black text-slate-900 uppercase tracking-tight">{glossaryTerm.term}</h4>
               <button onClick={() => setGlossaryTerm(null)} className="text-slate-300 hover:text-slate-600 text-4xl">×</button>
             </div>
+
+            {glossaryTerm.img && (
+              <div className="mb-8 overflow-hidden rounded-[2rem] border-4 border-indigo-100 bg-indigo-50 group">
+                <img 
+                  src={glossaryTerm.img} 
+                  alt={glossaryTerm.term} 
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+            )}
+
             <div className="flex items-center gap-6 mb-8">
                <div className="p-4 bg-indigo-50 rounded-3xl text-4xl">📚</div>
                <p className="text-xl text-slate-600 leading-relaxed font-medium flex-1">
