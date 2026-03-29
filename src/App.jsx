@@ -314,19 +314,28 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
 };
 
 // ─── TEACHER DASHBOARD ───────────────────────────────────────
-const TeacherDashboard = ({ sessionCode, onClose }) => {
+const TeacherDashboard = ({ sessionCode, lang, onClose }) => {
   const [sessionData, setSessionData] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     if (!FIREBASE_ENABLED || !db || !sessionCode) return;
     const sessionRef = ref(db, `pirls_sessions/${sessionCode}`);
-    onValue(sessionRef, snap => setSessionData(snap.val()));
+    const unsubscribe = onValue(sessionRef, snap => setSessionData(snap.val()));
     return () => off(sessionRef);
   }, [sessionCode]);
 
   const students = sessionData?.students ? Object.entries(sessionData.students) : [];
   const now = Date.now();
+  
+  // Calculate Class Stats
+  const activeStudentsCount = students.filter(([, s]) => now - (s.lastSeen || 0) < 90000).length;
+  const totalAnswers = students.reduce((acc, [, s]) => acc + (s.answers ? Object.keys(s.answers).length : 0), 0);
+  const correctAnswers = students.reduce((acc, [, s]) => {
+    if (!s.answers) return acc;
+    return acc + Object.values(s.answers).filter(a => a.isCorrect === true).length;
+  }, 0);
+  const classAccuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
 
   const exportCSV = () => {
     const rows = [['Ученик', 'Приказна', 'Прашање', 'Одговор', 'Точно', 'Тип', 'Час']];
@@ -352,32 +361,59 @@ const TeacherDashboard = ({ sessionCode, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[250] bg-slate-950 flex flex-col">
+    <div className="fixed inset-0 z-[250] bg-slate-950 flex flex-col font-sans">
       {/* HEADER */}
-      <div className="bg-slate-900 border-b-2 border-slate-800 px-8 py-4 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-5">
-          <span className="text-5xl">👩‍🏫</span>
+      <div className="bg-slate-900 border-b-2 border-slate-800 px-8 py-5 flex items-center justify-between shrink-0 shadow-2xl z-10">
+        <div className="flex items-center gap-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-3xl flex items-center justify-center text-4xl shadow-lg shadow-indigo-500/20">👩‍🏫</div>
           <div>
-            <h1 className="text-white font-black text-2xl">Преглед на часот — Наставник</h1>
-            <p className="text-slate-400 text-sm font-bold">
-              {students.filter(([, s]) => now - (s.lastSeen || 0) < 90000).length} активни · {students.length} вкупно
-              {!FIREBASE_ENABLED && <span className="ml-3 text-amber-400">⚠️ Firebase не е поврзан — режим на демо</span>}
-            </p>
+            <h1 className="text-white font-black text-3xl tracking-tight">Преглед на часот <span className="text-indigo-400 italic">во живо</span></h1>
+            <div className="flex items-center gap-4 mt-1">
+              <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                {activeStudentsCount} Активни
+              </span>
+              <span className="text-slate-500 text-xs font-bold uppercase tracking-widest">{students.length} Вкупно ученици</span>
+              {FIREBASE_ENABLED ? (
+                <span className="bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ml-2">Синхронизирано ✅</span>
+              ) : (
+                <span className="bg-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest ml-2">Демо режим ⚠️</span>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="bg-indigo-600 rounded-2xl px-8 py-3 text-center">
-            <p className="text-indigo-200 text-xs font-black uppercase tracking-widest mb-1">Код за ученици</p>
-            <p className="text-white font-black text-4xl tracking-[0.3em]">{sessionCode}</p>
+
+        <div className="flex items-center gap-6">
+          <div className="grid grid-cols-2 gap-8 mr-6 border-r border-slate-800 pr-8 hidden xl:grid">
+            <div className="text-center">
+              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Точност на клас</p>
+              <p className="text-white text-2xl font-black">{classAccuracy}%</p>
+            </div>
+            <div className="text-center">
+              <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-1">Одговори</p>
+              <p className="text-white text-2xl font-black">{totalAnswers}</p>
+            </div>
           </div>
-          <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 rounded-2xl font-black transition-all text-sm">📥 CSV</button>
-          <button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 text-white w-14 h-14 rounded-2xl font-black text-2xl flex items-center justify-center transition-all">×</button>
+          
+          <div className="bg-slate-800/50 rounded-[2.5rem] px-10 py-4 text-center border-2 border-slate-700/50 relative overflow-hidden group hover:border-indigo-500/50 transition-all">
+            <p className="text-indigo-400 text-[10px] font-black uppercase tracking-[0.25em] mb-1 relative z-10">Код за ученици</p>
+            <p className="text-white font-black text-4xl tracking-[0.4em] relative z-10 leading-none">{sessionCode}</p>
+            <div className="absolute inset-0 bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+
+          <div className="flex gap-3">
+            <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-black transition-all text-sm uppercase tracking-widest shadow-lg shadow-emerald-900/20">📥 Извештај</button>
+            <button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 text-white w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center transition-all border-2 border-slate-700">×</button>
+          </div>
         </div>
       </div>
 
       {/* STORY SWITCHER — live control */}
-      <div className="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center gap-3 overflow-x-auto shrink-0">
-        <span className="text-slate-400 text-xs font-black uppercase tracking-widest shrink-0">Приказна за час:</span>
+      <div className="bg-slate-900/50 border-b border-slate-800/50 px-8 py-4 flex items-center gap-4 overflow-x-auto shrink-0 no-scrollbar">
+        <div className="flex items-center gap-3 bg-slate-800/40 px-4 py-2 rounded-2xl border border-slate-700/50 shrink-0 mr-2">
+          <span className="text-2xl">🎯</span>
+          <span className="text-slate-300 text-xs font-black uppercase tracking-widest shrink-0">Определи приказна:</span>
+        </div>
         {STORIES.map(s => {
           const isActive = sessionData?.assignedStory === s.id;
           return (
@@ -385,8 +421,9 @@ const TeacherDashboard = ({ sessionCode, onClose }) => {
               if (!FIREBASE_ENABLED || !db) return;
               await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: isActive ? null : s.id }).catch(() => {});
             }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all shrink-0 ${isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}>
-              {s.icon} {s.title}
+              className={`flex items-center gap-3 px-5 py-3 rounded-2xl font-bold text-sm transition-all shrink-0 border-2 ${isActive ? 'bg-indigo-600 text-white border-indigo-400 shadow-xl shadow-indigo-500/20 scale-105' : 'bg-slate-800/40 text-slate-400 border-transparent hover:bg-slate-800 hover:text-white hover:border-slate-600'}`}>
+              <span className="text-xl">{s.icon}</span>
+              <span>{lang === 'sq' && s.titleSq ? s.titleSq : s.title}</span>
             </button>
           );
         })}
@@ -395,23 +432,25 @@ const TeacherDashboard = ({ sessionCode, onClose }) => {
             if (!FIREBASE_ENABLED || !db) return;
             await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: null }).catch(() => {});
           }}
-            className="px-4 py-2 rounded-xl font-bold text-sm bg-rose-900/60 text-rose-400 hover:bg-rose-800 transition-all shrink-0">
+            className="px-6 py-3 rounded-2xl font-black text-xs bg-rose-900/40 text-rose-400 border-2 border-rose-900/50 hover:bg-rose-800/50 hover:text-rose-300 transition-all shrink-0 uppercase tracking-widest flex items-center gap-2">
             ✕ Откажи ограничување
           </button>
         )}
       </div>
 
-      {/* GRID */}
-      <div className="flex-1 overflow-y-auto p-6">
+      {/* MAIN GRID */}
+      <div className="flex-1 overflow-y-auto p-8 bg-slate-950">
         {students.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-slate-600">
-            <div className="text-9xl mb-6 animate-pulse">⏳</div>
-            <p className="text-3xl font-black text-slate-400 mb-3">Чекање на ученици...</p>
-            <p className="text-xl text-slate-500">Кажете им да го внесат кодот:</p>
-            <p className="text-6xl font-black text-white mt-4 tracking-widest">{sessionCode}</p>
+          <div className="h-full flex flex-col items-center justify-center text-slate-600 max-w-2xl mx-auto text-center">
+            <div className="text-[12rem] mb-10 animate-pulse">⏳</div>
+            <p className="text-5xl font-black text-white mb-6 tracking-tight">Чекање на ученици...</p>
+            <p className="text-2xl text-slate-500 mb-10 leading-relaxed font-bold">Кажете им на учениците да го внесат овој код на нивниот екран:</p>
+            <div className="bg-slate-900 rounded-[4rem] px-20 py-10 border-4 border-indigo-500 shadow-2xl shadow-indigo-500/10">
+              <p className="text-[10rem] font-black text-indigo-400 tracking-[0.3em] leading-none uppercase">{sessionCode}</p>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {students.map(([sId, s]) => {
               const isActive = now - (s.lastSeen || 0) < 90000;
               const allAns = s.answers ? Object.values(s.answers) : [];
@@ -419,58 +458,98 @@ const TeacherDashboard = ({ sessionCode, onClose }) => {
               const total = allAns.length;
               const pct = total > 0 ? Math.round((correct / total) * 100) : null;
               const isSelected = selectedId === sId;
+              
+              // Find story info
+              const story = s.currentStory ? STORIES.find(st => st.id === s.currentStory) : null;
+
               return (
                 <div key={sId} onClick={() => setSelectedId(isSelected ? null : sId)}
-                  className={`rounded-3xl p-5 border-2 cursor-pointer transition-all ${isSelected ? 'bg-indigo-900 border-indigo-500 ring-2 ring-indigo-500/40' : isActive ? 'bg-slate-800 border-slate-700 hover:border-indigo-500' : 'bg-slate-900 border-slate-800 opacity-50'}`}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-lg shrink-0 ${isActive ? 'bg-indigo-600' : 'bg-slate-600'}`}>
+                  className={`rounded-[2.5rem] p-6 border-2 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col ${isSelected ? 'bg-slate-900 border-indigo-500 shadow-2xl scale-[1.02] z-20' : isActive ? 'bg-slate-900 border-slate-800 hover:border-indigo-600 shadow-lg' : 'bg-slate-950 border-slate-900 opacity-60 grayscale'}`}>
+                  
+                  {/* Status Indicator Bar */}
+                  <div className={`absolute top-0 left-0 right-0 h-1.5 ${isActive ? 'bg-indigo-500' : 'bg-slate-800'}`} />
+
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-2xl shrink-0 shadow-lg ${isActive ? 'bg-gradient-to-br from-indigo-500 to-indigo-700' : 'bg-slate-800 text-slate-500'}`}>
                       {(s.name || '?').slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-white font-black truncate">{s.name || 'Анонимен'}</p>
+                      <p className="text-white text-xl font-black truncate tracking-tight">{s.name || 'Анонимен'}</p>
                       <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-green-400 animate-pulse' : 'bg-slate-500'}`} />
-                        <span className={`text-xs font-bold ${isActive ? 'text-green-400' : 'text-slate-500'}`}>{isActive ? 'Активен' : 'Неактивен'}</span>
+                        <div className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />
+                        <span className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-green-400' : 'text-slate-500'}`}>{isActive ? 'Активен' : 'Неактивен'}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="bg-slate-700/40 rounded-2xl p-3 mb-3">
-                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Сега</p>
+
+                  {/* Activity Summary */}
+                  <div className="bg-slate-800/40 rounded-3xl p-4 mb-4 border border-slate-700/30 flex-1">
+                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2">Моментална активност</p>
                     {s.currentStory && s.currentStory !== 'home' ? (
-                      <>
-                        <p className="text-white text-sm font-bold">{STORY_ICONS[s.currentStory] || '📖'} {s.currentStory}</p>
-                        <p className="text-slate-300 text-xs mt-0.5">Прашање {(s.currentQuestion || 0) + 1}</p>
-                      </>
-                    ) : <p className="text-slate-400 text-sm">🏠 Почетна</p>}
-                  </div>
-                  {pct !== null && (
-                    <div className="mb-2">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-slate-400 font-bold">Резултат</span>
-                        <span className={`font-black ${pct >= 70 ? 'text-emerald-400' : pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`}>{correct}/{total} ({pct}%)</span>
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl mt-1">{story?.icon || '📖'}</span>
+                        <div>
+                          <p className="text-white text-sm font-black leading-snug">{lang === 'sq' && story?.titleSq ? story?.titleSq : (story?.title || s.currentStory)}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                             <p className="text-indigo-400 text-xs font-black">Прашање {(s.currentQuestion || 0) + 1}</p>
+                             <span className="text-slate-700">•</span>
+                             <p className="text-slate-500 text-[10px] font-bold">Чекор {(s.currentQuestion || 0) + 1}/8</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all ${pct >= 70 ? 'bg-emerald-400' : pct >= 40 ? 'bg-amber-400' : 'bg-rose-400'}`} style={{ width: `${pct}%` }} />
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">🏠</span>
+                        <p className="text-slate-400 text-sm font-bold italic">Го разгледува почетниот екран</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Progress Stats */}
+                  {total > 0 && (
+                    <div className="mb-2 px-1">
+                      <div className="flex justify-between text-xs mb-2 items-end">
+                        <div className="flex flex-col">
+                           <span className="text-slate-500 text-[9px] font-black uppercase tracking-widest">Успешност</span>
+                           <span className={`font-black text-lg leading-none ${pct >= 70 ? 'text-emerald-400' : pct >= 40 ? 'text-amber-400' : 'text-rose-400'}`}>{pct}%</span>
+                        </div>
+                        <span className="text-slate-400 font-bold text-xs bg-slate-800 px-2 py-1 rounded-lg border border-slate-700">{correct} / {total}</span>
+                      </div>
+                      <div className="h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50 p-0.5">
+                        <div className={`h-full rounded-full transition-all duration-1000 ${pct >= 70 ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.3)]' : pct >= 40 ? 'bg-amber-400' : 'bg-rose-400'}`} style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                   )}
+
                   {isSelected && s.answers && (
-                    <div className="border-t border-slate-600 pt-3 mt-3 space-y-2 max-h-60 overflow-y-auto">
-                      <p className="text-slate-400 text-xs font-black uppercase tracking-widest">Одговори</p>
-                      {Object.entries(s.answers).map(([key, ans]) => {
+                    <div className="border-t border-slate-800 pt-5 mt-4 space-y-3 max-h-[16rem] overflow-y-auto pr-1 no-scrollbar animate-in fade-in slide-in-from-top-2">
+                      <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center justify-between">
+                         <span>Историја на одговори</span>
+                         <span className="text-indigo-500">Во живо →</span>
+                      </p>
+                      {Object.entries(s.answers).reverse().map(([key, ans]) => {
                         const parts = key.split('_q');
+                        const qStory = STORIES.find(st => st.id === parts[0]);
                         return (
-                          <div key={key} className={`p-2.5 rounded-xl text-xs border-l-4 ${ans.isCorrect === true ? 'border-emerald-500 bg-emerald-900/30' : ans.isCorrect === false ? 'border-rose-500 bg-rose-900/30' : 'border-slate-500 bg-slate-700/30'}`}>
-                            <div className="flex justify-between mb-1">
-                              <span className="font-black text-slate-300">{STORY_ICONS[parts[0]] || '📖'} П{parseInt(parts[1] || 0) + 1}</span>
-                              <span className={`font-black ${ans.isCorrect === true ? 'text-emerald-400' : ans.isCorrect === false ? 'text-rose-400' : 'text-slate-400'}`}>
-                                {ans.isCorrect === true ? '✓' : ans.isCorrect === false ? '✗' : '—'}
+                          <div key={key} className={`p-3 rounded-2xl text-xs border border-transparent transition-colors ${ans.isCorrect === true ? 'bg-emerald-500/5 border-emerald-500/20' : ans.isCorrect === false ? 'bg-rose-500/5 border-rose-500/20' : 'bg-slate-800/50 border-slate-700/50'}`}>
+                            <div className="flex justify-between items-center mb-1.5">
+                              <span className="font-black text-slate-400 uppercase tracking-tighter flex items-center gap-1">
+                                {qStory?.icon || '📖'} П{parseInt(parts[1] || 0) + 1}
                               </span>
+                              <div className={`px-2 py-0.5 rounded-full font-black text-[9px] uppercase tracking-widest ${ans.isCorrect === true ? 'bg-emerald-500/20 text-emerald-400' : ans.isCorrect === false ? 'bg-rose-500/20 text-rose-400' : 'bg-slate-700 text-slate-400'}`}>
+                                {ans.isCorrect === true ? 'Точно' : ans.isCorrect === false ? 'Неточно' : 'Текстуално'}
+                              </div>
                             </div>
-                            <p className="text-slate-300 break-words leading-snug">{ans.value || '—'}</p>
+                            <p className="text-slate-300 font-bold leading-relaxed pr-4 line-clamp-3">{ans.value || '—'}</p>
                           </div>
                         );
                       })}
+                    </div>
+                  )}
+                  
+                  {isSelected && (
+                    <div className="mt-auto pt-4 flex justify-center">
+                       <button className="text-indigo-500 text-[10px] font-black uppercase tracking-widest hover:text-indigo-400 transition-colors">Затвори детали ↑</button>
                     </div>
                   )}
                 </div>
@@ -1053,9 +1132,20 @@ export default function App() {
   useEffect(() => {
     if (!FIREBASE_ENABLED || !db || !sessionCode) { setAssignedStory(''); return; }
     const aRef = ref(db, `pirls_sessions/${sessionCode}/assignedStory`);
-    onValue(aRef, snap => setAssignedStory(snap.val() || ''));
+    const unsubscribe = onValue(aRef, snap => {
+      const val = snap.val() || '';
+      setAssignedStory(val);
+      // Auto-redirect student to assigned story if it's new and different
+      // but only if student is NOT already in that story
+      if (val && val !== activeStory) {
+        setActiveStory(val);
+        setStep(0);
+        setProgress(0);
+        setAvatarMsg(`Твојот наставник ја избра приказната: ${STORIES.find(s => s.id === val)?.title || val}`);
+      }
+    });
     return () => off(aRef);
-  }, [sessionCode]);
+  }, [sessionCode, activeStory]);
 
   useEffect(() => {
     localStorage.setItem('pirls_fontSize', fontSize.toString());
@@ -1426,38 +1516,38 @@ export default function App() {
             <p className="text-xs text-slate-300 mt-2 uppercase tracking-[0.2em] font-bold">Читање со разбирање 2026 • Интерактивна образовна платформа</p>
           </footer>
 
+          {/* ─── MODALS ─── */}
+          {showTeacherLogin && (
+            <TeacherLoginModal
+              onSuccess={(code) => {
+                setSessionCode(code);
+                localStorage.setItem('pirls_session', code);
+                setShowTeacherLogin(false);
+                setShowTeacher(true);
+              }}
+              onClose={() => setShowTeacherLogin(false)}
+            />
+          )}
+          {showTeacher && (
+            <TeacherDashboard
+              sessionCode={sessionCode}
+              lang={lang}
+              onClose={() => { setShowTeacher(false); setSessionCode(''); localStorage.removeItem('pirls_session'); }}
+            />
+          )}
+          {showJoinSession && (
+            <StudentJoinModal
+              onJoin={(name, code) => {
+                setStudentName(name);
+                setSessionCode(code);
+                localStorage.setItem('pirls_student_name', name);
+                localStorage.setItem('pirls_session', code);
+                setShowJoinSession(false);
+              }}
+              onSkip={() => setShowJoinSession(false)}
+            />
+          )}
         </div>
-
-        {/* Modals — must render on home screen too */}
-        {showTeacherLogin && (
-          <TeacherLoginModal
-            onSuccess={(code) => {
-              setSessionCode(code);
-              localStorage.setItem('pirls_session', code);
-              setShowTeacherLogin(false);
-              setShowTeacher(true);
-            }}
-            onClose={() => setShowTeacherLogin(false)}
-          />
-        )}
-        {showTeacher && (
-          <TeacherDashboard
-            sessionCode={sessionCode}
-            onClose={() => { setShowTeacher(false); setSessionCode(''); localStorage.removeItem('pirls_session'); }}
-          />
-        )}
-        {showJoinSession && (
-          <StudentJoinModal
-            onJoin={(name, code) => {
-              setStudentName(name);
-              setSessionCode(code);
-              localStorage.setItem('pirls_student_name', name);
-              localStorage.setItem('pirls_session', code);
-              setShowJoinSession(false);
-            }}
-            onSkip={() => setShowJoinSession(false)}
-          />
-        )}
       </div>
     );
   }
@@ -1894,6 +1984,7 @@ export default function App() {
       {showTeacher && (
         <TeacherDashboard
           sessionCode={sessionCode}
+          lang={lang}
           onClose={() => { setShowTeacher(false); setSessionCode(''); localStorage.removeItem('pirls_session'); }}
         />
       )}

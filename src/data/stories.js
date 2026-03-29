@@ -75,6 +75,6 @@ const glossaryData = {
   "ѕвезда": "Светло тело на небото кое го гледаме ноќе."
 };
 
-const STORY_ICONS = { chest:'🗝️', kaja:'💡', baba:'🌻', octopus:'🐙', watchmaker:'🕰️', kite:'🪁', lynx:'🐾', shovel:'⛏️', rabbit:'🐰', puffins:'🐧', eagle:'🦅', pita:'🥧', pot:'🏺', lakestar:'⛵', lambe:'🐭', fossil:'🦕', lighthouse:'🔦', forgotten_garden:'🌷' };
+const STORY_ICONS = { chest:'🗝️', kaja:'💡', baba:'🌻', octopus:'🐙', watchmaker:'🕰️', kite:'🪁', lynx:'🐾', shovel:'⛏️', rabbit:'🐰', puffins:'🐧', eagle:'🦅', pita:'🥧', pot:'🏺', lakestar:'⛵', lambe:'🐭', hiking:'🏔️', fossil:'🦕', lighthouse:'🔦', forgotten_garden:'🌷' };
 
 export { STORIES, STORY_ICONS, glossaryData };
