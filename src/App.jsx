@@ -252,21 +252,54 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
 };
 
 // ─── STUDENT JOIN MODAL ──────────────────────────────────────
-const StudentJoinModal = ({ onJoin, onSkip }) => {
+const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const t = {
+    mk: {
+      title: "Влези во час",
+      desc: <>Наставникот ти дал 6-знаковен код за часот. Внеси го своето <strong>име и презиме</strong> и кодот за да се приклучиш.</>,
+      nameLabel: "Твое име и презиме",
+      namePlaceholder: "пр. Марко Јованоски",
+      codeLabel: "Код на часот (од наставникот)",
+      codePlaceholder: "пр. KFX7PQ",
+      errorName: "Внеси го своето име (барем 2 букви)",
+      errorCode: "Внеси го кодот за час",
+      errorNotExist: "Кодот не постои. Прашај го наставникот.",
+      btnJoin: "Влезам! 🚀",
+      btnLoading: "⏳ Се поврзува...",
+      btnSkip: "Продолжи без час →",
+      skipDesc: "Без час — активностите работат нормално, но наставникот нема да ги гледа твоите одговори"
+    },
+    sq: {
+      title: "Hyni në klasë",
+      desc: <>Mësuesi ju ka dhënë një kod me 6 shifra për klasën. Shkruani <strong>emrin dhe mbiemrin</strong> tuaj dhe kodin për t'u bashkuar.</>,
+      nameLabel: "Emri dhe mbiemri juaj",
+      namePlaceholder: "p.sh. Agon Krasniqi",
+      codeLabel: "Kodi i klasës (nga mësuesi)",
+      codePlaceholder: "p.sh. KFX7PQ",
+      errorName: "Shkruani emrin tuaj (të paktën 2 shkronja)",
+      errorCode: "Shkruani kodin e klasës",
+      errorNotExist: "Kodi nuk ekziston. Pyetni mësuesin.",
+      btnJoin: "Hyni! 🚀",
+      btnLoading: "⏳ Po lidhet...",
+      btnSkip: "Vazhdo pa klasë →",
+      skipDesc: "Pa klasë — aktivitetet funksionojnë normalisht, por mësuesi nuk do t'i shohë përgjigjet tuaja"
+    }
+  }[lang];
+
   const handleJoin = async () => {
-    if (name.trim().length < 2) { setError('Внеси го своето име (барем 2 букви)'); return; }
-    if (code.trim().length < 4) { setError('Внеси го кодот за час'); return; }
+    if (name.trim().length < 2) { setError(t.errorName); return; }
+    if (code.trim().length < 4) { setError(t.errorCode); return; }
     const upperCode = code.toUpperCase().trim();
     setLoading(true);
     if (FIREBASE_ENABLED && db) {
       try {
         const snap = await get(ref(db, `pirls_sessions/${upperCode}`));
-        if (!snap?.exists()) { setError('Кодот не постои. Прашај го наставникот.'); setLoading(false); return; }
+        if (!snap?.exists()) { setError(t.errorNotExist); setLoading(false); return; }
       } catch {
         // Permission error or network issue — allow joining, student data will sync when written
       }
@@ -280,34 +313,34 @@ const StudentJoinModal = ({ onJoin, onSkip }) => {
       <div className="bg-white rounded-[3rem] p-12 shadow-2xl w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="text-7xl mb-4">🎓</div>
-          <h2 className="text-4xl font-black text-slate-900">Влези во час</h2>
-          <p className="text-slate-500 mt-3 text-base leading-snug">Наставникот ти дал 6-знаковен код за часот. Внеси го своето <strong>име и презиме</strong> и кодот за да се приклучиш.</p>
+          <h2 className="text-4xl font-black text-slate-900">{t.title}</h2>
+          <p className="text-slate-500 mt-3 text-base leading-snug">{t.desc}</p>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Твое име и презиме</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{t.nameLabel}</label>
             <input value={name} onChange={e => setName(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
-              placeholder="пр. Марко Јованоски"
+              placeholder={t.namePlaceholder}
               className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
           </div>
           <div>
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">Код на часот (од наставникот)</label>
+            <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{t.codeLabel}</label>
             <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
-              placeholder="пр. KFX7PQ" maxLength={8}
+              placeholder={t.codePlaceholder} maxLength={8}
               className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-black text-2xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
           </div>
           {error && <p className="text-red-500 text-center font-bold">{error}</p>}
           <button onClick={handleJoin} disabled={loading}
             className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 disabled:opacity-60 transition-all shadow-lg shadow-indigo-200">
-            {loading ? '⏳ Се поврзува...' : 'Влезам! 🚀'}
+            {loading ? t.btnLoading : t.btnJoin}
           </button>
         </div>
         <button onClick={onSkip} className="w-full mt-4 py-4 bg-slate-100 text-slate-500 rounded-2xl font-bold text-lg hover:bg-slate-200 transition-all">
-          Продолжи без час →
+          {t.btnSkip}
         </button>
-        <p className="text-center text-xs text-slate-300 mt-3">Без час — активностите работат нормално, но наставникот нема да ги гледа твоите одговори</p>
+        <p className="text-center text-xs text-slate-300 mt-3">{t.skipDesc}</p>
       </div>
     </div>
   );
@@ -1538,6 +1571,7 @@ export default function App() {
           )}
           {showJoinSession && (
             <StudentJoinModal
+              lang={lang}
               onJoin={(name, code) => {
                 setStudentName(name);
                 setSessionCode(code);
