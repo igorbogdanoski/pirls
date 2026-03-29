@@ -530,7 +530,10 @@ const storyContentSq = {
       { id: 9, type: 'text', q: "Cfarre donte te thoshte gjyshi Jovan me fjalet: Ari shpenzohet, por kujtimet mbeten pergjithmone?", hint: "Cfare ndryshimi ka midis arit (sendeve materiale) dhe kujtimeve?" },
       { id: 10, type: 'text', q: "Cfarre personi eshte gjyshi Jovan? Permend nje tipar te tijin dhe jep nje shembull nga teksti qe e tregon kete.", hint: "Mendoji si vepron gjyshi ndaj Markos dhe cfarre i meson." },
       { id: 11, type: 'mcq', q: "Cili eshte mesazhi kryesor (morali) i ketij tregimi?", options: ["A. Gjerat e vjetra duhet te hidhen gjithmone.", "B. Thesari i vertete nuk jane parate, por kujtimet dhe historitee e bukura.", "C. Fshati eshte gjithmone me i merzitur se qyteti.", "D. Ne tavane fshihet gjithmone ar i vertete."], correct: "B. Thesari i vertete nuk jane parate, por kujtimet dhe historitee e bukura." },
-      { id: 12, type: 'text', q: "Autori e ka titulluar tregimin Sekreti i arkes se vjeter. A mendon se ky eshte nje titull i pershtatshme per tregimin? Perdor informacione nga teksti per te shpjeguar pergjigjen tende.", criteria: ["po", "jo", "sekret", "arke", "kujtime", "thesar", "vlere"] }
+      { id: 12, type: 'text', q: "Autori e ka titulluar tregimin Sekreti i arkes se vjeter. A mendon se ky eshte nje titull i pershtatshme per tregimin? Perdor informacione nga teksti per te shpjeguar pergjigjen tende.", criteria: ["po", "jo", "sekret", "arke", "kujtime", "thesar", "vlere"] },
+      { id: 13, type: 'mcq', q: "Si ishte atmosfera e tavanit kur Marko hyri atje per here te pare?", options: ["A. E ndritur dhe moderne", "B. E erreet dhe vinte ere leter e vjeter", "C. E zhurmshme dhe plot femije", "D. E zbrazet dhe krejtesisht e re"], correct: "B. E erreet dhe vinte ere leter e vjeter" },
+      { id: 14, type: 'text', q: "Si na tregon autori se Marko ne fillim ndihej shume i merzitur ne fshat? Permend nje prove nga paragrafi i pare.", hint: "Kerko fjalet qe e pershkruajne Markon ndersa ulet ne verande.", criteria: ["psheretinte", "ulej", "merzi"] },
+      { id: 15, type: 'text', q: "Pse gjyshi tha se sendet ne arke ishin thesari i tij me i madh, edhe pse ato nuk vlente shume para?", hint: "Cfarre i kujtojne gjyshit ato tre sende?", criteria: ["kujtime", "histori", "jete", "vlere"] }
     ]
   },
   kaja: {
