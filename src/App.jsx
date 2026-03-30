@@ -1614,14 +1614,16 @@ export default function App() {
   const [assignedStory, setAssignedStory] = useState('');
 
   // Live-listen to assignedStory so teacher can change it mid-lesson
+  const isInitialAssign = useRef(true);
   useEffect(() => {
     if (!FIREBASE_ENABLED || !db || !sessionCode) { setAssignedStory(''); return; }
+    isInitialAssign.current = true;
     const aRef = ref(db, `pirls_sessions/${sessionCode}/assignedStory`);
     const unsubscribe = onValue(aRef, snap => {
       const val = snap.val() || '';
       setAssignedStory(val);
-      // Auto-redirect student to assigned story if it's new and different
-      // but only if student is NOT already in that story
+      // Skip first event on mount/refresh — only react to live changes mid-session
+      if (isInitialAssign.current) { isInitialAssign.current = false; return; }
       if (val && val !== activeStory) {
         setActiveStory(val);
         setStep(0);
@@ -1630,7 +1632,7 @@ export default function App() {
       }
     });
     return () => off(aRef);
-  }, [sessionCode, activeStory]);
+  }, [sessionCode]);
 
   useEffect(() => {
     localStorage.setItem('pirls_fontSize', fontSize.toString());
