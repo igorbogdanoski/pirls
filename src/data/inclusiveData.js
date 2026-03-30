@@ -6,14 +6,17 @@ const inclusiveData = {
     puzzle: [
       { id: 1, img: imgs.chest.puzzle[1], text: "Марко беше тажен што мора да го помине распустот во селото.", textSq: 'Marko ishte i trishtuar që duhej ta kalonte pushimin në fshat.' },
       { id: 2, img: imgs.chest.puzzle[2], text: "Дедо му го замоли да најде еден стар часовник на таванот.", textSq: 'Gjyshi i tij e kërkoi të gjente një orë të vjetër në papafingo.' },
-      { id: 3, img: imgs.chest.puzzle[3], text: "Марко пронајде мал дрвен ковчег со изрезбани цветови.", textSq: 'Marko gjeti një arkë të vogël druri të gdhendur me lule.' }
+      { id: 3, img: imgs.chest.puzzle[3], text: "Марко пронајде мал дрвен ковчег со изрезбари цветови.", textSq: 'Marko gjeti një arkë të vogël druri të gdhendur me lule.' },
+      { id: 4, img: imgs.chest.puzzle[4], text: "Дедото му раскажа за тајната скриена во ковчегот.", textSq: 'Gjyshi i tregoi për sekretin e fshehur në arkë.' },
+      { id: 5, img: imgs.chest.puzzle[5], text: "Марко разбра дека вистинското богатство се семејните спомени.", textSq: 'Marko kuptoi se pasuria e vërtetë janë kujtimet familjare.' }
     ],
     coloring: [
       { id: 1, img: imgs.chest.coloring[1], text: "Марко седи на тремот и му е досадно.", textSq: 'Marko ulet në verandë dhe i mërzitet.' },
       { id: 2, img: imgs.chest.coloring[2], text: "Марко го отвора дрвениот ковчег.", textSq: 'Marko hap arkën e drurit.' },
-      { id: 3, img: imgs.chest.coloring[3], text: "Дедото раскажува за своето најголемо богатство.", textSq: 'Gjyshi tregon për pasurinë e tij më të madhe.' }
-    ],
-    coloringWIP: true
+      { id: 3, img: imgs.chest.coloring[3], text: "Дедото раскажува за своето најголемо богатство.", textSq: 'Gjyshi tregon për pasurinë e tij më të madhe.' },
+      { id: 4, img: imgs.chest.coloring[4], text: "Тајните фотографии и писма од минатото.", textSq: 'Fotografitë dhe letrat sekrete nga e kaluara.' },
+      { id: 5, img: imgs.chest.coloring[5], text: "Марко и дедото заедно во дворот.", textSq: 'Marko dhe gjyshi bashkë në oborr.' }
+    ]
   },
   kaja: {
     puzzle: [

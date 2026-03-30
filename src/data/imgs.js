@@ -5,14 +5,18 @@ const imgs = {
     2: '/Тајната на ковчегот/2. Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png',
     3: '/Тајната на ковчегот/3. Gemini_Generated_Image_tidjntidjntidjnt.png',
     puzzle: {
-      1: '/Тајната на ковчегот/1. Gemini_Generated_Image_svlevhsvlevhsvle.png',
-      2: '/Тајната на ковчегот/2. Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png',
-      3: '/Тајната на ковчегот/3. Gemini_Generated_Image_tidjntidjntidjnt.png'
+      1: '/Тајната на ковчегот/Хронолошка слагалка/CS1 Gemini_Generated_Image_j3ux9rj3ux9rj3ux.png',
+      2: '/Тајната на ковчегот/Хронолошка слагалка/CS2 Gemini_Generated_Image_bufvi3bufvi3bufv.png',
+      3: '/Тајната на ковчегот/Хронолошка слагалка/CS3 Gemini_Generated_Image_9qdrzx9qdrzx9qdr.png',
+      4: '/Тајната на ковчегот/Хронолошка слагалка/CS4 Gemini_Generated_Image_ux7lozux7lozux7l.png',
+      5: '/Тајната на ковчегот/Хронолошка слагалка/CS5 Gemini_Generated_Image_94ofqn94ofqn94of.png',
     },
     coloring: {
-      1: '/Тајната на ковчегот/1. Gemini_Generated_Image_svlevhsvlevhsvle.png',
-      2: '/Тајната на ковчегот/2. Gemini_Generated_Image_1e7ixc1e7ixc1e7i.png',
-      3: '/Тајната на ковчегот/3. Gemini_Generated_Image_tidjntidjntidjnt.png'
+      1: '/Тајната на ковчегот/Coloring book/CB1 Gemini_Generated_Image_t69x7st69x7st69x.png',
+      2: '/Тајната на ковчегот/Coloring book/CB2 Gemini_Generated_Image_814xhv814xhv814x.png',
+      3: '/Тајната на ковчегот/Coloring book/CB3 Gemini_Generated_Image_8h4wsf8h4wsf8h4w.png',
+      4: '/Тајната на ковчегот/Coloring book/CB4 Gemini_Generated_Image_i9kqli9kqli9kqli.png',
+      5: '/Тајната на ковчегот/Coloring book/CB5 Gemini_Generated_Image_80joo180joo180jo.png',
     }
   },
   kaja: {

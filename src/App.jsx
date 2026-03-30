@@ -712,33 +712,40 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
-            {students.map(([sId, s]) => {
+            {[...students].sort(([, a], [, b]) => {
+              const aActive = now - (a.lastSeen || 0) < 90000;
+              const bActive = now - (b.lastSeen || 0) < 90000;
+              return bActive - aActive;
+            }).map(([sId, s]) => {
               const isActive = now - (s.lastSeen || 0) < 90000;
               const allAns = s.answers ? Object.values(s.answers) : [];
               const correct = allAns.filter(a => a.isCorrect === true).length;
               const total = allAns.length;
               const pct = total > 0 ? Math.round((correct / total) * 100) : null;
               const isSelected = selectedId === sId;
-              
-              // Find story info
+
+              // Find story info + question count
               const story = s.currentStory ? STORIES.find(st => st.id === s.currentStory) : null;
+              const storyQCount = s.currentStory ? (storyContent[s.currentStory]?.questions?.length || null) : null;
+              const currentQ = (s.currentQuestion || 0) + 1;
+              const isDone = s.currentStory && s.currentStory !== 'home' && storyQCount && currentQ > storyQCount;
 
               return (
                 <div key={sId} onClick={() => setSelectedId(isSelected ? null : sId)}
                   className={`rounded-[2.5rem] p-6 border-2 cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col ${isSelected ? 'bg-slate-900 border-indigo-500 shadow-2xl scale-[1.02] z-20' : isActive ? 'bg-slate-900 border-slate-800 hover:border-indigo-600 shadow-lg' : 'bg-slate-950 border-slate-900 opacity-60 grayscale'}`}>
-                  
+
                   {/* Status Indicator Bar */}
-                  <div className={`absolute top-0 left-0 right-0 h-1.5 ${isActive ? 'bg-indigo-500' : 'bg-slate-800'}`} />
+                  <div className={`absolute top-0 left-0 right-0 h-1.5 ${isDone ? 'bg-emerald-500' : isActive ? 'bg-indigo-500' : 'bg-slate-800'}`} />
 
                   <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-2xl shrink-0 shadow-lg ${isActive ? 'bg-gradient-to-br from-indigo-500 to-indigo-700' : 'bg-slate-800 text-slate-500'}`}>
-                      {(s.name || '?').slice(0, 2).toUpperCase()}
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-2xl shrink-0 shadow-lg ${isDone ? 'bg-gradient-to-br from-emerald-500 to-emerald-700' : isActive ? 'bg-gradient-to-br from-indigo-500 to-indigo-700' : 'bg-slate-800 text-slate-500'}`}>
+                      {isDone ? '✓' : (s.name || '?').slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-white text-xl font-black truncate tracking-tight">{s.name || T.anonymous}</p>
                       <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />
-                        <span className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-green-400' : 'text-slate-500'}`}>{isActive ? T.activeStatusLabel : T.inactiveStatusLabel}</span>
+                        <div className={`w-2 h-2 rounded-full shrink-0 ${isDone ? 'bg-emerald-400' : isActive ? 'bg-green-400 animate-pulse' : 'bg-slate-600'}`} />
+                        <span className={`text-[10px] font-black uppercase tracking-widest ${isDone ? 'text-emerald-400' : isActive ? 'text-green-400' : 'text-slate-500'}`}>{isDone ? '✅ ' + (lang === 'sq' ? 'Përfunduar' : 'Завршено') : isActive ? T.activeStatusLabel : T.inactiveStatusLabel}</span>
                       </div>
                     </div>
                   </div>
@@ -749,13 +756,17 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
                     {s.currentStory && s.currentStory !== 'home' ? (
                       <div className="flex items-start gap-3">
                         <span className="text-2xl mt-1">{story?.icon || '📖'}</span>
-                        <div>
+                        <div className="flex-1 min-w-0">
                           <p className="text-white text-sm font-black leading-snug">{lang === 'sq' && story?.titleSq ? story?.titleSq : (story?.title || s.currentStory)}</p>
                           <div className="flex items-center gap-2 mt-1">
-                             <p className="text-indigo-400 text-xs font-black">{T.questionLabel} {(s.currentQuestion || 0) + 1}</p>
-                             <span className="text-slate-700">•</span>
-                             <p className="text-slate-500 text-[10px] font-bold">{T.stepLabel} {(s.currentQuestion || 0) + 1}/8</p>
+                             <p className="text-indigo-400 text-xs font-black">{T.questionLabel} {Math.min(currentQ, storyQCount || currentQ)}</p>
+                             {storyQCount && <><span className="text-slate-700">•</span><p className="text-slate-500 text-[10px] font-bold">{T.stepLabel} {Math.min(currentQ, storyQCount)}/{storyQCount}</p></>}
                           </div>
+                          {storyQCount && (
+                            <div className="mt-2 h-1 bg-slate-700 rounded-full overflow-hidden">
+                              <div className="h-full bg-indigo-500 rounded-full transition-all duration-500" style={{ width: `${Math.min(100, Math.round((Math.min(currentQ, storyQCount) / storyQCount) * 100))}%` }} />
+                            </div>
+                          )}
                         </div>
                       </div>
                     ) : (
