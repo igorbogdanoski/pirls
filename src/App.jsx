@@ -899,7 +899,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
           <div className="w-16 h-16 bg-indigo-500 rounded-3xl flex items-center justify-center text-4xl shadow-lg shadow-indigo-500/20">🧩</div>
           <div>
             <h2 className="text-4xl font-black text-white uppercase tracking-tighter">{t.title}</h2>
-            <p className="text-indigo-300 text-lg font-bold">{t.desc}</p>
+            <p className="text-white/80 text-lg font-bold">{t.desc}</p>
           </div>
         </div>
         <div className="flex gap-4">
@@ -923,7 +923,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
               className="flex-shrink-0 cursor-grab active:cursor-grabbing perspective-1000"
             >
               <div 
-                className="relative w-[11rem] h-[16rem] transition-all duration-700 preserve-3d"
+                className="relative w-[13rem] h-[18rem] transition-all duration-700 preserve-3d"
                 style={{ transform: flippedIds.has(item.id) ? 'rotateY(180deg)' : 'none' }}
               >
                 {/* FRONT SIDE: LARGE IMAGE */}
@@ -1734,7 +1734,7 @@ export default function App() {
       }
     };
     setAvatarMsg(greetings[lang][activeStory] || greetings[lang].fallback);
-  }, [activeStory]);
+  }, [activeStory, lang]);
 
   // ── Firebase: sync student presence whenever story/step changes ──
   useEffect(() => {

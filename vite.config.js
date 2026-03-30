@@ -52,7 +52,7 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               cacheName: 'images-cache',
-              expiration: { maxEntries: 60, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 30 },
             },
           },
           {
