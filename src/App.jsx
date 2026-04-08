@@ -1109,6 +1109,9 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [flippedIds, setFlippedIds] = useState(new Set());
   const [fullViewImg, setFullViewImg] = useState(null);
+  const [fontScaleById, setFontScaleById] = useState({});
+
+  const clampFontScale = (value) => Math.max(0.85, Math.min(1.3, value));
 
   useEffect(() => {
     const shuffled = [...data].filter(item => item.img).sort(() => Math.random() - 0.5);
@@ -1147,6 +1150,15 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
     setItems(shuffled);
     setIsCorrect(false);
     setFlippedIds(new Set());
+    setFontScaleById({});
+  };
+
+  const adjustCardFont = (id, delta) => {
+    setFontScaleById(prev => {
+      const current = prev[id] ?? 1;
+      const next = clampFontScale(Math.round((current + delta) * 100) / 100);
+      return { ...prev, [id]: next };
+    });
   };
 
   const t = {
@@ -1204,7 +1216,14 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
           onReorder={handleReorder}
           className="flex flex-wrap gap-6 justify-center max-w-full mx-auto py-6"
         >
-          {items.map((item) => (
+          {items.map((item) => {
+            const cardText = (lang === 'sq' && item.textSq ? item.textSq : item.text) || '';
+            const wordCount = cardText.trim().split(/\s+/).filter(Boolean).length;
+            const isLongText = wordCount > 18;
+            const fontScale = fontScaleById[item.id] ?? 1;
+            const baseFontRem = isLongText ? 1.0 : 1.1;
+
+            return (
             <Reorder.Item 
               key={item.id} 
               value={item}
@@ -1253,12 +1272,39 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
 
                 {/* BACK SIDE: TEXT */}
                 <div
-                  className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[2.5rem] shadow-xl p-6 border-[8px] border-indigo-400 flex flex-col items-center justify-center text-center rotate-y-180"
+                  className="absolute inset-0 backface-hidden w-full h-full bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[2.5rem] shadow-xl p-5 md:p-6 border-[8px] border-indigo-400 flex flex-col items-stretch justify-between rotate-y-180"
                 >
-                  <p className="text-white font-black text-sm leading-snug mb-4 overflow-y-auto max-h-full">
-                    {lang === 'sq' && item.textSq ? item.textSq : item.text}
-                  </p>
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-xl border-2 border-white/20 flex-shrink-0">📖</div>
+                  <div className="bg-white/10 border border-white/20 rounded-2xl px-3 py-2 mb-2 text-center">
+                    <span className="text-white/95 text-[11px] md:text-xs font-extrabold uppercase tracking-wider">{t.readPart}</span>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <button
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={(e) => { e.stopPropagation(); adjustCardFont(item.id, -0.05); }}
+                      className="bg-white/20 hover:bg-white/30 text-white h-8 px-2 rounded-md text-xs font-black border border-white/30 transition-all"
+                      aria-label="Намали текст"
+                      title="A-"
+                    >A-</button>
+                    <button
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={(e) => { e.stopPropagation(); adjustCardFont(item.id, 0.05); }}
+                      className="bg-white/20 hover:bg-white/30 text-white h-8 px-2 rounded-md text-xs font-black border border-white/30 transition-all"
+                      aria-label="Зголеми текст"
+                      title="A+"
+                    >A+</button>
+                  </div>
+
+                  <div className={isLongText ? 'flex-1 overflow-y-auto no-scrollbar pr-1' : 'flex-1 flex items-center justify-center'}>
+                    <p
+                      className={`${isLongText ? 'text-left' : 'text-center'} text-white font-extrabold leading-relaxed`}
+                      style={{ fontSize: `${baseFontRem * fontScale}rem` }}
+                    >
+                      {cardText}
+                    </p>
+                  </div>
+
+                  <div className="mt-3 w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-xl border-2 border-white/20 self-center flex-shrink-0">📖</div>
                   <button
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={(e) => { e.stopPropagation(); toggleFlip(item.id); }}
@@ -1268,7 +1314,8 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
                 </div>
               </div>
             </Reorder.Item>
-          ))}
+            );
+          })}
         </Reorder.Group>
       </div>
 
