@@ -382,6 +382,24 @@ const generateSessionCode = () => {
   return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 };
 
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const firebaseWriteWithRetry = async (writer, maxAttempts = 3) => {
+  let lastError = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      return await writer();
+    } catch (err) {
+      lastError = err;
+      if (attempt < maxAttempts) {
+        // Exponential backoff for transient connectivity spikes.
+        await wait(250 * (2 ** (attempt - 1)));
+      }
+    }
+  }
+  throw lastError;
+};
+
 
 // ─── TEACHER LOGIN MODAL ─────────────────────────────────────
 const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
@@ -402,9 +420,21 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
   const handleCreateSession = async () => {
     const code = generateSessionCode();
     if (FIREBASE_ENABLED && db) {
-      await set(ref(db, `pirls_sessions/${code}`), {
-        createdAt: Date.now(), teacher: teacherName || T.teacherLogin, students: {},
-      }).catch(() => {});
+      try {
+        await set(ref(db, `pirls_sessions/${code}`), {
+          createdAt: Date.now(), teacher: teacherName || T.teacherLogin, students: {},
+        });
+        const auditKey = `${Date.now()}_teacher_create`;
+        await set(ref(db, `pirls_sessions/${code}/audit/${auditKey}`), {
+          eventType: 'teacher_session_created',
+          actor: 'teacher',
+          teacherName: teacherName || T.teacherLogin,
+          timestamp: Date.now(),
+        }).catch(() => {});
+      } catch {
+        setError(lang === 'sq' ? 'Nuk u krijua klasa. Kontrolloni internetin dhe provoni përsëri.' : 'Класот не се креираше. Провери интернет и обиди се повторно.');
+        return;
+      }
     }
     setCreatedCode(code);
     setMode('story');
@@ -413,13 +443,38 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
   const handlePickStory = async (storyId) => {
     if (FIREBASE_ENABLED && db && createdCode) {
       await update(ref(db, `pirls_sessions/${createdCode}`), { assignedStory: storyId }).catch(() => {});
+      const auditKey = `${Date.now()}_teacher_story`;
+      await set(ref(db, `pirls_sessions/${createdCode}/audit/${auditKey}`), {
+        eventType: 'teacher_assigned_story',
+        actor: 'teacher',
+        teacherName: teacherName || T.teacherLogin,
+        storyId,
+        timestamp: Date.now(),
+      }).catch(() => {});
     }
     onSuccess(createdCode);
   };
 
-  const handleJoinSession = () => {
-    if (joinCode.trim().length < 4) { setError(T.enterValidCode); return; }
-    onSuccess(joinCode.toUpperCase().trim());
+  const handleJoinSession = async () => {
+    const code = joinCode.toUpperCase().trim();
+    if (code.length !== 6) { setError(T.enterValidCode); return; }
+    if (FIREBASE_ENABLED && db) {
+      try {
+        const snap = await get(ref(db, `pirls_sessions/${code}`));
+        if (!snap?.exists()) { setError(T.errorNotExist || T.enterValidCode); return; }
+        const auditKey = `${Date.now()}_teacher_join`;
+        await set(ref(db, `pirls_sessions/${code}/audit/${auditKey}`), {
+          eventType: 'teacher_joined_existing_session',
+          actor: 'teacher',
+          teacherName: teacherName || T.teacherLogin,
+          timestamp: Date.now(),
+        }).catch(() => {});
+      } catch {
+        setError(lang === 'sq' ? 'Nuk mund të verifikohet kodi tani. Provoni përsëri.' : 'Не може да се провери кодот во моментов. Обиди се повторно.');
+        return;
+      }
+    }
+    onSuccess(code);
   };
 
   if (mode === 'story') return (
@@ -458,11 +513,12 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
         <input type="password" value={pin} onChange={e => setPin(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handlePinSubmit()}
           placeholder={T.placeholderPin}
+          data-testid="teacher-pin-input"
           className="w-full text-center text-3xl tracking-widest border-4 border-slate-200 rounded-2xl py-5 px-6 font-mono focus:outline-none focus:border-indigo-400 mb-4" />
-        {error && <p className="text-red-500 text-center font-bold mb-4">{error}</p>}
+        {error && <p data-testid="teacher-login-error" className="text-red-500 text-center font-bold mb-4">{error}</p>}
         <div className="flex gap-4">
           <button onClick={onClose} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">{T.cancel}</button>
-          <button onClick={handlePinSubmit} className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-lg hover:bg-indigo-700 transition-all">{T.enter}</button>
+          <button data-testid="teacher-pin-submit" onClick={handlePinSubmit} className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-black text-lg hover:bg-indigo-700 transition-all">{T.enter}</button>
         </div>
       </div>
     </div>
@@ -496,13 +552,14 @@ const TeacherLoginModal = ({ onSuccess, onClose, lang = 'mk' }) => {
             <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.classCode}</label>
             <div className="flex gap-3">
               <input value={joinCode} onChange={e => setJoinCode(e.target.value.toUpperCase())}
+                data-testid="teacher-join-code-input"
                 placeholder="ABCDEF" maxLength={8}
                 className="flex-1 border-4 border-slate-200 rounded-2xl py-4 px-6 font-black text-xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
-              <button onClick={handleJoinSession}
+                <button data-testid="teacher-join-code-submit" onClick={handleJoinSession}
                 className="px-8 py-4 bg-slate-800 text-white rounded-2xl font-black text-lg hover:bg-slate-700 transition-all">{T.enter}</button>
             </div>
           </div>
-          {error && <p className="text-red-500 text-center font-bold">{error}</p>}
+            {error && <p data-testid="teacher-join-error" className="text-red-500 text-center font-bold">{error}</p>}
         </div>
         <button onClick={onClose} className="w-full mt-6 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all">{T.cancel}</button>
       </div>
@@ -520,7 +577,7 @@ const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
 
   const handleJoin = async () => {
     if (name.trim().length < 2) { setError(T.errorName); return; }
-    if (code.trim().length < 4) { setError(T.errorCode); return; }
+    if (code.trim().length !== 6) { setError(T.errorCode); return; }
     const upperCode = code.toUpperCase().trim();
     setLoading(true);
     if (FIREBASE_ENABLED && db) {
@@ -528,7 +585,9 @@ const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
         const snap = await get(ref(db, `pirls_sessions/${upperCode}`));
         if (!snap?.exists()) { setError(T.errorNotExist); setLoading(false); return; }
       } catch {
-        // Permission error or network issue — allow joining, student data will sync when written
+        setError(lang === 'sq' ? 'Problem me rrjetin ose lejet. Nuk mund të hyni tani.' : 'Проблем со мрежа или дозволи. Не може да се влезе во моментов.');
+        setLoading(false);
+        return;
       }
     }
     setLoading(false);
@@ -547,6 +606,7 @@ const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
           <div>
             <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.nameLabel}</label>
             <input value={name} onChange={e => setName(e.target.value)}
+              data-testid="student-name-input"
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
               placeholder={T.namePlaceholder}
               className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-bold text-xl focus:outline-none focus:border-indigo-400" />
@@ -554,12 +614,13 @@ const StudentJoinModal = ({ onJoin, onSkip, lang = 'mk' }) => {
           <div>
             <label className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1 block">{T.classCode}</label>
             <input value={code} onChange={e => setCode(e.target.value.toUpperCase())}
+              data-testid="student-code-input"
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
               placeholder="ABCDEF" maxLength={8}
               className="w-full border-4 border-slate-200 rounded-2xl py-5 px-6 font-black text-2xl text-center tracking-widest focus:outline-none focus:border-indigo-400 uppercase" />
           </div>
-          {error && <p className="text-red-500 text-center font-bold">{error}</p>}
-          <button onClick={handleJoin} disabled={loading}
+          {error && <p data-testid="student-join-error" className="text-red-500 text-center font-bold">{error}</p>}
+          <button data-testid="student-join-submit" onClick={handleJoin} disabled={loading}
             className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 disabled:opacity-60 transition-all shadow-lg shadow-indigo-200">
             {loading ? T.btnLoading : T.btnJoin}
           </button>
@@ -588,6 +649,17 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
 
   const students = sessionData?.students ? Object.entries(sessionData.students) : [];
   const now = Date.now();
+
+  const logTeacherAction = async (eventType, payload = {}) => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode) return;
+    const key = `${Date.now()}_teacher_${Math.random().toString(36).slice(2, 6)}`;
+    await set(ref(db, `pirls_sessions/${sessionCode}/audit/${key}`), {
+      eventType,
+      actor: 'teacher',
+      timestamp: Date.now(),
+      ...payload,
+    }).catch(() => {});
+  };
   
   // Calculate Class Stats
   const activeStudentsCount = students.filter(([, s]) => now - (s.lastSeen || 0) < 90000).length;
@@ -597,6 +669,161 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
     return acc + Object.values(s.answers).filter(a => a.isCorrect === true).length;
   }, 0);
   const classAccuracy = totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
+
+  const studentPerformance = students.map(([id, s]) => {
+    const answers = s.answers ? Object.values(s.answers) : [];
+    const attempts = answers.length;
+    const correct = answers.filter(a => a.isCorrect === true).length;
+    const accuracy = attempts > 0 ? (correct / attempts) : 0;
+    return { id, name: s.name || T.anonymous, attempts, correct, accuracy };
+  });
+
+  const sortedByAccuracy = [...studentPerformance].sort((a, b) => b.accuracy - a.accuracy);
+  const splitSize = Math.max(1, Math.floor(sortedByAccuracy.length * 0.27));
+  const highGroup = new Set(sortedByAccuracy.slice(0, splitSize).map(s => s.id));
+  const lowGroup = new Set(sortedByAccuracy.slice(-splitSize).map(s => s.id));
+
+  const itemStatsMap = {};
+  students.forEach(([sId, s]) => {
+    if (!s.answers) return;
+    Object.entries(s.answers).forEach(([key, ans]) => {
+      const parts = key.split('_q');
+      const storyId = parts[0];
+      const qIndex = parseInt(parts[1] || 0, 10);
+      const statKey = `${storyId}_q${qIndex}`;
+      if (!itemStatsMap[statKey]) {
+        itemStatsMap[statKey] = {
+          storyId,
+          qIndex,
+          question: ans.question || '',
+          attempts: 0,
+          correct: 0,
+          highAttempts: 0,
+          highCorrect: 0,
+          lowAttempts: 0,
+          lowCorrect: 0,
+          responseMsSum: 0,
+          responseMsCount: 0,
+        };
+      }
+      const st = itemStatsMap[statKey];
+      st.attempts += 1;
+      if (ans.isCorrect === true) st.correct += 1;
+      if (highGroup.has(sId)) {
+        st.highAttempts += 1;
+        if (ans.isCorrect === true) st.highCorrect += 1;
+      }
+      if (lowGroup.has(sId)) {
+        st.lowAttempts += 1;
+        if (ans.isCorrect === true) st.lowCorrect += 1;
+      }
+      if (typeof ans.responseTimeMs === 'number' && ans.responseTimeMs > 0) {
+        st.responseMsSum += ans.responseTimeMs;
+        st.responseMsCount += 1;
+      }
+    });
+  });
+
+  const itemAnalytics = Object.values(itemStatsMap)
+    .map(stat => {
+      const difficultyPct = stat.attempts ? Math.round((stat.correct / stat.attempts) * 100) : 0;
+      const highRate = stat.highAttempts ? stat.highCorrect / stat.highAttempts : null;
+      const lowRate = stat.lowAttempts ? stat.lowCorrect / stat.lowAttempts : null;
+      const discriminationPct = (highRate !== null && lowRate !== null)
+        ? Math.round((highRate - lowRate) * 100)
+        : null;
+      const nonResponsePct = students.length > 0
+        ? Math.max(0, Math.round((1 - (stat.attempts / students.length)) * 100))
+        : 0;
+      const avgResponseSec = stat.responseMsCount > 0
+        ? (stat.responseMsSum / stat.responseMsCount) / 1000
+        : null;
+      return {
+        ...stat,
+        difficultyPct,
+        discriminationPct,
+        nonResponsePct,
+        avgResponseSec,
+      };
+    })
+    .sort((a, b) => {
+      if (a.storyId === b.storyId) return a.qIndex - b.qIndex;
+      return a.storyId.localeCompare(b.storyId);
+    });
+
+  const exportPDFReport = async () => {
+    const [{ jsPDF }, autoTableModule] = await Promise.all([
+      import('jspdf'),
+      import('jspdf-autotable'),
+    ]);
+    const autoTable = autoTableModule.default;
+
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+    const reportTitle = lang === 'sq' ? 'Raport PIRLS - Klasa' : 'PIRLS Извештај - Клас';
+    doc.setFontSize(16);
+    doc.text(reportTitle, 40, 40);
+    doc.setFontSize(11);
+    doc.text(`${lang === 'sq' ? 'Kodi i klasës' : 'Код на час'}: ${sessionCode}`, 40, 60);
+    doc.text(`${lang === 'sq' ? 'Nxënës' : 'Ученици'}: ${students.length}`, 220, 60);
+    doc.text(`${lang === 'sq' ? 'Saktësi' : 'Точност'}: ${classAccuracy}%`, 330, 60);
+    doc.text(`${lang === 'sq' ? 'Përgjigje' : 'Одговори'}: ${totalAnswers}`, 450, 60);
+
+    autoTable(doc, {
+      startY: 80,
+      head: [[
+        lang === 'sq' ? 'Nxënës' : 'Ученик',
+        lang === 'sq' ? 'Përgjigje' : 'Одговори',
+        lang === 'sq' ? 'Sakta' : 'Точни',
+        lang === 'sq' ? 'Saktësi %' : 'Точност %',
+      ]],
+      body: studentPerformance.map(s => [
+        s.name,
+        String(s.attempts),
+        String(s.correct),
+        `${Math.round(s.accuracy * 100)}%`,
+      ]),
+      theme: 'grid',
+      styles: { fontSize: 9 },
+      headStyles: { fillColor: [79, 70, 229] },
+    });
+
+    const nextY = (doc.lastAutoTable?.finalY || 250) + 24;
+    doc.setFontSize(12);
+    doc.text(lang === 'sq' ? 'Analiza sipas pyetjes (PIRLS/IEA)' : 'Анализа по прашање (PIRLS/IEA)', 40, nextY);
+
+    autoTable(doc, {
+      startY: nextY + 10,
+      head: [[
+        lang === 'sq' ? 'Pyetje' : 'Прашање',
+        lang === 'sq' ? 'Vështirësi %' : 'Тежина %',
+        lang === 'sq' ? 'Diskriminim' : 'Дискриминација',
+        lang === 'sq' ? 'Mos-përgjigje %' : 'Без одговор %',
+        lang === 'sq' ? 'Koha mes. (s)' : 'Просечно време (s)',
+        lang === 'sq' ? 'Rekomandim' : 'Препорака',
+      ]],
+      body: itemAnalytics.slice(0, 30).map(i => {
+        const label = `${i.storyId.toUpperCase()} Q${i.qIndex + 1}`;
+        let recommendation = lang === 'sq' ? 'Në rregull' : 'Во ред';
+        if (i.nonResponsePct >= 35) recommendation = lang === 'sq' ? 'Thjeshtoni formulimin e pyetjes' : 'Поедностави формулација на прашањето';
+        else if (i.difficultyPct <= 30) recommendation = lang === 'sq' ? 'Shto model përgjigjeje në klasë' : 'Додај модел-одговор на час';
+        else if ((i.discriminationPct ?? 0) < 10) recommendation = lang === 'sq' ? 'Rishiko qartësinë e kriteriumit' : 'Ревидирај јасност на критериум';
+        return [
+          label,
+          `${i.difficultyPct}%`,
+          i.discriminationPct === null ? '—' : `${i.discriminationPct}%`,
+          `${i.nonResponsePct}%`,
+          i.avgResponseSec ? i.avgResponseSec.toFixed(1) : '—',
+          recommendation,
+        ];
+      }),
+      theme: 'striped',
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [16, 185, 129] },
+    });
+
+    doc.save(`pirls_report_${sessionCode}_${new Date().toISOString().slice(0, 10)}.pdf`);
+    logTeacherAction('teacher_exported_pdf', { studentsCount: students.length, itemRows: itemAnalytics.length });
+  };
 
   const exportCSV = () => {
     const rows = [[T.csvStudent, T.csvStory, T.csvQuestion, T.csvAnswer, T.csvCorrect, T.csvType, T.csvTime]];
@@ -619,6 +846,7 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
       download: `pirls_${sessionCode}_${new Date().toISOString().slice(0, 10)}.csv`,
     });
     a.click();
+    logTeacherAction('teacher_exported_csv', { studentsCount: students.length, rows: rows.length - 1 });
   };
 
   return (
@@ -663,11 +891,50 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
           </div>
 
           <div className="flex gap-3">
-            <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-black transition-all text-sm uppercase tracking-widest shadow-lg shadow-emerald-900/20">📥 {T.report}</button>
+            <button onClick={exportPDFReport} className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-4 rounded-2xl font-black transition-all text-sm uppercase tracking-widest shadow-lg shadow-indigo-900/20">🧾 PDF</button>
+            <button onClick={exportCSV} className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 rounded-2xl font-black transition-all text-sm uppercase tracking-widest shadow-lg shadow-emerald-900/20">📥 CSV</button>
             <button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 text-white w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center transition-all border-2 border-slate-700">×</button>
           </div>
         </div>
       </div>
+
+      {/* Item-level analytics strip */}
+      {students.length > 0 && (
+        <div className="bg-slate-900/70 border-b border-slate-800 px-8 py-4">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-white font-black text-sm uppercase tracking-widest">
+              {lang === 'sq' ? 'Analitika sipas pyetjes (PIRLS/IEA)' : 'Аналитика по прашање (PIRLS/IEA)'}
+            </h3>
+            <span className="text-slate-400 text-xs font-bold">
+              {lang === 'sq' ? 'Pyetje të analizuara' : 'Анализирани прашања'}: {itemAnalytics.length}
+            </span>
+          </div>
+          <div className="overflow-x-auto no-scrollbar">
+            <table className="min-w-full text-xs">
+              <thead>
+                <tr className="text-slate-400 uppercase tracking-widest text-[10px]">
+                  <th className="text-left py-2 pr-4">Item</th>
+                  <th className="text-left py-2 pr-4">Difficulty</th>
+                  <th className="text-left py-2 pr-4">Discrimination</th>
+                  <th className="text-left py-2 pr-4">Non-response</th>
+                  <th className="text-left py-2 pr-4">Avg Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {itemAnalytics.slice(0, 10).map(item => (
+                  <tr key={`${item.storyId}_${item.qIndex}`} className="border-t border-slate-800 text-slate-200">
+                    <td className="py-2 pr-4 font-black">{item.storyId.toUpperCase()} Q{item.qIndex + 1}</td>
+                    <td className={`py-2 pr-4 font-bold ${item.difficultyPct <= 30 ? 'text-rose-400' : item.difficultyPct >= 80 ? 'text-amber-400' : 'text-emerald-400'}`}>{item.difficultyPct}%</td>
+                    <td className={`py-2 pr-4 font-bold ${(item.discriminationPct ?? 0) < 10 ? 'text-rose-400' : 'text-emerald-400'}`}>{item.discriminationPct === null ? '—' : `${item.discriminationPct}%`}</td>
+                    <td className={`py-2 pr-4 font-bold ${item.nonResponsePct >= 35 ? 'text-rose-400' : 'text-slate-300'}`}>{item.nonResponsePct}%</td>
+                    <td className="py-2 pr-4 font-bold">{item.avgResponseSec ? `${item.avgResponseSec.toFixed(1)}s` : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* STORY SWITCHER — live control */}
       <div className="bg-slate-900/50 border-b border-slate-800/50 px-8 py-4 flex items-center gap-4 overflow-x-auto shrink-0 no-scrollbar">
@@ -680,7 +947,9 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
           return (
             <button key={s.id} onClick={async () => {
               if (!FIREBASE_ENABLED || !db) return;
-              await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: isActive ? null : s.id }).catch(() => {});
+              const nextStory = isActive ? null : s.id;
+              await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: nextStory }).catch(() => {});
+              await logTeacherAction('teacher_changed_story', { storyId: nextStory });
             }}
               className={`flex items-center gap-3 px-5 py-3 rounded-2xl font-bold text-sm transition-all shrink-0 border-2 ${isActive ? 'bg-indigo-600 text-white border-indigo-400 shadow-xl shadow-indigo-500/20 scale-105' : 'bg-slate-800/40 text-slate-400 border-transparent hover:bg-slate-800 hover:text-white hover:border-slate-600'}`}>
               <span className="text-xl">{s.icon}</span>
@@ -692,6 +961,7 @@ const TeacherDashboard = ({ sessionCode, lang = 'mk', onClose }) => {
           <button onClick={async () => {
             if (!FIREBASE_ENABLED || !db) return;
             await update(ref(db, `pirls_sessions/${sessionCode}`), { assignedStory: null }).catch(() => {});
+            await logTeacherAction('teacher_cleared_story');
           }}
             className="px-6 py-3 rounded-2xl font-black text-xs bg-rose-900/40 text-rose-400 border-2 border-rose-900/50 hover:bg-rose-800/50 hover:text-rose-300 transition-all shrink-0 uppercase tracking-widest flex items-center gap-2">
             ✕ {T.cancelRestriction}
@@ -1465,6 +1735,7 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
 export default function App() {
   const [activeStory, setActiveStory] = useState('home');
   const [lang, setLang] = useState(() => localStorage.getItem('pirls_lang') || 'mk');
+  const [highContrast, setHighContrast] = useState(() => localStorage.getItem('pirls_high_contrast') === '1');
 
   // ── TRANSLATIONS ──────────────────────────────────────────
   const t = {
@@ -1592,6 +1863,7 @@ export default function App() {
 
   const [showHint, setShowHint] = useState(false);
   const [connectionError, setConnectionError] = useState(false);
+  const [questionStartedAt, setQuestionStartedAt] = useState(Date.now());
   const [glossaryTerm, setGlossaryTerm] = useState(null);
   const [completedStories, setCompletedStories] = useState(() => {
     const saved = localStorage.getItem('pirls_badges');
@@ -1612,6 +1884,8 @@ export default function App() {
   const [showTeacher, setShowTeacher] = useState(false);
   const [showJoinSession, setShowJoinSession] = useState(false);
   const [assignedStory, setAssignedStory] = useState('');
+  const [sessionMissing, setSessionMissing] = useState(false);
+  const [syncingNow, setSyncingNow] = useState(false);
 
   // Live-listen to assignedStory so teacher can change it mid-lesson
   const isInitialAssign = useRef(true);
@@ -1622,16 +1896,37 @@ export default function App() {
     const unsubscribe = onValue(aRef, snap => {
       const val = snap.val() || '';
       setAssignedStory(val);
-      // Skip first event on mount/refresh — only react to live changes mid-session
-      if (isInitialAssign.current) { isInitialAssign.current = false; return; }
+      // On first load, auto-open the assigned story if student is on home screen.
+      if (isInitialAssign.current) {
+        isInitialAssign.current = false;
+        if (val && activeStory === 'home') {
+          setActiveStory(val);
+          setStep(0);
+          setProgress(0);
+        }
+        return;
+      }
       if (val && val !== activeStory) {
         setActiveStory(val);
         setStep(0);
         setProgress(0);
-        setAvatarMsg(`Твојот наставник ја избра приказната: ${STORIES.find(s => s.id === val)?.title || val}`);
+        const pickedStory = STORIES.find(s => s.id === val);
+        setAvatarMsg(lang === 'sq'
+          ? `Mësuesi juaj zgjodhi tregimin: ${pickedStory?.titleSq || pickedStory?.title || val}`
+          : `Твојот наставник ја избра приказната: ${pickedStory?.title || val}`);
       }
     });
     return () => off(aRef);
+  }, [sessionCode, activeStory, lang]);
+
+  useEffect(() => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode) { setSessionMissing(false); return; }
+    const sRef = ref(db, `pirls_sessions/${sessionCode}`);
+    const unsub = onValue(sRef, snap => {
+      setSessionMissing(!snap.exists());
+      if (snap.exists()) setConnectionError(false);
+    });
+    return () => off(sRef);
   }, [sessionCode]);
 
   useEffect(() => {
@@ -1641,6 +1936,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('pirls_lang', lang);
   }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem('pirls_high_contrast', highContrast ? '1' : '0');
+  }, [highContrast]);
 
   useEffect(() => {
     const checkVoices = () => {
@@ -1749,22 +2048,88 @@ export default function App() {
     setAvatarMsg(greetings[lang][activeStory] || greetings[lang].fallback);
   }, [activeStory, lang]);
 
+  useEffect(() => {
+    setQuestionStartedAt(Date.now());
+  }, [activeStory, step]);
+
   // ── Firebase: sync student presence whenever story/step changes ──
   useEffect(() => {
     if (!FIREBASE_ENABLED || !db || !sessionCode || !studentName) return;
-    update(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}`), {
+    firebaseWriteWithRetry(() => update(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}`), {
       name: studentName,
       lastSeen: Date.now(),
       currentStory: activeStory === 'home' ? null : activeStory,
       currentQuestion: step,
-    }).then(() => setConnectionError(false)).catch(() => setConnectionError(true));
+    }), 3).then(() => setConnectionError(false)).catch(() => setConnectionError(true));
   }, [sessionCode, studentName, activeStory, step]);
 
   const saveAnswer = (type, value, isCorrect) => {
     if (!FIREBASE_ENABLED || !db || !sessionCode || !studentName) return;
-    set(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}/answers/${activeStory}_q${step}`), {
-      type, question: storyContent[activeStory]?.questions?.[step]?.q || '', value, isCorrect, timestamp: Date.now(),
-    }).then(() => setConnectionError(false)).catch(() => setConnectionError(true));
+    const qSource = (lang === 'sq' && storyContentSq[activeStory]) ? storyContentSq : storyContent;
+    const responseTimeMs = Math.max(0, Date.now() - questionStartedAt);
+    const answerPayload = {
+      type,
+      question: qSource[activeStory]?.questions?.[step]?.q || '',
+      value,
+      isCorrect,
+      responseTimeMs,
+      timestamp: Date.now(),
+    };
+    firebaseWriteWithRetry(() => set(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}/answers/${activeStory}_q${step}`), answerPayload), 3)
+      .then(async () => {
+        setConnectionError(false);
+        const key = `${Date.now()}_${studentId}_${Math.random().toString(36).slice(2, 6)}`;
+        await firebaseWriteWithRetry(() => set(ref(db, `pirls_sessions/${sessionCode}/audit/${key}`), {
+          eventType: 'student_answer_saved',
+          actor: 'student',
+          studentId,
+          studentName,
+          storyId: activeStory,
+          questionIndex: step,
+          isCorrect,
+          answerType: type,
+          timestamp: Date.now(),
+        }), 2).catch(() => {});
+      })
+      .catch(() => setConnectionError(true));
+  };
+
+  const retrySessionSync = async () => {
+    if (!FIREBASE_ENABLED || !db || !sessionCode || !studentName) return;
+    setSyncingNow(true);
+    try {
+      const snap = await get(ref(db, `pirls_sessions/${sessionCode}`));
+      if (!snap.exists()) {
+        setSessionMissing(true);
+        setConnectionError(true);
+        setSyncingNow(false);
+        return;
+      }
+      await firebaseWriteWithRetry(() => update(ref(db, `pirls_sessions/${sessionCode}/students/${studentId}`), {
+        name: studentName,
+        lastSeen: Date.now(),
+        currentStory: activeStory === 'home' ? null : activeStory,
+        currentQuestion: step,
+      }), 3);
+      setConnectionError(false);
+      setSessionMissing(false);
+      setAvatarMsg(lang === 'sq' ? 'Sinkronizimi u rikthye me sukses. ✅' : 'Синхронизацијата е успешно вратена. ✅');
+    } catch {
+      setConnectionError(true);
+    }
+    setSyncingNow(false);
+  };
+
+  const advanceToNextQuestion = (delayMs = 1800) => {
+    const totalSteps = currentStory?.questions?.length || 1;
+    const nextStep = Math.min(step + 1, totalSteps);
+    setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
+    setTimeout(() => {
+      setStep(nextStep);
+      setSelectedOpt(null);
+      setTextAns('');
+      setShowHint(false);
+    }, delayMs);
   };
 
   const handleHighlight = () => {
@@ -1794,17 +2159,14 @@ export default function App() {
   const handleMCQ = (opt, correct) => {
     setSelectedOpt(opt);
     saveAnswer('mcq', opt, opt === correct);
-    const nextStep = step + 1;
-    const totalSteps = currentStory.questions.length;
-    setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
     if (opt === correct) {
       playSound('success');
       setAvatarMsg(T.correct);
       if (canSpeak && lang === 'mk') speak(T.correct);
-      setTimeout(() => { setStep(nextStep); setSelectedOpt(null); setTextAns(''); setShowHint(false); }, 1800);
+      advanceToNextQuestion(1800);
     } else {
       setAvatarMsg(T.incorrect);
-      setTimeout(() => { setStep(nextStep); setSelectedOpt(null); setTextAns(''); setShowHint(false); }, 2500);
+      advanceToNextQuestion(2500);
     }
   };
 
@@ -1822,61 +2184,40 @@ export default function App() {
         trimmedAns.includes(kw.toLowerCase())
       );
       const wordCount = trimmedAns.split(/\s+/).length;
-      saveAnswer('text', ansToProcess.trim(), foundKeywords.length >= 2 && wordCount >= 3);
+      const isStrongAnswer = foundKeywords.length >= 2 && wordCount >= 3;
+      const isPartialAnswer = foundKeywords.length === 1 && wordCount >= 2;
+      saveAnswer('text', ansToProcess.trim(), isStrongAnswer ? true : (isPartialAnswer ? false : false));
 
-      if (foundKeywords.length >= 2 && wordCount >= 3) {
+      if (isStrongAnswer) {
         // FULL SUCCESS - EXPERT LEVEL
         playSound('success');
         setAvatarMsg(T.excellent);
         if (canSpeak && lang === 'mk') speak(T.excellent);
-        
-        const nextStep = step + 1;
-        const totalSteps = currentStory.questions.length;
-        setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
-        
-        setTimeout(() => {
-          setStep(nextStep);
-          setTextAns("");
-          setShowHint(false);
-        }, 4000);
-      } else if (foundKeywords.length === 1 && wordCount >= 2) {
+        advanceToNextQuestion(3000);
+      } else if (isPartialAnswer) {
         // PARTIAL SUCCESS
         playSound('success');
         setAvatarMsg(T.goodStart);
         if (canSpeak && lang === 'mk') speak(T.goodStart);
-        
-        const nextStep = step + 1;
-        const totalSteps = currentStory.questions.length;
-        setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
-        
-        setTimeout(() => {
-          setStep(nextStep);
-          setTextAns("");
-          setShowHint(false);
-        }, 4000);
+        advanceToNextQuestion(2600);
       } else {
-        // REJECTED - NO MEANING OR WRONG ANSWER
+        // Do not block progression; give corrective feedback and continue.
         setAvatarMsg(T.rejected);
         if (canSpeak && lang === 'mk') speak(T.rejected);
+        advanceToNextQuestion(2400);
       }
     } else {
       // Fallback for generic text questions
       saveAnswer('text', ansToProcess.trim(), null);
       playSound('success');
       setAvatarMsg(T.answerSaved);
-      const nextStep = step + 1;
-      const totalSteps = currentStory.questions.length;
-      setProgress(Math.min(100, Math.round((nextStep / totalSteps) * 100)));
-      setTimeout(() => {
-        setStep(nextStep);
-        setTextAns("");
-      }, 2000);
+      advanceToNextQuestion(2000);
     }
   };
 
   if (activeStory === 'home') {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center font-sans relative overflow-hidden">
+      <div className={`min-h-screen bg-slate-50 flex flex-col items-center font-sans relative overflow-hidden ${highContrast ? 'high-contrast-mode' : ''}`}>
         {/* Анимирана позадина */}
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
           <div className="absolute top-10 left-10 w-64 h-64 bg-indigo-300 rounded-full blur-3xl animate-pulse"></div>
@@ -1899,16 +2240,26 @@ export default function App() {
             {/* Јазичен toggle */}
             <div className="flex items-center justify-center gap-2 mt-6">
               <button
+                data-testid="lang-toggle-mk"
                 onClick={() => setLang('mk')}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${lang === 'mk' ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg' : 'bg-white text-slate-500 border-slate-200 hover:border-indigo-300'}`}
               >
                 <span className="text-lg">🇲🇰</span> MK
               </button>
               <button
+                data-testid="lang-toggle-sq"
                 onClick={() => setLang('sq')}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${lang === 'sq' ? 'bg-red-600 text-white border-red-600 shadow-lg' : 'bg-white text-slate-500 border-slate-200 hover:border-red-300'}`}
               >
                 <span className="text-lg">🇦🇱</span> SQ
+              </button>
+              <button
+                onClick={() => setHighContrast(prev => !prev)}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-black text-sm transition-all border-2 ${highContrast ? 'bg-slate-900 text-white border-slate-900 shadow-lg' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-400'}`}
+                aria-pressed={highContrast}
+                title={lang === 'sq' ? 'Kontrast i lartë' : 'Висок контраст'}
+              >
+                <span className="text-lg">◐</span> {lang === 'sq' ? 'Kontrast' : 'Контраст'}
               </button>
             </div>
           </div>
@@ -1922,6 +2273,26 @@ export default function App() {
                 <div className="text-6xl mb-4">✅</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{studentName}</h2>
                 <p className="text-sm text-slate-500 leading-snug">{T.studentJoined}: <strong className="text-green-700">{sessionCode}</strong></p>
+                <div className="mt-3 flex flex-col items-center gap-2">
+                  <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${sessionMissing || connectionError ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                    {sessionMissing
+                      ? (lang === 'sq' ? 'Sesioni nuk ekziston' : 'Сесијата не постои')
+                      : connectionError
+                        ? (lang === 'sq' ? 'Jashtë sinkronizimit' : 'Нема синхронизација')
+                        : (lang === 'sq' ? 'Sesioni aktiv' : 'Сесија активна')}
+                  </span>
+                  {(sessionMissing || connectionError) && (
+                    <button
+                      onClick={retrySessionSync}
+                      disabled={syncingNow}
+                      className="px-4 py-2 bg-white text-slate-700 rounded-xl border-2 border-slate-200 font-black text-xs hover:bg-slate-50 disabled:opacity-60 transition-all"
+                    >
+                      {syncingNow
+                        ? (lang === 'sq' ? 'Po sinkronizohet...' : 'Синхронизација...')
+                        : (lang === 'sq' ? 'Riprovo sinkronizim' : 'Пробај повторно синхронизација')}
+                    </button>
+                  )}
+                </div>
                 <button
                   onClick={() => { setSessionCode(''); setStudentName(''); localStorage.removeItem('pirls_session'); localStorage.removeItem('pirls_student_name'); }}
                   className="mt-4 text-xs text-red-400 hover:text-red-600 font-bold transition-all underline">
@@ -1929,7 +2300,7 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <button onClick={() => setShowJoinSession(true)}
+              <button data-testid="open-student-join" onClick={() => setShowJoinSession(true)}
                 className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-indigo-50 to-indigo-100 border-indigo-200 hover:shadow-2xl hover:border-indigo-400 transition-all group text-center flex flex-col items-center justify-center">
                 <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🧒</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{T.studentJoin}</h2>
@@ -1964,7 +2335,7 @@ export default function App() {
             </div>
 
             {/* Right — Наставник */}
-            <button onClick={() => setShowTeacherLogin(true)}
+            <button data-testid="open-teacher-login" onClick={() => setShowTeacherLogin(true)}
               className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-violet-50 to-violet-100 border-violet-200 hover:shadow-2xl hover:border-violet-400 transition-all group text-center flex flex-col items-center justify-center">
               <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">👩‍🏫</div>
               <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{T.teacherLogin}</h2>
@@ -2045,11 +2416,22 @@ export default function App() {
           {showJoinSession && (
             <StudentJoinModal
               lang={lang}
-              onJoin={(name, code) => {
+              onJoin={async (name, code) => {
                 setStudentName(name);
                 setSessionCode(code);
                 localStorage.setItem('pirls_student_name', name);
                 localStorage.setItem('pirls_session', code);
+                if (FIREBASE_ENABLED && db) {
+                  const key = `${Date.now()}_${studentId}_join`;
+                  await set(ref(db, `pirls_sessions/${code}/audit/${key}`), {
+                    eventType: 'student_joined_session',
+                    actor: 'student',
+                    studentId,
+                    studentName: name,
+                    timestamp: Date.now(),
+                    language: lang,
+                  }).catch(() => {});
+                }
                 setShowJoinSession(false);
               }}
               onSkip={() => setShowJoinSession(false)}
@@ -2064,7 +2446,7 @@ export default function App() {
   const currentQuestion = currentStory?.questions[step];
 
   return (
-    <div className="h-screen bg-white flex flex-col font-sans overflow-hidden">
+    <div className={`h-screen bg-white flex flex-col font-sans overflow-hidden ${highContrast ? 'high-contrast-mode' : ''}`}>
       <header role="banner" className="h-20 bg-white border-b-2 border-slate-100 flex items-center justify-between px-4 sm:px-10">
         <button onClick={() => setActiveStory('home')} className="flex items-center gap-2 text-slate-600 hover:text-indigo-600 font-bold px-5 py-2 rounded-2xl bg-slate-50 hover:bg-indigo-50 border-2 border-transparent hover:border-indigo-200 transition-all">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -2098,6 +2480,14 @@ export default function App() {
           <span className="font-black text-indigo-900 italic hidden sm:block">
             {T.heroTitle_part1}<span className="text-indigo-600">{T.heroTitle_part2}</span>
           </span>
+          <button
+            onClick={() => setHighContrast(prev => !prev)}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all border-2 ${highContrast ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-400'}`}
+            aria-pressed={highContrast}
+            title={lang === 'sq' ? 'Kontrast i lartë' : 'Висок контраст'}
+          >
+            ◐ {lang === 'sq' ? 'Kontrast' : 'Контраст'}
+          </button>
         </div>
       </header>
 

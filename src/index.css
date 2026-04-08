@@ -7,3 +7,14 @@
     @apply bg-slate-50 text-slate-900;
   }
 }
+
+@layer utilities {
+  .high-contrast-mode {
+    filter: contrast(1.18) saturate(0.92);
+  }
+
+  .high-contrast-mode *:focus-visible {
+    outline: 3px solid #111827 !important;
+    outline-offset: 2px;
+  }
+}
