@@ -1115,6 +1115,14 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
     setItems(shuffled);
   }, [data]);
 
+  useEffect(() => {
+    const onEsc = (e) => {
+      if (e.key === 'Escape') setFullViewImg(null);
+    };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, []);
+
   const handleReorder = (newOrder) => {
     setItems(newOrder);
     const currentOrder = newOrder.map(item => item.id).join(',');
@@ -1175,12 +1183,12 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
         .rotate-y-180 { transform: rotateY(180deg); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
       `}</style>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 bg-white/10 border border-white/15 rounded-[2rem] p-4">
         <div className="flex items-center gap-6">
           <div className="w-16 h-16 bg-indigo-500 rounded-3xl flex items-center justify-center text-4xl shadow-lg shadow-indigo-500/20">🧩</div>
           <div>
             <h2 className="text-4xl font-black text-white uppercase tracking-tighter">{t.title}</h2>
-            <p className="text-white/80 text-lg font-bold">{t.desc}</p>
+            <p className="text-white text-lg font-bold">{t.desc}</p>
           </div>
         </div>
         <div className="flex gap-4">
@@ -1271,16 +1279,21 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
             animate={{ opacity: 1 }} 
             exit={{ opacity: 0 }}
             onClick={() => setFullViewImg(null)}
-            className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-10 cursor-zoom-out"
+            className="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-10"
           >
             <motion.img 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               src={fullViewImg} 
-              className="max-w-full max-h-full rounded-3xl shadow-2xl border-8 border-white/10" 
+              className="max-w-[92vw] max-h-[85vh] object-contain rounded-3xl shadow-2xl border-8 border-white/10 bg-black/20" 
+              onClick={e => e.stopPropagation()}
               alt="Зголемена илустрација"
             />
-            <button className="absolute top-10 right-10 bg-white/10 hover:bg-white/20 text-white w-16 h-16 rounded-2xl flex items-center justify-center text-4xl border-2 border-white/10 transition-all">×</button>
+            <button
+              onClick={() => setFullViewImg(null)}
+              className="absolute top-10 right-10 bg-white/10 hover:bg-white/20 text-white w-16 h-16 rounded-2xl flex items-center justify-center text-4xl border-2 border-white/10 transition-all"
+              aria-label={lang === 'sq' ? 'Mbyll pamjen e zmadhuar' : 'Затвори зголемен приказ'}
+            >×</button>
           </motion.div>
         )}
 
@@ -1316,6 +1329,7 @@ const ChronologicalPuzzle = ({ data, onClose, lang = 'mk' }) => {
 const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
   const [activeScene, setActiveScene] = useState(0);
   const canvasRef = useRef(null);
+  const [canvasSize, setCanvasSize] = useState({ width: 1000, height: 750 });
   const [color, setColor] = useState('#ef4444');
   const [brushSize, setBrushSize] = useState(20);
   const [zoom, setZoom] = useState(1);
@@ -1373,12 +1387,32 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
     const img = new Image();
     img.src = scene.img;
     img.onload = () => {
+      const maxW = 1400;
+      const maxH = 1000;
+      const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
+      const width = Math.max(900, Math.round(img.width * ratio));
+      const height = Math.max(650, Math.round(img.height * ratio));
+      setCanvasSize({ width, height });
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       setHistory([canvas.toDataURL()]);
       setRedoStack([]);
     };
   }, [activeScene, scene.img]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = scene.img;
+    img.onload = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      setHistory([canvas.toDataURL()]);
+      setRedoStack([]);
+    };
+  }, [canvasSize.width, canvasSize.height]);
 
   const undo = () => {
     if (history.length <= 1) return;
@@ -1600,6 +1634,7 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
               <button onClick={() => setZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100">−</button>
               <span className="text-slate-700 font-mono text-[10px] w-10 text-center font-black">{Math.round(zoom * 100)}%</span>
               <button onClick={() => setZoom(z => Math.min(4, +(z + 0.25).toFixed(2)))} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100">+</button>
+              <button onClick={() => setZoom(1)} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg font-black hover:bg-slate-100" title={lang === 'sq' ? 'Rivendos zmadhimin' : 'Ресетирај зум'}>1:1</button>
             </div>
           </div>
 
@@ -1657,9 +1692,9 @@ const ColoringBook = ({ data, onClose, lang = 'mk' }) => {
             <div className="relative inline-block">
               <canvas
                 ref={canvasRef}
-                width={800}
-                height={600}
-                style={{ width: `${800 * zoom}px`, height: `${600 * zoom}px`, maxWidth: '100%', maxHeight: '60vh', display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
+                width={canvasSize.width}
+                height={canvasSize.height}
+                style={{ width: `${canvasSize.width * zoom}px`, height: `${canvasSize.height * zoom}px`, maxWidth: '100%', maxHeight: '70vh', display: 'block', cursor: toolType === 'eraser' ? 'cell' : 'crosshair' }}
                 className="shadow-2xl rounded-2xl bg-white"
                 onMouseDown={startDrawing}
                 onMouseMove={draw}
@@ -1889,8 +1924,18 @@ export default function App() {
 
   // Live-listen to assignedStory so teacher can change it mid-lesson
   const isInitialAssign = useRef(true);
+  const hasActiveStudentSession = !!(sessionCode && studentName);
+
+  const clearStudentSession = () => {
+    setSessionCode('');
+    setStudentName('');
+    setAssignedStory('');
+    localStorage.removeItem('pirls_session');
+    localStorage.removeItem('pirls_student_name');
+  };
+
   useEffect(() => {
-    if (!FIREBASE_ENABLED || !db || !sessionCode) { setAssignedStory(''); return; }
+    if (!FIREBASE_ENABLED || !db || !sessionCode || !hasActiveStudentSession) { setAssignedStory(''); return; }
     isInitialAssign.current = true;
     const aRef = ref(db, `pirls_sessions/${sessionCode}/assignedStory`);
     const unsubscribe = onValue(aRef, snap => {
@@ -1917,7 +1962,7 @@ export default function App() {
       }
     });
     return () => off(aRef);
-  }, [sessionCode, activeStory, lang]);
+  }, [sessionCode, activeStory, lang, hasActiveStudentSession]);
 
   useEffect(() => {
     if (!FIREBASE_ENABLED || !db || !sessionCode) { setSessionMissing(false); return; }
@@ -2268,7 +2313,7 @@ export default function App() {
           <div className="mb-14 w-full grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
 
             {/* Left — Ученик */}
-            {sessionCode && studentName ? (
+            {hasActiveStudentSession ? (
               <div className="p-8 rounded-[3rem] shadow-xl border-4 bg-gradient-to-b from-green-50 to-green-100 border-green-200 text-center flex flex-col items-center justify-center">
                 <div className="text-6xl mb-4">✅</div>
                 <h2 className="text-xl font-black text-slate-800 leading-tight mb-2">{studentName}</h2>
@@ -2294,7 +2339,7 @@ export default function App() {
                   )}
                 </div>
                 <button
-                  onClick={() => { setSessionCode(''); setStudentName(''); localStorage.removeItem('pirls_session'); localStorage.removeItem('pirls_student_name'); }}
+                  onClick={clearStudentSession}
                   className="mt-4 text-xs text-red-400 hover:text-red-600 font-bold transition-all underline">
                   {T.leaveSession}
                 </button>
@@ -2350,7 +2395,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
             {STORIES.map(s => {
               const isAssigned = !!assignedStory && s.id === assignedStory;
-              const isLocked   = !!sessionCode && !!assignedStory && s.id !== assignedStory;
+              const isLocked   = hasActiveStudentSession && !!assignedStory && s.id !== assignedStory;
               return (
                 <button
                   key={s.id}
@@ -2480,6 +2525,15 @@ export default function App() {
           <span className="font-black text-indigo-900 italic hidden sm:block">
             {T.heroTitle_part1}<span className="text-indigo-600">{T.heroTitle_part2}</span>
           </span>
+          {hasActiveStudentSession && (
+            <button
+              onClick={clearStudentSession}
+              className="px-3 py-1.5 rounded-xl font-black text-xs transition-all border-2 bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100"
+              title={T.leaveSession}
+            >
+              {T.leaveSession}
+            </button>
+          )}
           <button
             onClick={() => setHighContrast(prev => !prev)}
             className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all border-2 ${highContrast ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-400'}`}
@@ -2676,6 +2730,7 @@ export default function App() {
                   const letters = ['А', 'Б', 'В', 'Г', 'Д'];
                   const wordCount = textAns.trim() ? textAns.trim().split(/\s+/).length : 0;
                   const canSubmit = wordCount >= 3;
+                  const mcqOptions = Array.isArray(currentQuestion.options) ? currentQuestion.options : [];
                   return (
                   <div>
                     {/* Question text + listen button */}
@@ -2695,8 +2750,9 @@ export default function App() {
 
                     {/* MCQ */}
                     {currentQuestion.type === 'mcq' ? (
+                      mcqOptions.length > 0 ? (
                       <div className="space-y-3" role="radiogroup" aria-label={`${T.questionOptionsLabel} ${step + 1}`}>
-                        {currentQuestion.options.map((opt, idx) => {
+                        {mcqOptions.map((opt, idx) => {
                           const isSelected = selectedOpt === opt;
                           const isCorrect  = opt === currentQuestion.correct;
                           const answered   = selectedOpt !== null;
@@ -2725,6 +2781,13 @@ export default function App() {
                           );
                         })}
                       </div>
+                      ) : (
+                        <div className="p-4 rounded-2xl border-2 border-amber-200 bg-amber-50 text-amber-800 font-bold">
+                          {lang === 'sq'
+                            ? 'Kjo pyetje nuk ka opsione të vlefshme. Kalo te pyetja tjetër.'
+                            : 'Ова прашање нема валидни опции. Продолжи на следното прашање.'}
+                        </div>
+                      )
 
                     ) : (
                       /* Text answer */

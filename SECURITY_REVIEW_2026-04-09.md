@@ -39,3 +39,10 @@ Application-level and dependency-level review based on repository inspection and
 ## Current Security Status
 - Operationally acceptable for pilot usage.
 - Not yet fully audit-ready until database rules are checked in and reviewed.
+
+## Closure Note (Supabase Security Advisor)
+- Remediated: `Function Search Path Mutable` findings (all flagged functions now use fixed `search_path=public, auth, extensions`).
+- Remediated: `RLS Policy Always True` findings (overly permissive policies replaced with strict authenticated policies).
+- Remaining warning: `Leaked Password Protection Disabled`.
+	- Reason: Supabase Free plan limitation (feature available on Pro and above).
+	- Classification: Platform plan limitation, not a misconfiguration defect.
